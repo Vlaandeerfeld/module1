@@ -1,0 +1,16 @@
+#mainPageBackground{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: black
+}
+#mainPageWelcome{
+    position: relative;
+    height: 20%;
+    width: 30%;
+    top: 20%;
+    left: 40%;
+    background: whitesmoke;
+}
