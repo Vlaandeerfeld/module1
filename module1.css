@@ -4,15 +4,54 @@
     width: 100%;
     top: 0;
     left: 0;
-    background-color: black
+    background-color: black;
+    display: flex;
 }
 #mainPageWelcome{
     position: relative;
     height: 20%;
     width: 30%;
     top: 20%;
-    left: 35%;
+    left: 34.5%;
     background: whitesmoke;
     color: black;
     text-align: center;
+    padding: 1%;
+    border-radius: 25px;
+}
+.mainPageNavigation{
+    height: 10%;
+    width: 20%;
+    background-color: whitesmoke;
+    color: black;
+    text-align: center;
+    padding: 1%;
+    border-radius: 25px;
+}
+#mainPageFHMStats{
+    position: absolute;
+    top: 50%;
+    left: 20%;
+}
+#mainPageMixedStats{
+    position: absolute;
+    top: 60%;
+    left: 40%;
+}
+#mainPageNHLStats{
+    position: absolute;
+    top: 70%;
+    left: 60%;
+}
+#FHMStats{
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    z-index: 1;
+}
+button.styled {
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    padding: 0;
 }
