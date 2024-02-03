@@ -4,7 +4,7 @@
     width: 100%;
     top: 0;
     left: 0;
-    background-color: black;
+    background-color: #011327;
 }
 #mainPageBackgroundLeft{
     position: absolute;
@@ -14,6 +14,7 @@
     left: 0;
     background-image: linear-gradient(to right, #f2a138, #ff7c18);
     z-index: 1;
+    border-top-left-radius: 200px;
 }
 #mainPageBackgroundRight{
     position: absolute;
@@ -31,8 +32,8 @@
     width: 30%;
     top: 5%;
     left: 34.5%;
-    background: whitesmoke;
-    color: black;
+    background-color: #011327;
+    color: whitesmoke;
     text-align: center;
     padding: 1%;
     border-radius: 25px;
@@ -52,8 +53,8 @@
     top: 80%;
     height: 10%;
     width: 20%;
-    background-color: whitesmoke;
-    color: black;
+    background-color: #011327;
+    color: whitesmoke;
     text-align: center;
     padding: 1%;
     border-radius: 25px;
