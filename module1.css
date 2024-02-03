@@ -5,21 +5,51 @@
     top: 0;
     left: 0;
     background-color: black;
-    display: flex;
+}
+#mainPageBackgroundLeft{
+    position: absolute;
+    height: 30%;
+    width: 60%;
+    top: 70%;
+    left: 0;
+    background-image: linear-gradient(to right, #f2a138, #ff7c18);
+    z-index: 1;
+}
+#mainPageBackgroundRight{
+    position: absolute;
+    height: 45%;
+    width: 50%;
+    top: 55%;
+    left: 50%;
+    background-image: linear-gradient(to right, #ff7c18, #ff2c06);
+    z-index: 2;
+    border-top-left-radius: 200px;
 }
 #mainPageWelcome{
     position: relative;
-    height: 20%;
+    height: 5%;
     width: 30%;
-    top: 20%;
+    top: 5%;
     left: 34.5%;
     background: whitesmoke;
     color: black;
     text-align: center;
     padding: 1%;
     border-radius: 25px;
+    z-index: 1;
+}
+#mainPageLogo{
+    position: absolute;
+    background-image: url('logo.jpeg');
+    background-size: cover;
+    height: 70%;
+    width: 100%;
+    left: 0;
+    top: 0;
 }
 .mainPageNavigation{
+    position: absolute;
+    top: 80%;
     height: 10%;
     width: 20%;
     background-color: whitesmoke;
@@ -27,31 +57,17 @@
     text-align: center;
     padding: 1%;
     border-radius: 25px;
+    border-color: black;
+    border: 10%;
+    border-style: solid;
+    z-index: 2;
 }
 #mainPageFHMStats{
-    position: absolute;
-    top: 50%;
-    left: 20%;
+    left: 10%;
 }
 #mainPageMixedStats{
-    position: absolute;
-    top: 60%;
     left: 40%;
 }
 #mainPageNHLStats{
-    position: absolute;
-    top: 70%;
-    left: 60%;
-}
-#FHMStats{
-    position: absolute;
-    top: 50%;
-    left: 20%;
-    z-index: 1;
-}
-button.styled {
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
-    box-sizing: content-box;
-    padding: 0;
+    left: 70%;
 }
