@@ -42,7 +42,7 @@
     }
     #mainPageLogo{
         position: absolute;
-        background-image: url('logo.jpeg');
+        background-image: url('logomobile.jpeg');
         background-size: cover;
         height: 70%;
         width: 100%;
