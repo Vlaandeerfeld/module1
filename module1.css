@@ -1,77 +1,317 @@
-#mainPageBackground{
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    background-color: #011327;
+@media (orientation: portrait) and (max-width: 41em){
+    #mainPageBackground{
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background-color: #011327;
+    }
+    #mainPageBackgroundLeft{
+        position: absolute;
+        height: 30%;
+        width: 60%;
+        top: 70%;
+        left: 0;
+        background-image: linear-gradient(to right, #f2a138, #ff7c18);
+        z-index: 1;
+        border-top-left-radius: 200px;
+    }
+    #mainPageBackgroundRight{
+        position: absolute;
+        height: 45%;
+        width: 50%;
+        top: 55%;
+        left: 50%;
+        background-image: linear-gradient(to right, #ff7c18, #ff2c06);
+        z-index: 2;
+        border-top-left-radius: 200px;
+    }
+    #mainPageWelcome{
+        position: relative;
+        height: 5%;
+        width: 30%;
+        top: 5%;
+        left: 34.5%;
+        background-color: #011327;
+        color: whitesmoke;
+        text-align: center;
+        padding: 1%;
+        border-radius: 25px;
+        z-index: 1;
+    }
+    #mainPageLogo{
+        position: absolute;
+        background-image: url('logo.jpeg');
+        background-size: cover;
+        height: 70%;
+        width: 100%;
+        left: 0;
+        top: 0;
+    }
+    .mainPageNavigation{
+        position: absolute;
+        top: 80%;
+        height: 10%;
+        width: 20%;
+        background-color: #011327;
+        color: whitesmoke;
+        text-align: center;
+        padding: 1%;
+        border-radius: 25px;
+        border-color: black;
+        border: 10%;
+        border-style: solid;
+        z-index: 2;
+    }
+    #mainPageFHMStats{
+        top: 82.5%;
+        left: 10%;
+    }
+    #mainPageMixedStats{
+        top: 77.5%;
+        left: 40%;
+    }
+    #mainPageNHLStats{
+        top: 72.5%;
+        left: 70%;
+    }
+
 }
-#mainPageBackgroundLeft{
-    position: absolute;
-    height: 30%;
-    width: 60%;
-    top: 70%;
-    left: 0;
-    background-image: linear-gradient(to right, #f2a138, #ff7c18);
-    z-index: 1;
-    border-top-left-radius: 200px;
+@media (orientation: landscape) and (max-height: 41em){
+    #mainPageBackground{
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background-color: #011327;
+    }
+    #mainPageBackgroundLeft{
+        position: absolute;
+        height: 30%;
+        width: 60%;
+        top: 70%;
+        left: 0;
+        background-image: linear-gradient(to right, #f2a138, #ff7c18);
+        z-index: 1;
+        border-top-left-radius: 200px;
+    }
+    #mainPageBackgroundRight{
+        position: absolute;
+        height: 45%;
+        width: 50%;
+        top: 55%;
+        left: 50%;
+        background-image: linear-gradient(to right, #ff7c18, #ff2c06);
+        z-index: 2;
+        border-top-left-radius: 200px;
+    }
+    #mainPageWelcome{
+        position: relative;
+        height: 5%;
+        width: 30%;
+        top: 5%;
+        left: 34.5%;
+        background-color: #011327;
+        color: whitesmoke;
+        text-align: center;
+        padding: 1%;
+        border-radius: 25px;
+        z-index: 1;
+    }
+    #mainPageLogo{
+        position: absolute;
+        background-image: url('logo.jpeg');
+        background-size: cover;
+        height: 70%;
+        width: 100%;
+        left: 0;
+        top: 0;
+    }
+    .mainPageNavigation{
+        position: absolute;
+        top: 80%;
+        height: 10%;
+        width: 20%;
+        background-color: #011327;
+        color: whitesmoke;
+        text-align: center;
+        padding: 1%;
+        border-radius: 25px;
+        border-color: black;
+        border: 10%;
+        border-style: solid;
+        z-index: 2;
+    }
+    #mainPageFHMStats{
+        top: 82.5%;
+        left: 10%;
+    }
+    #mainPageMixedStats{
+        top: 77.5%;
+        left: 40%;
+    }
+    #mainPageNHLStats{
+        top: 72.5%;
+        left: 70%;
+    }
 }
-#mainPageBackgroundRight{
-    position: absolute;
-    height: 45%;
-    width: 50%;
-    top: 55%;
-    left: 50%;
-    background-image: linear-gradient(to right, #ff7c18, #ff2c06);
-    z-index: 2;
-    border-top-left-radius: 200px;
+@media (orientation: portrait) and (min-width: 41em){
+    #mainPageBackground{
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background-color: #011327;
+    }
+    #mainPageBackgroundLeft{
+        position: absolute;
+        height: 30%;
+        width: 60%;
+        top: 70%;
+        left: 0;
+        background-image: linear-gradient(to right, #f2a138, #ff7c18);
+        z-index: 1;
+        border-top-left-radius: 200px;
+    }
+    #mainPageBackgroundRight{
+        position: absolute;
+        height: 45%;
+        width: 50%;
+        top: 55%;
+        left: 50%;
+        background-image: linear-gradient(to right, #ff7c18, #ff2c06);
+        z-index: 2;
+        border-top-left-radius: 200px;
+    }
+    #mainPageWelcome{
+        position: relative;
+        height: 5%;
+        width: 30%;
+        top: 5%;
+        left: 34.5%;
+        background-color: #011327;
+        color: whitesmoke;
+        text-align: center;
+        padding: 1%;
+        border-radius: 25px;
+        z-index: 1;
+    }
+    #mainPageLogo{
+        position: absolute;
+        background-image: url('logo.jpeg');
+        background-size: cover;
+        height: 70%;
+        width: 100%;
+        left: 0;
+        top: 0;
+    }
+    .mainPageNavigation{
+        position: absolute;
+        top: 80%;
+        height: 10%;
+        width: 20%;
+        background-color: #011327;
+        color: whitesmoke;
+        text-align: center;
+        padding: 1%;
+        border-radius: 25px;
+        border-color: black;
+        border: 10%;
+        border-style: solid;
+        z-index: 2;
+    }
+    #mainPageFHMStats{
+        top: 82.5%;
+        left: 10%;
+    }
+    #mainPageMixedStats{
+        top: 77.5%;
+        left: 40%;
+    }
+    #mainPageNHLStats{
+        top: 72.5%;
+        left: 70%;
+    }
 }
-#mainPageWelcome{
-    position: relative;
-    height: 5%;
-    width: 30%;
-    top: 5%;
-    left: 34.5%;
-    background-color: #011327;
-    color: whitesmoke;
-    text-align: center;
-    padding: 1%;
-    border-radius: 25px;
-    z-index: 1;
-}
-#mainPageLogo{
-    position: absolute;
-    background-image: url('logo.jpeg');
-    background-size: cover;
-    height: 70%;
-    width: 100%;
-    left: 0;
-    top: 0;
-}
-.mainPageNavigation{
-    position: absolute;
-    top: 80%;
-    height: 10%;
-    width: 20%;
-    background-color: #011327;
-    color: whitesmoke;
-    text-align: center;
-    padding: 1%;
-    border-radius: 25px;
-    border-color: black;
-    border: 10%;
-    border-style: solid;
-    z-index: 2;
-}
-#mainPageFHMStats{
-    top: 82.5%;
-    left: 10%;
-}
-#mainPageMixedStats{
-    top: 77.5%;
-    left: 40%;
-}
-#mainPageNHLStats{
-    top: 72.5%;
-    left: 70%;
+@media (orientation: landscape) and (min-height: 41em){
+    #mainPageBackground{
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background-color: #011327;
+    }
+    #mainPageBackgroundLeft{
+        position: absolute;
+        height: 30%;
+        width: 60%;
+        top: 70%;
+        left: 0;
+        background-image: linear-gradient(to right, #f2a138, #ff7c18);
+        z-index: 1;
+        border-top-left-radius: 200px;
+    }
+    #mainPageBackgroundRight{
+        position: absolute;
+        height: 45%;
+        width: 50%;
+        top: 55%;
+        left: 50%;
+        background-image: linear-gradient(to right, #ff7c18, #ff2c06);
+        z-index: 2;
+        border-top-left-radius: 200px;
+    }
+    #mainPageWelcome{
+        position: relative;
+        height: 5%;
+        width: 30%;
+        top: 5%;
+        left: 34.5%;
+        background-color: #011327;
+        color: whitesmoke;
+        text-align: center;
+        padding: 1%;
+        border-radius: 25px;
+        z-index: 1;
+    }
+    #mainPageLogo{
+        position: absolute;
+        background-image: url('logo.jpeg');
+        background-size: cover;
+        height: 70%;
+        width: 100%;
+        left: 0;
+        top: 0;
+    }
+    .mainPageNavigation{
+        position: absolute;
+        top: 80%;
+        height: 10%;
+        width: 20%;
+        background-color: #011327;
+        color: whitesmoke;
+        text-align: center;
+        padding: 1%;
+        border-radius: 25px;
+        border-color: black;
+        border: 10%;
+        border-style: solid;
+        z-index: 2;
+    }
+    #mainPageFHMStats{
+        top: 82.5%;
+        left: 10%;
+    }
+    #mainPageMixedStats{
+        top: 77.5%;
+        left: 40%;
+    }
+    #mainPageNHLStats{
+        top: 72.5%;
+        left: 70%;
+    }
 }
