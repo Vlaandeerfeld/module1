@@ -130,6 +130,28 @@
         left: 0;
         top: 0;
     }
+    #aboutMeLogo{
+        position: absolute;
+        background-image: url('logo.jpeg');
+        background-size: cover;
+        height: 70%;
+        width: 100%;
+        left: 0;
+        top: 0;
+    }
+    #aboutMeMainPage{
+        position: relative;
+        height: 10%;
+        width: 30%;
+        top: 5%;
+        left: 34.5%;
+        background-color: #011327;
+        color: whitesmoke;
+        text-align: center;
+        padding: 1%;
+        border-radius: 25px;
+        z-index: 1;   
+    }
     .mainPageNavigation{
         position: absolute;
         top: 80%;
