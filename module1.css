@@ -76,7 +76,7 @@
         border-color: black;
         border: 10%;
         border-style: solid;
-        z-index: 2;
+        z-index: 3;
     }
     #mainPageFHMStats{
         top: 72.5%;
@@ -180,7 +180,7 @@
         border-color: black;
         border: 10%;
         border-style: solid;
-        z-index: 2;
+        z-index: 3;
     }
     #mainPageFHMStats{
         top: 82.5%;
@@ -271,7 +271,7 @@
         border-radius: 25px;   
         z-index: 1;
     }
-    .mainPageNavigation{
+    .pageNavigation{
         position: absolute;
         top: 80%;
         height: 10%;
@@ -284,7 +284,7 @@
         border-color: black;
         border: 10%;
         border-style: solid;
-        z-index: 2;
+        z-index: 3;
     }
     #mainPageFHMStats{
         top: 82.5%;
@@ -362,7 +362,7 @@
         left: 0;
         top: 0;
     }
-    .mainPageNavigation{
+    .pageNavigation{
         position: absolute;
         top: 80%;
         height: 10%;
@@ -375,7 +375,7 @@
         border-color: black;
         border: 10%;
         border-style: solid;
-        z-index: 2;
+        z-index: 3;
     }
     #aboutMeMainPage{
         position: relative;
