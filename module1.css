@@ -221,6 +221,18 @@
         left: 0;
         top: 0;
     }
+    #aboutMeMainPage{
+        position: relative;
+        height: 10%;
+        width: 30%;
+        top: 5%;
+        left: 34.5%;
+        background-color: #011327;
+        color: whitesmoke;
+        text-align: center;
+        padding: 1%;
+        border-radius: 25px;   
+    }
     .mainPageNavigation{
         position: absolute;
         top: 80%;
@@ -314,6 +326,18 @@
         border: 10%;
         border-style: solid;
         z-index: 2;
+    }
+    #aboutMeMainPage{
+        position: relative;
+        height: 10%;
+        width: 30%;
+        top: 5%;
+        left: 34.5%;
+        background-color: #011327;
+        color: whitesmoke;
+        text-align: center;
+        padding: 1%;
+        border-radius: 25px;   
     }
     #mainPageFHMStats{
         top: 82.5%;
