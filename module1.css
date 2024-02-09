@@ -140,7 +140,8 @@
         color: whitesmoke;
         text-align: center;
         padding: 1%;
-        border-radius: 25px;   
+        border-radius: 25px; 
+        z-index: 1;  
     }
     .mainPageNavigation{
         position: absolute;
@@ -232,6 +233,7 @@
         text-align: center;
         padding: 1%;
         border-radius: 25px;   
+        z-index: 1;
     }
     .mainPageNavigation{
         position: absolute;
@@ -337,7 +339,8 @@
         color: whitesmoke;
         text-align: center;
         padding: 1%;
-        border-radius: 25px;   
+        border-radius: 25px;
+        z-index: 1;   
     }
     #mainPageFHMStats{
         top: 82.5%;
