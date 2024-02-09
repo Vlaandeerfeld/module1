@@ -62,7 +62,7 @@
         left: 0;
         top: 0;
     }
-    .mainPageNavigation{
+    .pageNavigation{
         position: absolute;
         top: 80%;
         height: 20%;
@@ -90,7 +90,18 @@
         top: 62.5%;
         left: 70%;
     }
-
+    #aboutMePageFHMStats{
+        top: 82.5%;
+        left: 10%;
+    }
+    #aboutMePageMixedStats{
+        top: 77.5%;
+        left: 40%;
+    }
+    #aboutMePageNHLStats{
+        top: 72.5%;
+        left: 70%;
+    }
 }
 @media (orientation: landscape) and (max-height: 41em){
     .pageBackground{
@@ -156,7 +167,7 @@
         border-radius: 25px; 
         z-index: 1;  
     }
-    .mainPageNavigation{
+    .pageNavigation{
         position: absolute;
         top: 80%;
         height: 10%;
@@ -180,6 +191,18 @@
         left: 40%;
     }
     #mainPageNHLStats{
+        top: 72.5%;
+        left: 70%;
+    }
+    #aboutMePageFHMStats{
+        top: 82.5%;
+        left: 10%;
+    }
+    #aboutMePageMixedStats{
+        top: 77.5%;
+        left: 40%;
+    }
+    #aboutMePageNHLStats{
         top: 72.5%;
         left: 70%;
     }
@@ -275,6 +298,18 @@
         top: 72.5%;
         left: 70%;
     }
+    #aboutMePageFHMStats{
+        top: 82.5%;
+        left: 10%;
+    }
+    #aboutMePageMixedStats{
+        top: 77.5%;
+        left: 40%;
+    }
+    #aboutMePageNHLStats{
+        top: 72.5%;
+        left: 70%;
+    }
 }
 @media (orientation: landscape) and (min-height: 41em){
     .pageBackground{
@@ -364,6 +399,18 @@
         left: 40%;
     }
     #mainPageNHLStats{
+        top: 72.5%;
+        left: 70%;
+    }
+    #AboutMePageFHMStats{
+        top: 82.5%;
+        left: 10%;
+    }
+    #aboutMePageMixedStats{
+        top: 77.5%;
+        left: 40%;
+    }
+    #aboutMePageNHLStats{
         top: 72.5%;
         left: 70%;
     }
