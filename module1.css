@@ -1,5 +1,5 @@
 @media (orientation: portrait) and (max-width: 41em){
-    #mainPageBackground{
+    .pageBackground{
         position: absolute;
         height: 100%;
         width: 100%;
@@ -7,7 +7,7 @@
         left: 0;
         background-color: #011327;
     }
-    #mainPageBackgroundLeft{
+    .pageBackgroundLeft{
         position: absolute;
         height: 30%;
         width: 60%;
@@ -17,7 +17,7 @@
         z-index: 1;
         border-top-left-radius: 200px;
     }
-    #mainPageBackgroundRight{
+    .pageBackgroundRight{
         position: absolute;
         height: 45%;
         width: 50%;
@@ -40,7 +40,7 @@
         border-radius: 25px;
         z-index: 1;
     }
-    #mainPageLogo{
+    .pageLogo{
         position: absolute;
         background-image: url('logomobile.jpeg');
         background-size: cover;
@@ -80,7 +80,7 @@
 
 }
 @media (orientation: landscape) and (max-height: 41em){
-    #mainPageBackground{
+    .pageBackground{
         position: absolute;
         height: 100%;
         width: 100%;
@@ -88,7 +88,7 @@
         left: 0;
         background-color: #011327;
     }
-    #mainPageBackgroundLeft{
+    .pageBackgroundLeft{
         position: absolute;
         height: 30%;
         width: 60%;
@@ -98,7 +98,7 @@
         z-index: 1;
         border-top-left-radius: 200px;
     }
-    #mainPageBackgroundRight{
+    .pageBackgroundRight{
         position: absolute;
         height: 45%;
         width: 50%;
@@ -121,7 +121,7 @@
         border-radius: 25px;
         z-index: 1;
     }
-    #mainPageLogo{
+    .pageLogo{
         position: absolute;
         background-image: url('logo.jpeg');
         background-size: cover;
@@ -181,7 +181,7 @@
     }
 }
 @media (orientation: portrait) and (min-width: 41em){
-    #mainPageBackground{
+    .pageBackground{
         position: absolute;
         height: 100%;
         width: 100%;
@@ -189,7 +189,7 @@
         left: 0;
         background-color: #011327;
     }
-    #mainPageBackgroundLeft{
+    .pageBackgroundLeft{
         position: absolute;
         height: 30%;
         width: 60%;
@@ -199,7 +199,7 @@
         z-index: 1;
         border-top-left-radius: 200px;
     }
-    #mainPageBackgroundRight{
+    .pageBackgroundRight{
         position: absolute;
         height: 45%;
         width: 50%;
@@ -222,7 +222,7 @@
         border-radius: 25px;
         z-index: 1;
     }
-    #mainPageLogo{
+    .pageLogo{
         position: absolute;
         background-image: url('logo.jpeg');
         background-size: cover;
@@ -260,7 +260,7 @@
     }
 }
 @media (orientation: landscape) and (min-height: 41em){
-    #mainPageBackground{
+    .pageBackground{
         position: absolute;
         height: 100%;
         width: 100%;
@@ -268,7 +268,7 @@
         left: 0;
         background-color: #011327;
     }
-    #mainPageBackgroundLeft{
+    .pageBackgroundLeft{
         position: absolute;
         height: 30%;
         width: 60%;
@@ -278,7 +278,7 @@
         z-index: 1;
         border-top-left-radius: 200px;
     }
-    #mainPageBackgroundRight{
+    .pageBackgroundRight{
         position: absolute;
         height: 45%;
         width: 50%;
@@ -301,7 +301,7 @@
         border-radius: 25px;
         z-index: 1;
     }
-    #mainPageLogo{
+    .pageLogo{
         position: absolute;
         background-image: url('logo.jpeg');
         background-size: cover;
