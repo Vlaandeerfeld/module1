@@ -40,6 +40,19 @@
         border-radius: 25px;
         z-index: 1;
     }
+    #aboutMeMainPage{
+        position: relative;
+        height: 10%;
+        width: 30%;
+        top: 5%;
+        left: 34.5%;
+        background-color: #011327;
+        color: whitesmoke;
+        text-align: center;
+        padding: 1%;
+        border-radius: 25px; 
+        z-index: 1;  
+    }
     .pageLogo{
         position: absolute;
         background-image: url('logomobile.jpeg');
