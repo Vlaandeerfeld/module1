@@ -140,8 +140,7 @@
         color: whitesmoke;
         text-align: center;
         padding: 1%;
-        border-radius: 25px;
-        z-index: 1;   
+        border-radius: 25px;   
     }
     .mainPageNavigation{
         position: absolute;
