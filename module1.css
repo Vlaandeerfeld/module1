@@ -181,6 +181,16 @@
         width: 30%;
         height: 7.5%;
     }
+    #displayWebsite{
+        float: left;
+        display: table;
+        table-layout: fixed;
+        position: relative;
+        height: 100%;
+        width: 100%;
+        font-size: 90%;
+        background-color: grey;
+    }
 }
 @media (orientation: landscape) and (max-height: 41em){
     .pageBackground{
