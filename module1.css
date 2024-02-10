@@ -29,10 +29,10 @@
     }
     #mainPageWelcome{
         position: relative;
-        height: 20%;
-        width: 30%;
+        height: 50%;
+        width: 90%;
         top: 5%;
-        left: 34.5%;
+        left: 5%;
         background-color: #011327;
         color: whitesmoke;
         text-align: center;
@@ -52,6 +52,19 @@
         padding: 1%;
         border-radius: 25px; 
         z-index: 2;  
+    }
+    .homeButton{
+        position: relative;
+        height: 20%;
+        width: 80%;
+        top: 5%;
+        left: 10%;
+        background-color: #011327;
+        color: whitesmoke;
+        text-align: center;
+        padding: 1%;
+        border-radius: 25%;
+        z-index: 3;
     }
     .pageLogo{
         position: absolute;
