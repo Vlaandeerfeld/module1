@@ -171,16 +171,6 @@
         align-self: flex-end;
         z-index: 2;
     }
-    #buttonClear{
-        float: left;
-        width: 30%;
-        height: 7.5%;
-    }
-    #buttonTemplate{
-        float: left;
-        width: 30%;
-        height: 7.5%;
-    }
     #displayWebsite{
         float: left;
         display: table;
