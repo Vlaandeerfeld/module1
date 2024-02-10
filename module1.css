@@ -57,11 +57,12 @@
         position: relative;
         height: 20%;
         width: 80%;
-        top: 5%;
+        top: 50%;
         left: 10%;
-        background-color: #011327;
+        background-color: #ff7c18;
         color: whitesmoke;
         text-align: center;
+        font-size: large;
         padding: 1%;
         border-radius: 25%;
         z-index: 3;
@@ -78,7 +79,7 @@
     .pageNavigation{
         position: absolute;
         top: 80%;
-        height: 20%;
+        height: 5%;
         width: 20%;
         background-color: #011327;
         color: whitesmoke;
