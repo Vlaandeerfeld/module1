@@ -612,7 +612,7 @@
     }
     #mainPageWelcome{
         position: relative;
-        height: 50%;
+        height: 30%;
         width: 40%;
         top: 5%;
         left: 30%;
@@ -625,7 +625,7 @@
     }
     #aboutMeMainPage{
         position: relative;
-        height: 50%;
+        height: 30%;
         width: 40%;
         top: 5%;
         left: 30%;
@@ -641,13 +641,12 @@
         height: 20%;
         width: 80%;
         top: 20%;
-        left: 0px;
+        left: 10%;
         background-color: #ff7c18;
         color: whitesmoke;
         text-align: center;
         font-size: large;
         padding: 1%;
-        border-radius: 25%;
         z-index: 3;
     }
     .pageLogo{
