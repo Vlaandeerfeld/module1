@@ -610,6 +610,7 @@
         border-top-left-radius: 200px;
     }
     #mainPageWelcome{
+        display: flex;
         position: relative;
         height: 30%;
         width: 40%;
@@ -618,11 +619,14 @@
         background-color: #011327;
         color: whitesmoke;
         text-align: center;
+        justify-content: center;
+        align-items: center;
         padding: 1%;
         border-radius: 25px;
         z-index: 1;
     }
     #aboutMeMainPage{
+        display: flex;
         position: relative;
         height: 30%;
         width: 40%;
@@ -631,6 +635,8 @@
         background-color: #011327;
         color: whitesmoke;
         text-align: center;
+        justify-content: center;
+        align-items: center;
         padding: 1%;
         border-radius: 25px; 
         z-index: 2;  
@@ -658,6 +664,7 @@
         top: 0;
     }
     .pageNavigation{
+        display: flex;
         position: absolute;
         top: 80%;
         height: 15%;
@@ -666,6 +673,8 @@
         color: whitesmoke;
         font-size: 24px;
         text-align: center;
+        justify-content: center;
+        align-items: center;
         padding: 1%;
         border-radius: 25px;
         border-color: black;
