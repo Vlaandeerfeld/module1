@@ -65,7 +65,6 @@
         text-align: center;
         font-size: large;
         padding: 1%;
-        border-radius: 25%;
         z-index: 3;
     }
     .pageLogo{
@@ -94,27 +93,27 @@
         z-index: 4;
     }
     #mainPageFHMStats{
-        top: 72.5%;
+        top: 77.5%;
         left: 10%;
     }
     #mainPageMixedStats{
-        top: 67.5%;
+        top: 72.5%;
         left: 40%;
     }
     #mainPageNHLStats{
-        top: 62.5%;
+        top: 67.5%;
         left: 70%;
     }
     #aboutMePageFHMStats{
-        top: 72.5%;
+        top: 77.5%;
         left: 10%;
     }
     #aboutMePageMixedStats{
-        top: 67.5%;
+        top: 72.5%;
         left: 40%;
     }
     #aboutMePageNHLStats{
-        top: 62.5%;
+        top: 67.5%;
         left: 70%;
     }
     #canvas{
@@ -249,17 +248,16 @@
     }
     .homeButton{
         position: relative;
-        height: 20%;
+        height: 5%;
         width: 80%;
         top: 20%;
-        left: 0px;
+        left: 10%;
         background-color: #ff7c18;
         color: whitesmoke;
         text-align: center;
         font-size: large;
         padding: 1%;
-        border-radius: 25%;
-        z-index: 3;
+        z-index: 5;
     }
     .pageLogo{
         position: absolute;
@@ -287,27 +285,27 @@
         z-index: 4;
     }
     #mainPageFHMStats{
-        top: 72.5%;
+        top: 82.5%;
         left: 10%;
     }
     #mainPageMixedStats{
-        top: 67.5%;
+        top: 77.5%;
         left: 40%;
     }
     #mainPageNHLStats{
-        top: 62.5%;
+        top: 72.5%;
         left: 70%;
     }
     #aboutMePageFHMStats{
-        top: 72.5%;
+        top: 82.5%;
         left: 10%;
     }
     #aboutMePageMixedStats{
-        top: 67.5%;
+        top: 77.5%;
         left: 40%;
     }
     #aboutMePageNHLStats{
-        top: 62.5%;
+        top: 72.5%;
         left: 70%;
     }
     #canvas{
@@ -444,6 +442,8 @@
         z-index: 2;  
     }
     .homeButton{
+        text-decoration: none;
+        display: flex;
         position: relative;
         height: 20%;
         width: 80%;
@@ -466,6 +466,8 @@
         top: 0;
     }
     .pageNavigation{
+        text-decoration: none;
+        display: flex;
         position: absolute;
         top: 80%;
         height: 15%;
@@ -642,6 +644,8 @@
         z-index: 2;  
     }
     .homeButton{
+        text-decoration: none;
+        display: flex;
         position: relative;
         height: 20%;
         width: 80%;
