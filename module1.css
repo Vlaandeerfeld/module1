@@ -131,7 +131,7 @@
         height: 30%;
         width: 100%;
     }
-    #teams{
+    .filters{
         position: relative;
         float: left;
     }
