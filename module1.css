@@ -610,6 +610,7 @@
         border-top-left-radius: 200px;
     }
     #mainPageWelcome{
+        text-decoration: none;
         display: flex;
         position: relative;
         height: 30%;
@@ -626,6 +627,7 @@
         z-index: 1;
     }
     #aboutMeMainPage{
+        text-decoration: none;
         display: flex;
         position: relative;
         height: 30%;
@@ -664,6 +666,7 @@
         top: 0;
     }
     .pageNavigation{
+        text-decoration: none;
         display: flex;
         position: absolute;
         top: 80%;
