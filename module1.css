@@ -445,12 +445,14 @@
         text-decoration: none;
         display: flex;
         position: relative;
+        float: bottom;
         height: 20%;
         width: 80%;
         top: 5%;
         left: 10%;
         background-color: #ff7c18;
         color: whitesmoke;
+        justify-content: center;
         text-align: center;
         font-size: large;
         padding: 1%;
@@ -637,8 +639,8 @@
         left: 30%;
         background-color: #011327;
         color: whitesmoke;
+        justify-content: center;
         text-align: center;
-        align-items: center;
         padding: 1%;
         border-radius: 25px; 
         z-index: 2;  
@@ -647,6 +649,7 @@
         text-decoration: none;
         display: flex;
         position: relative;
+        float: bottom;
         height: 20%;
         width: 80%;
         top: 5%;
@@ -679,7 +682,6 @@
         font-size: 24px;
         text-align: center;
         justify-content: center;
-        align-items: center;
         padding: 1%;
         border-radius: 25px;
         border-color: black;
