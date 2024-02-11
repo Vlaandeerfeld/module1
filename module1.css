@@ -419,7 +419,7 @@
     }
     #mainPageWelcome{
         position: relative;
-        height: 50%;
+        height: 30%;
         width: 90%;
         top: 5%;
         left: 5%;
@@ -432,7 +432,7 @@
     }
     #aboutMeMainPage{
         position: relative;
-        height: 50%;
+        height: 30%;
         width: 90%;
         top: 5%;
         left: 5%;
@@ -447,14 +447,13 @@
         position: relative;
         height: 20%;
         width: 80%;
-        top: 20%;
-        left: 0px;
+        top: 5%;
+        left: 10%;
         background-color: #ff7c18;
         color: whitesmoke;
         text-align: center;
         font-size: large;
         padding: 1%;
-        border-radius: 25%;
         z-index: 3;
     }
     .pageLogo{
@@ -469,7 +468,7 @@
     .pageNavigation{
         position: absolute;
         top: 80%;
-        height: 6%;
+        height: 15%;
         width: 20%;
         background-color: #011327;
         color: whitesmoke;
@@ -483,27 +482,27 @@
         z-index: 4;
     }
     #mainPageFHMStats{
-        top: 72.5%;
+        top: 77.5%;
         left: 10%;
     }
     #mainPageMixedStats{
-        top: 67.5%;
+        top:72.5%;
         left: 40%;
     }
     #mainPageNHLStats{
-        top: 62.5%;
+        top: 67.5%;
         left: 70%;
     }
     #aboutMePageFHMStats{
-        top: 72.5%;
+        top: 77.5%;
         left: 10%;
     }
     #aboutMePageMixedStats{
-        top: 67.5%;
+        top: 72.5%;
         left: 40%;
     }
     #aboutMePageNHLStats{
-        top: 62.5%;
+        top: 67.5%;
         left: 70%;
     }
     #canvas{
@@ -640,7 +639,7 @@
         position: relative;
         height: 20%;
         width: 80%;
-        top: 20%;
+        top: 5%;
         left: 10%;
         background-color: #ff7c18;
         color: whitesmoke;
