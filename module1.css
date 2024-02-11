@@ -126,6 +126,15 @@
         display: flex;
         align-items: start;
     }
+    #topFilter{
+        position: relative;
+        height: 30%;
+        width: 100%;
+    }
+    #teams{
+        position: relative;
+        float: left;
+    }
     #outermostLayer{
         position: relative;
         height: 100%;
