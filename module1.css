@@ -30,7 +30,7 @@
     }
     #mainPageWelcome{
         position: relative;
-        height: 50%;
+        height: auto;
         width: 90%;
         top: 5%;
         left: 5%;
@@ -43,7 +43,7 @@
     }
     #aboutMeMainPage{
         position: relative;
-        height: 50%;
+        height: auto;
         width: 90%;
         top: 5%;
         left: 5%;
@@ -55,11 +55,11 @@
         z-index: 2;  
     }
     .homeButton{
+        text-decoration: none;
         position: relative;
         height: 20%;
-        width: 80%;
-        top: 20%;
-        left: 0px;
+        width: 100%;
+        top: 5%;
         background-color: #ff7c18;
         color: whitesmoke;
         text-align: center;
@@ -77,13 +77,14 @@
         top: 0;
     }
     .pageNavigation{
+        text-decoration: none;
         position: absolute;
         top: 80%;
-        height: 6%;
+        height: auto;
         width: 20%;
         background-color: #011327;
         color: whitesmoke;
-        font-size: 10px;
+        font-size: auto;
         text-align: center;
         padding: 1%;
         border-radius: 25px;
@@ -93,27 +94,27 @@
         z-index: 4;
     }
     #mainPageFHMStats{
-        top: 77.5%;
+        top: 82.5%;
         left: 10%;
     }
     #mainPageMixedStats{
-        top: 72.5%;
+        top: 77.5%;
         left: 40%;
     }
     #mainPageNHLStats{
-        top: 67.5%;
+        top: 72.5%;
         left: 70%;
     }
     #aboutMePageFHMStats{
-        top: 77.5%;
+        top: 82.5%;
         left: 10%;
     }
     #aboutMePageMixedStats{
-        top: 72.5%;
+        top: 77.5%;
         left: 40%;
     }
     #aboutMePageNHLStats{
-        top: 67.5%;
+        top: 72.5%;
         left: 70%;
     }
     #canvas{
@@ -222,7 +223,7 @@
     }
     #mainPageWelcome{
         position: relative;
-        height: 50%;
+        height: auto;
         width: 90%;
         top: 5%;
         left: 5%;
@@ -235,7 +236,7 @@
     }
     #aboutMeMainPage{
         position: relative;
-        height: 50%;
+        height: auto;
         width: 90%;
         top: 5%;
         left: 5%;
@@ -249,9 +250,8 @@
     .homeButton{
         position: relative;
         height: 5%;
-        width: 80%;
+        width: 100%;
         top: 20%;
-        left: 10%;
         background-color: #ff7c18;
         color: whitesmoke;
         text-align: center;
@@ -271,11 +271,11 @@
     .pageNavigation{
         position: absolute;
         top: 80%;
-        height: 6%;
+        height: auto;
         width: 20%;
         background-color: #011327;
         color: whitesmoke;
-        font-size: 10px;
+        font-size: auto;
         text-align: center;
         padding: 1%;
         border-radius: 25px;
@@ -417,7 +417,7 @@
     }
     #mainPageWelcome{
         position: relative;
-        height: 30%;
+        height: auto;
         width: 90%;
         top: 5%;
         left: 5%;
@@ -430,7 +430,7 @@
     }
     #aboutMeMainPage{
         position: relative;
-        height: 30%;
+        height: auto;
         width: 90%;
         top: 5%;
         left: 5%;
@@ -443,16 +443,12 @@
     }
     .homeButton{
         text-decoration: none;
-        display: flex;
         position: relative;
-        float: bottom;
         height: 20%;
-        width: 80%;
+        width: 100%;
         top: 5%;
-        left: 10%;
         background-color: #ff7c18;
         color: whitesmoke;
-        justify-content: center;
         text-align: center;
         font-size: large;
         padding: 1%;
@@ -469,14 +465,13 @@
     }
     .pageNavigation{
         text-decoration: none;
-        display: flex;
         position: absolute;
         top: 80%;
-        height: 15%;
+        height: auto;
         width: 20%;
         background-color: #011327;
         color: whitesmoke;
-        font-size: 10px;
+        font-size: auto;
         text-align: center;
         padding: 1%;
         border-radius: 25px;
@@ -486,27 +481,27 @@
         z-index: 4;
     }
     #mainPageFHMStats{
-        top: 77.5%;
+        top: 82.5%;
         left: 10%;
     }
     #mainPageMixedStats{
-        top:72.5%;
+        top: 77.5%;
         left: 40%;
     }
     #mainPageNHLStats{
-        top: 67.5%;
+        top: 72.5%;
         left: 70%;
     }
     #aboutMePageFHMStats{
-        top: 77.5%;
+        top: 82.5%;
         left: 10%;
     }
     #aboutMePageMixedStats{
-        top: 72.5%;
+        top: 77.5%;
         left: 40%;
     }
     #aboutMePageNHLStats{
-        top: 67.5%;
+        top: 72.5%;
         left: 70%;
     }
     #canvas{
@@ -615,31 +610,27 @@
     }
     #mainPageWelcome{
         text-decoration: none;
-        display: flex;
         position: relative;
-        height: 30%;
+        height: auto;
         width: 40%;
         top: 5%;
         left: 30%;
         background-color: #011327;
         color: whitesmoke;
         text-align: center;
-        align-items: center;
         padding: 1%;
         border-radius: 25px;
         z-index: 1;
     }
     #aboutMeMainPage{
         text-decoration: none;
-        display: flex;
         position: relative;
-        height: 30%;
+        height: auto;
         width: 40%;
         top: 5%;
         left: 30%;
         background-color: #011327;
         color: whitesmoke;
-        justify-content: center;
         text-align: center;
         padding: 1%;
         border-radius: 25px; 
@@ -647,13 +638,10 @@
     }
     .homeButton{
         text-decoration: none;
-        display: flex;
         position: relative;
-        float: bottom;
         height: 20%;
-        width: 80%;
+        width: 100%;
         top: 5%;
-        left: 10%;
         background-color: #ff7c18;
         color: whitesmoke;
         justify-content: center;
@@ -672,14 +660,13 @@
     }
     .pageNavigation{
         text-decoration: none;
-        display: flex;
         position: absolute;
         top: 80%;
-        height: 15%;
+        height: auto;
         width: 20%;
         background-color: #011327;
         color: whitesmoke;
-        font-size: 24px;
+        font-size: auto;
         text-align: center;
         justify-content: center;
         padding: 1%;
@@ -690,27 +677,27 @@
         z-index: 4;
     }
     #mainPageFHMStats{
-        top: 77.5%;
+        top: 82.5%;
         left: 10%;
     }
     #mainPageMixedStats{
-        top: 72.5%;
+        top: 77.5%;
         left: 40%;
     }
     #mainPageNHLStats{
-        top: 67.5%;
+        top: 72.5%;
         left: 70%;
     }
     #aboutMePageFHMStats{
-        top: 77.5%;
+        top: 82.5%;
         left: 10%;
     }
     #aboutMePageMixedStats{
-        top: 72.5%;
+        top: 77.5%;
         left: 40%;
     }
     #aboutMePageNHLStats{
-        top: 67.5%;
+        top: 72.5%;
         left: 70%;
     }
     #canvas{
