@@ -615,7 +615,7 @@
         height: 50%;
         width: 40%;
         top: 5%;
-        left: 5%;
+        left: 30%;
         background-color: #011327;
         color: whitesmoke;
         text-align: center;
@@ -628,7 +628,7 @@
         height: 50%;
         width: 40%;
         top: 5%;
-        left: 5%;
+        left: 30%;
         background-color: #011327;
         color: whitesmoke;
         text-align: center;
@@ -666,7 +666,7 @@
         width: 20%;
         background-color: #011327;
         color: whitesmoke;
-        font-size: 10px;
+        font-size: 24px;
         text-align: center;
         padding: 1%;
         border-radius: 25px;
@@ -676,27 +676,27 @@
         z-index: 4;
     }
     #mainPageFHMStats{
-        top: 72.5%;
+        top: 77.5%;
         left: 10%;
     }
     #mainPageMixedStats{
-        top: 67.5%;
+        top: 72.5%;
         left: 40%;
     }
     #mainPageNHLStats{
-        top: 62.5%;
+        top: 67.5%;
         left: 70%;
     }
     #aboutMePageFHMStats{
-        top: 72.5%;
+        top: 77.5%;
         left: 10%;
     }
     #aboutMePageMixedStats{
-        top: 67.5%;
+        top: 72.5%;
         left: 40%;
     }
     #aboutMePageNHLStats{
-        top: 62.5%;
+        top: 67.5%;
         left: 70%;
     }
     #canvas{
