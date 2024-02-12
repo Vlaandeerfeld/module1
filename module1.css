@@ -760,7 +760,7 @@
         background-color: black;
         overflow: auto;
         z-index: 1;
-        display: flex;
+        display: block;
         align-items: start;
     }
     #topFilter{
