@@ -1,9 +1,42 @@
 /* Mobile */
 @media (orientation: portrait) and (max-width: 41em){
-    .menu{
-        position: absolute;
+    .menuTop{
+        display: flex;
+        position: relative;
+        height: 50%;
+        width: 100%;
+        float: left;
+        font-size: auto;
+        z-index: 5;
+        background-color: #ff7c18;
+        text-decoration: none;
+        color: whitesmoke;
+        align-items: center;
+        justify-content: center;
+    }
+    .menuBottom{
+        display: flex;
+        position: relative;
+        height: 50%;
+        width: 100%;
+        float: left;
+        font-size: auto;
+        z-index: 5;
+        background-color: #ff2c06;
+        color: whitesmoke;
+        text-decoration: none;
+        align-items: center;
+        justify-content: center;
+    }
+    #topLeftMenu{
+        display: block;
+        position: relative;
+        height: 20%;
+        width: 20%;
+        float: left;
         top: 0px;
         left: 0px;
+        z-index: 5;
     }
     .pageBackground{
         position: absolute;
@@ -129,7 +162,7 @@
         background-color: black;
         overflow: auto;
         z-index: 1;
-        display: flex;
+        display: block;
         align-items: start;
     }
     #topFilter{
@@ -198,10 +231,43 @@
     }
 }
 @media (orientation: landscape) and (max-height: 41em){
-    .menu{
-        position: absolute;
+    .menuTop{
+        display: flex;
+        position: relative;
+        height: 50%;
+        width: 100%;
+        float: left;
+        font-size: auto;
+        z-index: 5;
+        background-color: #ff7c18;
+        text-decoration: none;
+        color: whitesmoke;
+        align-items: center;
+        justify-content: center;
+    }
+    .menuBottom{
+        display: flex;
+        position: relative;
+        height: 50%;
+        width: 100%;
+        float: left;
+        font-size: auto;
+        z-index: 5;
+        background-color: #ff2c06;
+        color: whitesmoke;
+        text-decoration: none;
+        align-items: center;
+        justify-content: center;
+    }
+    #topLeftMenu{
+        display: block;
+        position: relative;
+        height: 20%;
+        width: 20%;
+        float: left;
         top: 0px;
         left: 0px;
+        z-index: 5;
     }
     .pageBackground{
         position: absolute;
@@ -325,7 +391,7 @@
         background-color: black;
         overflow: auto;
         z-index: 1;
-        display: flex;
+        display: block;
         align-items: start;
     }
     #topFilter{
@@ -397,10 +463,43 @@
 /* Desktop */
 
 @media (orientation: portrait) and (min-width: 41em){
-    .menu{
-        position: absolute;
+    .menuTop{
+        display: flex;
+        position: relative;
+        height: 50%;
+        width: 100%;
+        float: left;
+        font-size: auto;
+        z-index: 5;
+        background-color: #ff7c18;
+        text-decoration: none;
+        color: whitesmoke;
+        align-items: center;
+        justify-content: center;
+    }
+    .menuBottom{
+        display: flex;
+        position: relative;
+        height: 50%;
+        width: 100%;
+        float: left;
+        font-size: auto;
+        z-index: 5;
+        background-color: #ff2c06;
+        color: whitesmoke;
+        text-decoration: none;
+        align-items: center;
+        justify-content: center;
+    }
+    #topLeftMenu{
+        display: block;
+        position: relative;
+        height: 20%;
+        width: 20%;
+        float: left;
         top: 0px;
         left: 0px;
+        z-index: 5;
     }
     .pageBackground{
         position: absolute;
@@ -526,8 +625,8 @@
         background-color: black;
         overflow: auto;
         z-index: 1;
-        display: flex;
         align-items: start;
+        display: block;
     }
     #topFilter{
         position: relative;
