@@ -889,8 +889,8 @@
     }
     .mainTableContent{
         display: table;
-        height: 30%;
-        width: 33.33%;
+        height: 33.33%;
+        width: 100%;
         float: left;
     }
     td{
@@ -1206,7 +1206,7 @@
     }
     .mainTableContent{
         display: table;
-        height: 30%;
+        height: 40%;
         width: 33.33%;
         float: left;
     }
