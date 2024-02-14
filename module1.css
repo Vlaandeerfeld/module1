@@ -2,7 +2,7 @@
 
 @media (orientation: portrait) and (max-width: 41em){
     #fixedPosition{
-        display: fixed;
+        position: fixed;
 
     }
     .menuTop{
