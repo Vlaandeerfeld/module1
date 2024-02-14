@@ -1,10 +1,6 @@
 /* Mobile */
 
 @media (orientation: portrait) and (max-width: 41em){
-    #fixedPosition{
-        position: fixed;
-
-    }
     .menuTop{
         display: flex;
         bottom: 0px;
@@ -229,7 +225,7 @@
         left: 70%;
     }
     #canvas{
-        position: absolute;
+        position: relative;
         height: 100%;
         width: 100%;
         background-color: black;
@@ -237,6 +233,7 @@
         z-index: 1;
         display: block;
         align-items: start;
+        min-height: 100%;
     }
     #topFilter{
         position: relative;
