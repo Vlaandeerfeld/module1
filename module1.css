@@ -287,7 +287,7 @@
     }
     #button2{
         position: sticky;
-        bottom: 0px;
+        bottom: 5%;
         width: 25%;
         height: 15%;
         float: left;
