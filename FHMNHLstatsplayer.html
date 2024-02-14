@@ -8,26 +8,26 @@
     </head>
     <body>
         <div id = 'canvas'>
-            <div id = 'topFilter'>
-                <label for = 'FHMNHLleaguesplayer'>Choose a league:</label>
-                <select class = 'filters' id = 'FHMNHLleaguesplayer' name = 'FHMNHLLeaguesPlayer'>
-                    <option value = 'ALL' selected>ALL</option>
-                    <option value = 'NHL'>Netherton Hockey League</option>
-                    <option value = 'FIHL'>Flat Ice Hockey League</option>
-                    <option value = 'RGHL'>Retro Goon Hockey League</option>
-                    <option value = 'NeHL'>Netherton Hockey League</option>
-                </select>
-                <label for = 'FHMNHLteamsplayer'>Choose a team:</label>
-                <select class = 'filters' id = 'FHMNHLteamsplayer' name = 'FHMNHLTeamsPlayer'>
-                    <option value = 'ALL' selected>ALL</option>
-                    <option value = 'CGY'>Calgary Flames</option>
-                    <option value = 'TOR'>Toronto Maple Leafs</option>
-                    <option value = 'NYR'>New York Rangers</option>
-                    <option value = 'NYI'>New York Islanders</option>
-                </select>
-                <button class = 'filters' type = 'button' onclick=''>Filter</button>
-            </div>
             <div id = 'outermostLayer'>
+                <div class = 'playerPortrait' id = 'FHMNHLPlayerPortrait'>
+                </div>
+                <table class = 'playerStats' id = 'FHMNHLPlayerStats'>
+                    <tr>
+                        <th>LEAGUE</th><th>TEAM</th><th>FIRST/LAST NAME</th><th>TOTAL</th><th>SEASON1</th><th>SEASON2</th><th>SEASON3</th>
+                    </tr>
+                    <tr>
+                        <th></th><th></th><th>GP</th><td>0</td><td>0</td><td>0</td><td>0</td>
+                    </tr>
+                    <tr>
+                        <th></th><th></th><th>G</th><td>0</td><td>0</td><td>0</td><td>0</td>
+                    </tr>
+                    <tr>
+                        <th></th><th></th><th>A</th><td>0</td><td>0</td><td>0</td><td>0</td>
+                    </tr>
+                    <tr>
+                        <th></th><th></th><th>P</th><td>0</td><td>0</td><td>0</td><td>0</td>
+                    </tr>
+                </table>
                 <div id = 'mainContent'>
                 </div>
                 <div id = 'bottomLeftMenu'>
