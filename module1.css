@@ -1,6 +1,10 @@
 /* Mobile */
 
 @media (orientation: portrait) and (max-width: 41em){
+    #fixedPosition{
+        display: fixed;
+
+    }
     .menuTop{
         display: flex;
         bottom: 0px;
