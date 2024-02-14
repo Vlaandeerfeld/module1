@@ -233,7 +233,6 @@
         z-index: 1;
         display: block;
         align-items: start;
-        min-height: 100%;
     }
     #topFilter{
         position: relative;
