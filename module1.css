@@ -253,11 +253,9 @@
         z-index: 1;
     }
     #mainContent{
-        display: hide;
         position: relative;
         width: 100%;
         float: left;
-        margin-top: 100%;
         background-color: black;
         display: block;
     }
@@ -556,11 +554,9 @@
         z-index: 1;
     }
     #mainContent{
-        display: hide;
         position: relative;
         width: 100%;
         float: left;
-        margin-top: 100%;
         background-color: black;
         display: block;
     }
