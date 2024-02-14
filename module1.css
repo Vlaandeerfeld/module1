@@ -556,6 +556,7 @@
         z-index: 1;
     }
     #mainContent{
+        display: hide;
         position: relative;
         width: 100%;
         float: left;
