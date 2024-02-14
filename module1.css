@@ -63,10 +63,10 @@
     }
     #topLeftMenu{
         position: absolute;
-        top: 0%;
-        left: 0%;
+        top: 30%;
+        left: 30%;
         height: 20%;
-        width: 20%;
+        width: 40%;
         z-index: 8;
     }
     #menuButtonImportAboutMe{
@@ -253,6 +253,7 @@
         z-index: 1;
     }
     #mainContent{
+        display: hide;
         position: relative;
         width: 100%;
         float: left;
@@ -262,7 +263,7 @@
     }
     .mainTableContent{
         display: table;
-        height: 100%;
+        height: 80%;
         width: 100%;
         float: left;
     }
@@ -996,8 +997,8 @@
     }
     #topLeftMenu{
         position: absolute;
-        top: 0%;
-        left: 0%;
+        top: 30%;
+        left: 40%;
         height: 20%;
         width: 20%;
         z-index: 8;
