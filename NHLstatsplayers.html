@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name= 'viewport' content = 'width=device-width, initial-scale = 1'>
+        <link rel = 'stylesheet' href = 'module1.css'>
+        <link rel = 'stylesheet' href = 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+        <title>FHM stats</title>
+    </head>
+    <body>
+        <div id = 'canvas'>
+            <div id = 'topFilter'>
+                <label for = 'league'>Choose a league:</label>
+                <select class = 'filters' id = 'leagues' name = 'Leagues'>
+                    <option value = 'ALL' selected>ALL</option>
+                    <option value = 'NHL'>Netherton Hockey League</option>
+                    <option value = 'FIHL'>Flat Ice Hockey League</option>
+                    <option value = 'RGHL'>Retro Goon Hockey League</option>
+                    <option value = 'NeHL'>Netherton Hockey League</option>
+                </select>
+                <label for = 'teams'>Choose a team:</label>
+                <select class = 'filters' id = 'teams' name = 'Teams'>
+                    <option value = 'ALL' selected>ALL</option>
+                    <option value = 'CGY'>Calgary Flames</option>
+                    <option value = 'TOR'>Toronto Maple Leafs</option>
+                    <option value = 'NYR'>New York Rangers</option>
+                    <option value = 'NYI'>New York Islanders</option>
+                </select>
+                <button class = 'filters' type = 'button' onclick=''>Filter</button>
+            </div>
+            <div id = 'outermostLayer'>
+                <div id = 'mainContent'>
+                </div>
+                <div id = 'bottomLeftMenu'>
+                    <a href = 'index.html' class = 'menuTop' id = 'menuButtonHomeFHMstats'>Home</a>
+                    <a href = 'import.html' class = 'menuBottom' id = 'menuButtonImportFHMstats'>Import</a>
+                </div>
+                <button type = 'button' id = 'button2' title = 'player stats' onclick = "document.location = 'FHMstatsplayers.html'"><i class = 'glyphicon glyphicon-user'></i></button>
+                <button type = 'button' id = 'button3' title = 'team stats' onclick = "document.location = 'FHMstatsteams.html'"><i class = 'glyphicon glyphicon-list'></i></button>
+            </div>
+        </div>
+    </body>
+</html>
