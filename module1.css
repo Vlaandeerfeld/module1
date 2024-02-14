@@ -63,7 +63,7 @@
     }
     #topLeftMenu{
         position: absolute;
-        top: 30%;
+        top: 40%;
         left: 30%;
         height: 20%;
         width: 40%;
@@ -416,8 +416,8 @@
     }
     #topLeftMenu{
         position: absolute;
-        top: 0%;
-        left: 0%;
+        top: 40%;
+        left: 40%;
         height: 20%;
         width: 20%;
         z-index: 8;
