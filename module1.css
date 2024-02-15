@@ -33,6 +33,46 @@
         align-items: center;
         justify-content: center;
     }
+    #FHMStatsDropDown{
+        display: none;
+        background-color: whitesmoke;
+        position: absolute;
+        height: 80%;
+        width: 80%;
+        z-index: 10;
+    }
+    #NHLStatsDropDown{
+        display: none;
+        background-color: whitesmoke;
+        position: absolute;
+        height: 80%;
+        width: 80%;
+        z-index: 10;
+    }
+    #FHMNHLStatsDropDown{
+        display: none;
+        background-color: whitesmoke;
+        position: absolute;
+        height: 80%;
+        width: 80%;
+        z-index: 10;
+    }
+    #AboutMeDropDown{
+        display: none;
+        background-color: whitesmoke;
+        position: absolute;
+        height: 80%;
+        width: 80%;
+        z-index: 10;
+    }
+    #MainDropDown{
+        display: none;
+        background-color: whitesmoke;
+        position: absolute;
+        height: 80%;
+        width: 80%;
+        z-index: 10;
+    }
     #menuButtonHomeAboutMe{
         display: flex;
         position: relative;
@@ -385,6 +425,46 @@
         text-decoration: none;
         align-items: center;
         justify-content: center;
+    }
+    #FHMStatsDropDown{
+        display: none;
+        background-color: whitesmoke;
+        position: absolute;
+        height: 80%;
+        width: 80%;
+        z-index: 10;
+    }
+    #NHLStatsDropDown{
+        display: none;
+        background-color: whitesmoke;
+        position: absolute;
+        height: 80%;
+        width: 80%;
+        z-index: 10;
+    }
+    #FHMNHLStatsDropDown{
+        display: none;
+        background-color: whitesmoke;
+        position: absolute;
+        height: 80%;
+        width: 80%;
+        z-index: 10;
+    }
+    #AboutMeDropDown{
+        display: none;
+        background-color: whitesmoke;
+        position: absolute;
+        height: 80%;
+        width: 80%;
+        z-index: 10;
+    }
+    #MainDropDown{
+        display: none;
+        background-color: whitesmoke;
+        position: absolute;
+        height: 80%;
+        width: 80%;
+        z-index: 10;
     }
     #menuButtonHomeAboutMe{
         display: flex;
@@ -739,6 +819,46 @@
         text-decoration: none;
         align-items: center;
         justify-content: center;
+    }
+    #FHMStatsDropDown{
+        display: none;
+        background-color: whitesmoke;
+        position: absolute;
+        height: 80%;
+        width: 80%;
+        z-index: 10;
+    }
+    #NHLStatsDropDown{
+        display: none;
+        background-color: whitesmoke;
+        position: absolute;
+        height: 80%;
+        width: 80%;
+        z-index: 10;
+    }
+    #FHMNHLStatsDropDown{
+        display: none;
+        background-color: whitesmoke;
+        position: absolute;
+        height: 80%;
+        width: 80%;
+        z-index: 10;
+    }
+    #AboutMeDropDown{
+        display: none;
+        background-color: whitesmoke;
+        position: absolute;
+        height: 80%;
+        width: 80%;
+        z-index: 10;
+    }
+    #MainDropDown{
+        display: none;
+        background-color: whitesmoke;
+        position: absolute;
+        height: 80%;
+        width: 80%;
+        z-index: 10;
     }
     #menuButtonHomeAboutMe{
         display: flex;
