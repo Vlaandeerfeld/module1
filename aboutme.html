@@ -7,9 +7,16 @@
     </head>
     <body>
         <div class = 'pageBackground' id = 'aboutMePageBackground'>
+            <div class = 'dropDownImport' id = 'AboutMeDropDown' title = 'import'>
+                <button type = "button" class = 'close' onclick = "document.getElementById('AboutMeDropDown').style.display = 'none'">
+                    Close
+                </button>
+            </div>
             <div id = 'topLeftMenu'>
                 <a href = 'index.html' class = 'menuTop' id = 'menuButtonHomeAboutMe'>Home</a>
-                <a href = 'import.html' class = 'menuBottom' id = 'menuButtonImportAboutMe'>Import</a>
+                <button type = 'button' class = 'menuBottom' id = 'menuButtonImportAboutMe' title = 'Import' onclick = "if (document.getElementById('AboutMeDropDown').style.display == 'block') {document.getElementById('AboutMeDropDown').style.display = 'none'} else {document.getElementById('AboutMeDropDown').style.display = 'block'}">
+                    Import
+                </button>            
             </div>
             <div class = 'pageBackgroundLeft' id = 'mainPageBackgroundLeft'>
             </div>

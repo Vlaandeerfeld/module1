@@ -8,6 +8,11 @@
     </head>
     <body>
         <div id = 'canvas'>
+            <div class = 'dropDownImport' id = 'NHLStatsDropDown' title = 'import'>
+                <button type = "button" class = 'close' onclick = "document.getElementById('NHLStatsDropDown').style.display = 'none'">
+                    Close
+                </button>
+            </div>
             <div id = 'outermostLayer'>
                 <div class = 'playerPortrait' id = 'NHLPlayerPortrait'>
                 </div>
@@ -32,7 +37,9 @@
                 </div>
                 <div id = 'bottomLeftMenu'>
                     <a href = 'index.html' class = 'menuTop' id = 'menuButtonHomeNHLstats'>Home</a>
-                    <a href = 'import.html' class = 'menuBottom' id = 'menuButtonImportNHLstats'>Import</a>
+                    <button type = 'button' class = 'menuBottom' id = 'menuButtonImportNHLstats' title = 'Import' onclick = "if (document.getElementById('NHLStatsDropDown').style.display == 'block') {document.getElementById('NHLStatsDropDown').style.display = 'none'} else {document.getElementById('NHLStatsDropDown').style.display = 'block'}">
+                        Import
+                    </button>
                 </div>
                 <button type = 'button' id = 'button1' title = 'home' onclick = "document.location = 'NHLstats.html'"><i class = 'glyphicon glyphicon-home'></i></button>
                 <button type = 'button' id = 'button3' title = 'player stats' onclick = "document.location = 'NHLstatsplayers.html'"><i class = 'glyphicon glyphicon-user'></i></button>

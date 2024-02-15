@@ -8,6 +8,11 @@
     </head>
     <body>
         <div id = 'canvas'>
+            <div class = 'dropDownImport' id = 'FHMStatsDropDown' title = 'import'>
+                <button type = "button" class = 'close' onclick = "document.getElementById('FHMStatsDropDown').style.display = 'none'">
+                    Close
+                </button>
+            </div>
             <div id = 'topFilter'>
                 <label for = 'FHMleaguesteams'>Choose a league:</label>
                 <select class = 'filters' id = 'FHMleaguesteams' name = 'FHMLeaguesteams'>
@@ -60,7 +65,9 @@
                 </div>
                 <div id = 'bottomLeftMenu'>
                     <a href = 'index.html' class = 'menuTop' id = 'menuButtonHomeFHMstats'>Home</a>
-                    <a href = 'import.html' class = 'menuBottom' id = 'menuButtonImportFHMstats'>Import</a>
+                    <button type = 'button' class = 'menuBottom' id = 'menuButtonImportFHMstats' title = 'Import' onclick = "if (document.getElementById('FHMStatsDropDown').style.display == 'block') {document.getElementById('FHMStatsDropDown').style.display = 'none'} else {document.getElementById('FHMStatsDropDown').style.display = 'block'}">
+                        Import
+                    </button>                
                 </div>
                 <button type = 'button' id = 'button1' title = 'home' onclick = "document.location = 'FHMstats.html'"><i class = 'glyphicon glyphicon-home'></i></button>
                 <button type = 'button' id = 'button2' title = 'player stats' onclick = "document.location = 'FHMstatsplayers.html'"><i class = 'glyphicon glyphicon-user'></i></button>
