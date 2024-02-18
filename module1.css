@@ -19,7 +19,7 @@
     .pageBackground{
         display: block;
         position: relative;
-        height: 90vh;
+        height: 95vh;
         width: 100%;
         top: 0;
         left: 0;
@@ -84,7 +84,7 @@
     }
     #canvas{
         position: relative;
-        height: 90vh;
+        height: 95vh;
         width: 100%;
         background-color: black;
         overflow: auto;
@@ -247,7 +247,7 @@
     .pageBackground{
         display: block;
         position: relative;
-        height: 100vh;
+        height: 95vh;
         width: 100%;
         top: 0;
         left: 0;
@@ -312,7 +312,7 @@
     }
     #canvas{
         position: relative;
-        height: 100vh;
+        height: 95vh;
         width: 100%;
         background-color: black;
         overflow: auto;
