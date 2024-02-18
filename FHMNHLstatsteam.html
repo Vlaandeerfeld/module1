@@ -8,44 +8,30 @@
     </head>
     <body>
         <div id = 'canvas'>
-            <div class = 'dropDownImport' id = 'FHMNHLStatsDropDown' title = 'import'>
-                <button type = "button" class = 'close' onclick = "document.getElementById('FHMNHLStatsDropDown').style.display = 'none'">
+            <div class = 'dropDownImport' id = 'FHMNHLStatsTeamDropDown' title = 'import'>
+                <button type = "button" class = 'close' onclick = "document.getElementById('FHMNHLStatsTeamDropDown').style.display = 'none'">
                     Close
                 </button>
             </div>
             <div id = 'outermostLayer'>
                 <div class = 'teamLogo' id = 'FHMNHLTeamLogo'>
                 </div>
-                <table class = 'teamStats' id = 'FHMNHLTeamStats'>
-                    <tr>
-                        <th>LEAGUE</th><th>TEAM NAME</th><th>TOTAL</th><th>SEASON1</th><th>SEASON2</th><th>SEASON3</th>
-                    </tr>
-                    <tr>
-                        <th></th><th>GP</th><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <th></th><th>W</th><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <th></th><th>L</th><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <th></th><th>OTL</th><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <th></th><th>G</th><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                </table>
                 <div id = 'mainContent'>
                 </div>
-                <div id = 'bottomLeftMenu'>
-                    <a href = 'index.html' class = 'menuTop' id = 'menuButtonHomeFHMNHLstats'>Home</a>
-                    <button type = 'button' class = 'menuBottom' id = 'menuButtonImportFHMNHLstats' title = 'Import' onclick = "if (document.getElementById('FHMNHLStatsDropDown').style.display == 'block') {document.getElementById('FHMNHLStatsDropDown').style.display = 'none'} else {document.getElementById('FHMNHLStatsDropDown').style.display = 'block'}">
+                <div id = 'NavBottom'>
+                    <button type = 'button' class = 'navButton1' id = 'navButtonHomeFHMNHLstatsteam' title = 'Home' onclick = "document.location = 'index.html'">
+                        Home
+                    </button>
+                    <button type = 'button' class = 'navButton2' id = 'navButtonImportFHMNHLstatsteam' title = 'Import' onclick = "if (document.getElementById('FHMNHLStatsTeamDropDown').style.display == 'block') {document.getElementById('FHMNHLStatsTeamDropDown').style.display = 'none'} else {document.getElementById('FHMNHLStatsTeamDropDown').style.display = 'block'}">
                         Import
                     </button>                
+                    <button type = 'button' class = 'navButton3' id = 'navButtonMainFHMNHLstatsteam' title = 'Main' onclick = "document.location = 'FHMNHLstats.html'">
+                        Main
+                    </button>
+                    <button type = 'button' class = 'navButton4' id = 'navButtonTeamStatsFHMNHLstatsteam' title = 'Team Stats' onclick = "document.location = 'FHMNHLstatsteams.html'">
+                        Team Stats
+                    </button>
                 </div>
-                <button type = 'button' id = 'button1' title = 'home' onclick = "document.location = 'FHMNHLstats.html'"><i class = 'glyphicon glyphicon-home'></i></button>
-                <button type = 'button' id = 'button3' title = 'team stats' onclick = "document.location = 'FHMNHLstatsteams.html'"><i class = 'glyphicon glyphicon-list'></i></button>
             </div>
         </div>
     </body>

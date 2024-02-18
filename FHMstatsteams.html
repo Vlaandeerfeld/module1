@@ -8,8 +8,8 @@
     </head>
     <body>
         <div id = 'canvas'>
-            <div class = 'dropDownImport' id = 'FHMStatsDropDown' title = 'import'>
-                <button type = "button" class = 'close' onclick = "document.getElementById('FHMStatsDropDown').style.display = 'none'">
+            <div class = 'dropDownImport' id = 'FHMStatsTeamsDropDown' title = 'Import'>
+                <button type = "button" class = 'close' onclick = "document.getElementById('FHMStatsTeamsDropDown').style.display = 'none'">
                     Close
                 </button>
             </div>
@@ -41,38 +41,23 @@
                 <button class = 'filters' type = 'button' onclick=''>Filter</button>
             </div>
             <div id = 'outermostLayer'>
-                <table class = teamsStats id = 'FHMTeamsStats'>
-                    <tr>
-                    <th>LEAGUE</th><th>SEASON</th><th>TEAM NAME</th><th>GP</th><th>W</th><th>L</th><th>OTL</th><th>G</th><th>P</th><th>PCT</th><th>PLACE</th>
-                    </tr>
-                    <tr>
-                        <td>NHL</td><td>2021/2022</td><td>CGY</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <td>NHL</td><td>2021/2022</td><td>CGY</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <td>NHL</td><td>2021/2022</td><td>CGY</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <td>NHL</td><td>2021/2022</td><td>CGY</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <td>NHL</td><td>2021/2022</td><td>CGY</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                </table>
                 <div id = 'mainContent'>
                 </div>
-                <div id = 'bottomLeftMenu'>
-                    <a href = 'index.html' class = 'menuTop' id = 'menuButtonHomeFHMstats'>Home</a>
-                    <button type = 'button' class = 'menuBottom' id = 'menuButtonImportFHMstats' title = 'Import' onclick = "if (document.getElementById('FHMStatsDropDown').style.display == 'block') {document.getElementById('FHMStatsDropDown').style.display = 'none'} else {document.getElementById('FHMStatsDropDown').style.display = 'block'}">
+                <div id = 'navBottom'>
+                    <button type = 'button' class = 'navButton1' id = 'navButtonHomeFHMstatsteams' title = 'Home' onclick = "document.location = 'index.html'">
+                        Home
+                    </button>
+                    <button type = 'button' class = 'navButton2' id = 'navButtonImportFHMstatsteams' title = 'Import' onclick = "if (document.getElementById('FHMStatsTeamsDropDown').style.display == 'block') {document.getElementById('FHMStatsTeamsDropDown').style.display = 'none'} else {document.getElementById('FHMStatsTeamsDropDown').style.display = 'block'}">
                         Import
-                    </button>                
+                    </button>
+                    <button type = 'button' class = 'navButton3' id = 'navButtonMainFHMstatsteams' title = 'Main' onclick = "document.location = 'FHMstats.html'">
+                        Main
+                    </button>
+                    <button type = 'button' class = 'navButton4' id = 'navButtonPlayerStatsFHMstatsteams' title = 'Player Stats' onclick = "document.location = 'FHMstatsplayers.html'">
+                        Player Stats
+                    </button>
                 </div>
-                <button type = 'button' id = 'button1' title = 'home' onclick = "document.location = 'FHMstats.html'"><i class = 'glyphicon glyphicon-home'></i></button>
-                <button type = 'button' id = 'button2' title = 'player stats' onclick = "document.location = 'FHMstatsplayers.html'"><i class = 'glyphicon glyphicon-user'></i></button>
             </div>
         </div>
-
     </body>
 </html>

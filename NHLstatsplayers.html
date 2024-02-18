@@ -8,8 +8,8 @@
     </head>
     <body>
         <div id = 'canvas'>
-            <div class = 'dropDownImport' id = 'NHLStatsDropDown' title = 'import'>
-                <button type = "button" class = 'close' onclick = "document.getElementById('NHLStatsDropDown').style.display = 'none'">
+            <div class = 'dropDownImport' id = 'NHLStatPlayersDropDown' title = 'Import'>
+                <button type = "button" class = 'close' onclick = "document.getElementById('NHLStatsPlayersDropDown').style.display = 'none'">
                     Close
                 </button>
             </div>
@@ -37,36 +37,22 @@
                 <button class = 'filters' type = 'button' onclick=''>Filter</button>
             </div>
             <div id = 'outermostLayer'>
-                <table class = playersStats id = 'NHLPlayerStats'>
-                    <tr>
-                        <th>SEASON</th><th>TEAM</th><th>FIRST/LAST NAME</th><th>GP</th><th>G</th><th>A</th><th>P</th><th>+/-</th><th>SOG</th><th>HITS</th><th>PASSES</th>
-                    </tr>
-                    <tr>
-                        <td>2021/2022</td><td>CGY</td><td>JAROME IGINLA</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <td>2021/2022</td><td>CGY</td><td>JAROME IGINLA</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <td>2021/2022</td><td>CGY</td><td>JAROME IGINLA</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <td>2021/2022</td><td>CGY</td><td>JAROME IGINLA</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <td>2021/2022</td><td>CGY</td><td>JAROME IGINLA</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                </table>
                 <div id = 'mainContent'>
                 </div>
-                <div id = 'bottomLeftMenu'>
-                    <a href = 'index.html' class = 'menuTop' id = 'menuButtonHomeNHLstats'>Home</a>
-                    <button type = 'button' class = 'menuBottom' id = 'menuButtonImportNHLstats' title = 'Import' onclick = "if (document.getElementById('NHLStatsDropDown').style.display == 'block') {document.getElementById('NHLStatsDropDown').style.display = 'none'} else {document.getElementById('NHLStatsDropDown').style.display = 'block'}">
+                <div id = 'navBottom'>
+                    <button type = 'button' class = 'navButton1' id = 'navButtonHomeNHLstatsplayers' title = 'Home' onclick = "document.location = 'index.html'">
+                        Home
+                    </button>
+                    <button type = 'button' class = 'navButton2' id = 'navButtonImportNHLstatsplayers' title = 'Import' onclick = "if (document.getElementById('NHLStatsDropDown').style.display == 'block') {document.getElementById('NHLStatsDropDown').style.display = 'none'} else {document.getElementById('NHLStatsDropDown').style.display = 'block'}">
                         Import
                     </button>                
+                    <button type = 'button' class = 'navButton3' id = navButtonMainNHLstatsplayers title = 'Main' onclick = "document.location = 'NHLstats.html'">
+                        Main
+                    </button>
+                    <button type = 'button' class = 'navButton4' id = navButtonTeamStatsNHLstatsPlayers title = 'Team Stats' onclick = "document.location = 'NHLstatsteams.html'">
+                        Team Stats
+                    </button>
                 </div>
-                <button type = 'button' id = 'button1' title = 'home' onclick = "document.location = 'NHLstats.html'"><i class = 'glyphicon glyphicon-home'></i></button>
-                <button type = 'button' id = 'button3' title = 'team stats' onclick = "document.location = 'NHLstatsteams.html'"><i class = 'glyphicon glyphicon-list'></i></button>
             </div>
         </div>
     </body>

@@ -8,16 +8,15 @@
     </head>
     <body>
         <div id = 'canvas'>
-            <div class = 'dropDownImport' id = 'FHMNHLStatsDropDown' title = 'import'>
-                <button type = "button" class = 'close' onclick = "document.getElementById('FHMNHLStatsDropDown').style.display = 'none'">
+            <div class = 'dropDownImport' id = 'FHMNHLStatsPlayersDropDown' title = 'Import'>
+                <button type = "button" class = 'close' onclick = "document.getElementById('FHMNHLStatsPlayersDropDown').style.display = 'none'">
                     Close
                 </button>
             </div>
             <div id = 'topFilter'>
                 <label for = 'FHMNHLleaguesplayers'>Choose a league:</label>
                 <select class = 'filters' id = 'FHMNHLleaguesplayers' name = 'FHMNHLLeaguesPlayers'>
-                    <option value = 'ALL' selected>ALL</option>
-                    <option value = 'NHL'>Netherton Hockey League</option>
+                    <option value = 'NHL' selected>National Hockey League</option>
                     <option value = 'FIHL'>Flat Ice Hockey League</option>
                     <option value = 'RGHL'>Retro Goon Hockey League</option>
                     <option value = 'NeHL'>Netherton Hockey League</option>
@@ -41,36 +40,22 @@
                 <button class = 'filters' type = 'button' onclick=''>Filter</button>
             </div>
             <div id = 'outermostLayer'>
-                <table class = playersStats id = 'FHMNHLPlayersStats'>
-                    <tr>
-                    <th>LEAGUE</th><th>SEASON</th><th>TEAM</th><th>FIRST/LAST NAME</th><th>GP</th><th>G</th><th>A</th><th>P</th><th>+/-</th><th>SOG</th><th>HITS</th><th>PASSES</th>
-                    </tr>
-                    <tr>
-                        <td>NHL</td><td>2021/2022</td><td>CGY</td><td>JAROME IGINLA</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <td>NHL</td><td>2021/2022</td><td>CGY</td><td>JAROME IGINLA</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <td>NHL</td><td>2021/2022</td><td>CGY</td><td>JAROME IGINLA</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <td>NHL</td><td>2021/2022</td><td>CGY</td><td>JAROME IGINLA</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <td>NHL</td><td>2021/2022</td><td>CGY</td><td>JAROME IGINLA</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                </table>
                 <div id = 'mainContent'>
                 </div>
-                <div id = 'bottomLeftMenu'>
-                    <a href = 'index.html' class = 'menuTop' id = 'menuButtonHomeFHMNHLstats'>Home</a>
-                    <button type = 'button' class = 'menuBottom' id = 'menuButtonImportFHMNHLstats' title = 'Import' onclick = "if (document.getElementById('FHMNHLStatsDropDown').style.display == 'block') {document.getElementById('FHMNHLStatsDropDown').style.display = 'none'} else {document.getElementById('FHMNHLStatsDropDown').style.display = 'block'}">
+                <div id = 'navBottom'>
+                    <button type = 'button' class = 'navButton1' id = 'navButtonHomeFHMNHLstatsplayers' title = 'home' onclick = "document.location = 'index.html'">
+                        Home
+                    </button>
+                    <button type = 'button' class = 'navButton2' id = 'navButtonImportFHMNHLstatsplayers' title = 'Import' onclick = "if (document.getElementById('FHMNHLStatsPlayersDropDown').style.display == 'block') {document.getElementById('FHMNHLStatsPlayersDropDown').style.display = 'none'} else {document.getElementById('FHMNHLStatsPlayersDropDown').style.display = 'block'}">
                         Import
                     </button>                
+                    <button type = 'button' class = 'navButton3' id = 'navButtonMainFHMNHLstatsplayers' title = 'Main' onclick = "document.location = 'FHMNHLstats.html'">
+                        Main
+                    </button>
+                    <button type = 'button' class = 'navButton4' id = 'navButtonTeamStatsFHMNHLstatsplayers' title = 'Team Stats' onclick = "document.location = 'FHMNHLstatsteams.html'">
+                        Team Stats
+                    </button>
                 </div>
-                <button type = 'button' id = 'button1' title = 'home' onclick = "document.location = 'FHMNHLstats.html'"><i class = 'glyphicon glyphicon-home'></i></button>
-                <button type = 'button' id = 'button3' title = 'team stats' onclick = "document.location = 'FHMNHLstatsteams.html'"><i class = 'glyphicon glyphicon-list'></i></button>
             </div>
         </div>
     </body>

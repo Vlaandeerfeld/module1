@@ -8,8 +8,8 @@
     </head>
     <body>
         <div id = 'canvas'>
-            <div class = 'dropDownImport' id = 'NHLStatsDropDown' title = 'import'>
-                <button type = "button" class = 'close' onclick = "document.getElementById('NHLStatsDropDown').style.display = 'none'">
+            <div class = 'dropDownImport' id = 'NHLStatsTeamsDropDown' title = 'import'>
+                <button type = "button" class = 'close' onclick = "document.getElementById('NHLStatsTeamsDropDown').style.display = 'none'">
                     Close
                 </button>
             </div>
@@ -37,36 +37,22 @@
                 <button class = 'filters' type = 'button' onclick=''>Filter</button>
             </div>
             <div id = 'outermostLayer'>
-                <table class = teamsStats id = 'NHLTeamsStats'>
-                    <tr>
-                        <th>SEASON</th><th>TEAM NAME</th><th>GP</th><th>W</th><th>L</th><th>OTL</th><th>G</th><th>P</th><th>PCT</th><th>PLACE</th>
-                    </tr>
-                    <tr>
-                        <td>2021/2022</td><td>CGY</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <td>2021/2022</td><td>CGY</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <td>2021/2022</td><td>CGY</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <td>2021/2022</td><td>CGY</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                    <tr>
-                        <td>2021/2022</td><td>CGY</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                    </tr>
-                </table>
                 <div id = 'mainContent'>
                 </div>
-                <div id = 'bottomLeftMenu'>
-                    <a href = 'index.html' class = 'menuTop' id = 'menuButtonHomeNHLstats'>Home</a>
-                    <button type = 'button' class = 'menuBottom' id = 'menuButtonImportNHLstats' title = 'Import' onclick = "if (document.getElementById('NHLStatsDropDown').style.display == 'block') {document.getElementById('NHLStatsDropDown').style.display = 'none'} else {document.getElementById('NHLStatsDropDown').style.display = 'block'}">
+                <div id = 'navBottom'>
+                    <button type = 'button' class = 'navButton1' id = 'navButtonHomeNHLstatsteams' title = 'Home' onclick = "document.location = 'index.html'">
+                        Home
+                    </button>
+                    <button type = 'button' class = 'navButton2' id = 'navButtonImportNHLstatsteams' title = 'Import' onclick = "if (document.getElementById('NHLStatsTeamsDropDown').style.display == 'block') {document.getElementById('NHLStatsTeamsDropDown').style.display = 'none'} else {document.getElementById('NHLStatsTeamsDropDown').style.display = 'block'}">
                         Import
                     </button>                   
+                    <button type = 'button' class = 'navButton3' id = 'navButtonMainNHLstatsteams' title = 'Main' onclick = "document.location = 'NHLstats.html'">
+                        Main
+                    </button>
+                    <button type = 'button' class = 'navButton4' id = 'navButtonPlayerStatsNHLstatsteams' title = 'Player Stats' onclick = "document.location = 'NHLstatsplayers.html'">
+                        Player Stats
+                    </button>
                 </div>
-                <button type = 'button' id = 'button1' title = 'home' onclick = "document.location = 'NHLstats.html'"><i class = 'glyphicon glyphicon-home'></i></button>
-                <button type = 'button' id = 'button3' title = 'player stats' onclick = "document.location = 'NHLstatsplayers.html'"><i class = 'glyphicon glyphicon-user'></i></button>
             </div>
         </div>
     </body>
