@@ -9,7 +9,7 @@ fetch('csvtoupload/Retro Goon League.csv')
         let headers = result.slice(0, result.indexOf("\n")).split(",");
         let rows = result.slice(result.indexOf("\n") + 1).split("\n");
         rows.forEach(value => {
-            headers.forEach.split(",")(value2 => {
+            headers.forEach(value2 => {
                 arrayJSON.push(value2, value);
             });
         });
