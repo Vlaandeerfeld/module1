@@ -1,5 +1,7 @@
 let fs = new FileReader();
 let myJSON = {};
+arrayJSON = new Array();
+
 
 fetch('csvtoupload/Retro Goon League.csv')
     .then(data => data.text())
@@ -9,12 +11,10 @@ fetch('csvtoupload/Retro Goon League.csv')
         let elements = rows.split(",");
         rows.forEach(value => {
             headers.forEach.split(",")(value2 => {
-                myJSON = {
-                    value2: value
-                };
+                arrayJSON.push(value2, value);
             });
         });
-        console.log(myJSON);
+        console.log(arrayJSON.stringify());
     });
 
 
