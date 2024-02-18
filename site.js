@@ -15,5 +15,5 @@ function csvToJSON(csv){
             arrayJSON.push(value2, value);
         });
     });
-    return arrayJSON.stringify();
+    return JSON.stringify(arrayJSON);
 }
