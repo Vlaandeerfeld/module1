@@ -11,7 +11,7 @@ fetch('csvtoupload/Retro Goon League.csv')
 async function csvToJSON(csv){
     arrayJSON = new Array('1', '2');
     row = csv.slice(csv.indexOf("\n") + 1).split("\n");
-    row.slice(",").forEach(value => {
+    row.split(",").forEach(value => {
         csv.slice(0, csv.indexOf("\n")).split(",").forEach(value2 => {
             arrayJSON.push(value2, value);
         });
