@@ -1,4 +1,4 @@
 let fs = new FileReader();
 
-fetch('csvtoupload/"Retro Goon League.csv"')
+fetch('csvtoupload/Retro Goon League.csv')
     .then(data => print(data))
