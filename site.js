@@ -12,7 +12,7 @@ fetch('csvtoupload/Retro Goon League.csv')
             });
         });
     })
-    .then(furthermore => console.log(furthermore.stringify()));
+    .then(furthermore => console.log(arrayJSON.stringify()));
 
 
 
