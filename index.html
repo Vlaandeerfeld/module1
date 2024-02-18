@@ -27,19 +27,25 @@
                 Franchise Hockey Manager is a series produced by out of the park development studio.
                 This site will display stats from Franchise Hockey Manager, NHL or both to be compared.
                 Select a link below to continue to the appropriate section.</p>
-                <a href = 'aboutme.html' class = 'homeButton' id = 'aboutmeButton'>click to learn more about me</a>
             </div>
             <div class = 'pageLogo' id = 'mainPageLogo'>
             </div>
-            <a href = 'FHMstats.html' class = pageNavigation id = 'mainPageFHMStats'>
-                Click to go to Franchise Hockey Manager Stats
-            </a>
-            <a href = 'FHMNHLstats.html' class = pageNavigation id = 'mainPageMixedStats'>
-                Click to go to comparision of FHM and NHL stats
-            </a>
-            <a href = 'NHLstats.html' class = pageNavigation id = 'mainPageNHLStats'>
-                Click to go to National Hockey League Stats
-            </a>
+            <div id = 'mainContent'>
+            </div>
+            <div class = 'navBottom'>
+                <button type = 'button' class = navButton1 id = 'aboutmeHome' title = 'About Me' onclick = "document.location = 'aboutme.html'">
+                    About Me
+                </button>
+                <button type = 'button' class = navButton2 id = 'FHMstatsHome' title = 'FHM Stats' onclick = "document.location = 'FHMstats.html'">
+                    Franchise Hockey Manager Stats
+                </button>
+                <button type = 'button' class = navButton3 id = 'FHMNHLstatsHome' title = 'FHMNHL Stats' onclick = "document.location = 'FHMNHLstats.html'">
+                    FHM NHL Comparison Stats
+                </button>
+                <button type = 'button' class = navButton4 id = 'NHLstatsHome' title = 'NHL Stats' onclick = "document.location = 'NHLstats.html'">
+                    National Hockey League Stats
+                </button>
+            </div>
         </div>
     </body>
 </html>

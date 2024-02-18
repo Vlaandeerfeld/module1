@@ -8,7 +8,7 @@
     </head>
     <body>
         <div id = 'canvas'>
-            <div class = 'dropDownImport' id = 'NHLStatPlayersDropDown' title = 'Import'>
+            <div class = 'dropDownImport' id = 'NHLStatsPlayersDropDown' title = 'Import'>
                 <button type = "button" class = 'close' onclick = "document.getElementById('NHLStatsPlayersDropDown').style.display = 'none'">
                     Close
                 </button>
@@ -16,7 +16,7 @@
             <div id = 'topFilter'>
                 <label for = 'NHLleaguesplayers'>Choose a league:</label>
                 <select class = 'filters' id = 'NHLleaguesplayers' name = 'NHLLeaguesPlayers'>
-                    <option value = 'NHL' selected>NHL</option>
+                    <option value = 'NHL' selected>Netherton Hockey League</option>
                 </select>
                 <label for = 'NHLteamsplayers'>Choose a team:</label>
                 <select class = 'filters' id = 'NHLteamsplayers' name = 'NHLTeamsPlayers'>
@@ -39,11 +39,11 @@
             <div id = 'outermostLayer'>
                 <div id = 'mainContent'>
                 </div>
-                <div id = 'navBottom'>
+                <div class = 'navBottom'>
                     <button type = 'button' class = 'navButton1' id = 'navButtonHomeNHLstatsplayers' title = 'Home' onclick = "document.location = 'index.html'">
                         Home
                     </button>
-                    <button type = 'button' class = 'navButton2' id = 'navButtonImportNHLstatsplayers' title = 'Import' onclick = "if (document.getElementById('NHLStatsDropDown').style.display == 'block') {document.getElementById('NHLStatsDropDown').style.display = 'none'} else {document.getElementById('NHLStatsDropDown').style.display = 'block'}">
+                    <button type = 'button' class = 'navButton2' id = 'navButtonImportNHLstatsplayers' title = 'Import' onclick = "if (document.getElementById('NHLStatsPlayersDropDown').style.display == 'block') {document.getElementById('NHLStatsPlayersDropDown').style.display = 'none'} else {document.getElementById('NHLStatsPlayersDropDown').style.display = 'block'}">
                         Import
                     </button>                
                     <button type = 'button' class = 'navButton3' id = navButtonMainNHLstatsplayers title = 'Main' onclick = "document.location = 'NHLstats.html'">

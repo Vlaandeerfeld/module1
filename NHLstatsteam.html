@@ -8,7 +8,7 @@
     </head>
     <body>
         <div id = 'canvas'>
-            <div class = 'dropDownImport' id = 'NHLStatsTeamDropDown' title = 'import'>
+            <div class = 'dropDownImport' id = 'NHLStatsTeamDropDown' title = 'Import'>
                 <button type = "button" class = 'close' onclick = "document.getElementById('NHLStatsTeamDropDown').style.display = 'none'">
                     Close
                 </button>
@@ -18,11 +18,11 @@
                 </div>
                 <div id = 'mainContent'>
                 </div>
-                <div id = 'navBottom'>
+                <div class = 'navBottom'>
                     <button type = 'button' class = 'navButton1' id = 'navButtonHomeNHLstatsteam' title = 'Home' onclick = "document.location = 'index.html'">
                         Home
                     </button>w
-                    <button type = 'button' class = 'navButton2' id = 'navButtonImportNHLstatsteam' title = 'Import' onclick = "if (document.getElementById('NHLStatsDropDown').style.display == 'block') {document.getElementById('NHLStatsDropDown').style.display = 'none'} else {document.getElementById('NHLStatsDropDown').style.display = 'block'}">
+                    <button type = 'button' class = 'navButton2' id = 'navButtonImportNHLstatsteam' title = 'Import' onclick = "if (document.getElementById('NHLStatsTeamDropDown').style.display == 'block') {document.getElementById('NHLStatsTeamDropDown').style.display = 'none'} else {document.getElementById('NHLStatsTeamDropDown').style.display = 'block'}">
                         Import
                     </button>
                     <button type = 'button' class = 'navButton3' id = 'navButtonMainNHLstatsteam' title = 'Main' onclick = "document.location = 'NHLstats.html'">

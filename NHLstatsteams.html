@@ -8,7 +8,7 @@
     </head>
     <body>
         <div id = 'canvas'>
-            <div class = 'dropDownImport' id = 'NHLStatsTeamsDropDown' title = 'import'>
+            <div class = 'dropDownImport' id = 'NHLStatsTeamsDropDown' title = 'Import'>
                 <button type = "button" class = 'close' onclick = "document.getElementById('NHLStatsTeamsDropDown').style.display = 'none'">
                     Close
                 </button>
@@ -16,7 +16,7 @@
             <div id = 'topFilter'>
                 <label for = 'NHLleaguesteams'>Choose a league:</label>
                 <select class = 'filters' id = 'NHLleaguesteams' name = 'NHLLeaguesTeams'>
-                    <option value = 'NHL' selected>NHL</option>
+                    <option value = 'NHL' selected>Netherton Hockey League</option>
                 </select>
                 <label for = 'NHLteamsteams'>Choose a team:</label>
                 <select class = 'filters' id = 'NHLteamsteams' name = 'NHLTeamsTeams'>
@@ -39,7 +39,7 @@
             <div id = 'outermostLayer'>
                 <div id = 'mainContent'>
                 </div>
-                <div id = 'navBottom'>
+                <div class = 'navBottom'>
                     <button type = 'button' class = 'navButton1' id = 'navButtonHomeNHLstatsteams' title = 'Home' onclick = "document.location = 'index.html'">
                         Home
                     </button>
