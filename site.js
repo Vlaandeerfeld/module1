@@ -3,7 +3,7 @@ let league;
 
 fetch('csvtoupload/Retro Goon League.csv')
     .then(data => data.text())
-    .then(result => result.json())
+    .then(result => JSON.parse(result))
     .then(furthermore => console.log(furthermore))
 
 
