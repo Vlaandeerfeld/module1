@@ -8,9 +8,9 @@ fetch('csvtoupload/Retro Goon League.csv')
     .then(result => {csvToJSON(result)})
     .then(furthermore => console.log(furthermore));
 
-function csvToJSON(csv){
+async function csvToJSON(csv){
     arrayJSON = new Array('1', '2');
-    csv.slice(csv.indexOf("\n") + 1).split("\n").forEach(value => {
+    csv.slice(csv.indexOf("\n") + 1).split("\n").split(",").forEach(value => {
         csv.slice(0, csv.indexOf("\n")).split(",").forEach(value2 => {
             arrayJSON.push(value2, value);
         });
