@@ -801,7 +801,8 @@
     }
     #outermostLayer{
         position: relative;
-        height: auto;
+        height: 80vh;
+        background-color: aqua;
         width: 100%;
         display: block;
         float: left;
@@ -915,5 +916,8 @@
         width: 100%;
         left: 0px;
         top: 0%;
+    }
+    #teamTablesOverview{
+        z-index: 20;
     }
 }
