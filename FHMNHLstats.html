@@ -34,9 +34,13 @@
                     <option value = '2023/2024'>2023/2024</option>
                     <option value = '2024/2025'>2024/2025</option>
                 </select>
-                <button class = 'filters' type = 'button' onclick=''>Filter</button>
+                <button class = 'filters' type = 'button' onclick='teamTablesOverview()'>Filter</button>
             </div>
             <div id = 'outermostLayer'>
+                <div id = 'outermostLayer'>
+                    <table id = 'teamTablesOverview'>
+                    </table>
+                </div>
             </div>
             <div class = 'navBottom'>
                 <button type = 'button' class = 'navButton1' id = 'navButtonHomeFHMNHLstats' title = 'Home' onclick = "document.location = 'index.html'">

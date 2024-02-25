@@ -113,6 +113,8 @@
     #outermostLayer{
         position: relative;
         height: auto;
+        min-height: 100vh;
+        background-color: aqua;
         width: 100%;
         display: block;
         float: left;
@@ -173,10 +175,28 @@
     .navBottom{
         position: sticky;
         float: left;
-        top: 100vh;
+        bottom: 0;
         width: 100%;
         height: 15%;
-        align-self: flex-end;
+        align-self: flex-start;
+        z-index: 2;
+    }
+    #navBottomMainPage{
+        position: sticky;
+        float: left;
+        top: 95vh;
+        width: 100%;
+        height: 15%;
+        align-self: flex-start;
+        z-index: 2;
+    }
+    #navBottomAboutMe{
+        position: sticky;
+        float: left;
+        top: 95vh;
+        width: 100%;
+        height: 15%;
+        align-self: flex-start;
         z-index: 2;
     }
     .playerPortrait{
@@ -341,6 +361,8 @@
     #outermostLayer{
         position: relative;
         height: auto;
+        min-height: 100vh;
+        background-color: aqua;
         width: 100%;
         display: block;
         float: left;
@@ -401,10 +423,28 @@
     .navBottom{
         position: sticky;
         float: left;
-        top: 100vh;
+        bottom: 0;
         width: 100%;
         height: 15%;
-        align-self: flex-end;
+        align-self: flex-start;
+        z-index: 2;
+    }
+    #navBottomMainPage{
+        position: sticky;
+        float: left;
+        top: 95vh;
+        width: 100%;
+        height: 15%;
+        align-self: flex-start;
+        z-index: 2;
+    }
+    #navBottomAboutMe{
+        position: sticky;
+        float: left;
+        top: 95vh;
+        width: 100%;
+        height: 15%;
+        align-self: flex-start;
         z-index: 2;
     }
     .playerPortrait{
@@ -546,9 +586,7 @@
         height: 100vh;
         width: 100%;
         background-color: black;
-        overflow: auto;
         z-index: 1;
-        display: block;
         align-items: start;
     }
     #topFilter{
@@ -572,6 +610,8 @@
     #outermostLayer{
         position: relative;
         height: auto;
+        min-height: 100vh;
+        background-color: aqua;
         width: 100%;
         display: block;
         float: left;
@@ -628,14 +668,32 @@
         display: block;
         float: left;
         background-color: #e42204;
-    }
+    }    
     .navBottom{
+        position: sticky;
+        float: left;
+        bottom: 0;
+        width: 100%;
+        height: 15%;
+        align-self: flex-start;
+        z-index: 2;
+    }
+    #navBottomMainPage{
         position: sticky;
         float: left;
         top: 100vh;
         width: 100%;
         height: 15%;
-        align-self: flex-end;
+        align-self: flex-start;
+        z-index: 2;
+    }
+    #navBottomAboutMe{
+        position: sticky;
+        float: left;
+        top: 100vh;
+        width: 100%;
+        height: 15%;
+        align-self: flex-start;
         z-index: 2;
     }
     .playerPortrait{
@@ -776,9 +834,7 @@
         height: 100vh;
         width: 100%;
         background-color: black;
-        overflow: auto;
         z-index: 1;
-        display: block;
         align-items: start;
     }
     #topFilter{
@@ -801,7 +857,8 @@
     }
     #outermostLayer{
         position: relative;
-        height: 80vh;
+        height: auto;
+        min-height: 100vh;
         background-color: aqua;
         width: 100%;
         display: block;
@@ -863,10 +920,28 @@
     .navBottom{
         position: sticky;
         float: left;
+        bottom: 0;
+        width: 100%;
+        height: 15%;
+        align-self: flex-start;
+        z-index: 2;
+    }
+    #navBottomMainPage{
+        position: sticky;
+        float: left;
         top: 100vh;
         width: 100%;
         height: 15%;
-        align-self: flex-end;
+        align-self: flex-start;
+        z-index: 2;
+    }
+    #navBottomAboutMe{
+        position: sticky;
+        float: left;
+        top: 100vh;
+        width: 100%;
+        height: 15%;
+        align-self: flex-start;
         z-index: 2;
     }
     .playerPortrait{
@@ -916,8 +991,5 @@
         width: 100%;
         left: 0px;
         top: 0%;
-    }
-    #teamTablesOverview{
-        z-index: 20;
     }
 }

@@ -77,15 +77,19 @@ function parseIntoJSON(fileInput){
     return(JSON.stringify(finalArray));
 }
 
-function teamTablesOverview(){
+function teamTablesOverview(league, season, team){
+	let data = JSON.parse(localStorage['league1']);
     let outputHTML = '';
 	outputHTML += `<tbody>`;
-	outputHTML += `<tr>`;
-	outputHTML += `<th>variant[variant.length - 1][21]</th><th>variant[variant.length - 1][22]</th><th><button type = 'button' id = 'teamPage' onclick = \"setTeam('" + variantToDisplay + "');document.location='variant1.html';\"></button></th>`;
-    outputHTML += `</tr>`;
-	outputHTML += `<tr>`;
-	outputHTML += `<th>Wins</th><th>Losses</th><th>OTL</th>`;
-	outputHTML += `</tr>`;
+	data.forEach(value => {
+		outputHTML += `<tr>`;
+		outputHTML += `<th>Team</th><th>GP</th><th>Wins</th><th>Losses</th><th>OTL</th><th>Points</th><th>PCT</th><th>G</th>`;
+    	outputHTML += `</tr>`;
+		outputHTML += `<tr>`;
+		outputHTML += `<td>` + value.Abbr + `</td><td>` + value.GP + `</td><td>` + value.Wins + `</td><td>` + value.Losses + `</td><td>` + value.OTL + `</td><td>` + value.Points + `</td><td>` + value.PCT + `</td><td>` + value.G + `</td>`;
+		outputHTML += `</tr>`;
+	});
     outputHTML += `</tbody>`;
+
     document.getElementById('teamTablesOverview').innerHTML = outputHTML;
 }
