@@ -3,7 +3,7 @@
     <head>
         <meta name= 'viewport' content = 'height = device-height, width=device-width, initial-scale = 1, minimum-scale = 1'>
         <link rel = 'stylesheet' href = 'module1.css'>
-        <link rel = 'stylesheet' href = 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+        <script src="site.js"></script>
         <title>FHM stats</title>
     </head>
     <body>
@@ -14,18 +14,9 @@
                 </button>
             </div>
             <div id = 'topFilter'>
-                <select class = 'filters' id = 'FHMleaguesstats' name = 'FHMLeaguesStats'>
-                    <option value = 'NHL' selected> National Hockey League</option>
-                    <option value = 'FIHL'>Flat Ice Hockey League</option>
-                    <option value = 'RGHL'>Retro Goon Hockey League</option>
-                    <option value = 'NeHL'>Netherton Hockey League</option>
+                <select class = 'filters' id = 'FHMleaguesstats' name = 'FHMLeaguesStats' onchange = 'teamFilters(this.options[selectedIndex].text)'>
                 </select>
                 <select class = 'filters' id = 'FHMteamsstats' name = 'FHMTeamsStats'>
-                    <option value = 'ALL' selected>ALL</option>
-                    <option value = 'CGY'>Calgary Flames</option>
-                    <option value = 'TOR'>Toronto Maple Leafs</option>
-                    <option value = 'NYR'>New York Rangers</option>
-                    <option value = 'NYI'>New York Islanders</option>
                 </select>
                 <select class = 'filters' id = 'FHMseasonstats' name = 'FHMSeasonStats'>
                     <option value = 'ALL'3 selected>ALL</option>
@@ -58,4 +49,8 @@
             </div>
         </div>
     </body>
+    <script>
+        leagueFilters();
+        document.getElementById("FHMleaguesstats").onchange = teamFilters(console.log(this));
+    </script>
 </html>

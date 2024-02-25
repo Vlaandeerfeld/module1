@@ -879,6 +879,14 @@
         width: 33.33%;
         float: left;
     }
+    table{
+        display: table;
+        margin: 0px;
+        padding: 0px;
+        border-spacing: 0px;
+        width: 100vw;
+        height: auto;
+    }
     td{
         border: 1px solid;
         text-align: center;
