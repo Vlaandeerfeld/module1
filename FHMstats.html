@@ -6,32 +6,29 @@
         <script src="site.js"></script>
         <title>FHM stats</title>
     </head>
-    <body>
+    <body onload = 'teamFilters(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text); seasonFilters(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text);         teamTablesOverview(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text, document.getElementById("FHMseasonstats").options[document.getElementById("FHMseasonstats").options.selectedIndex].text, document.getElementById("FHMteamsstats").options[document.getElementById("FHMteamsstats").options.selectedIndex].text)'>
         <div id = 'canvas'>
             <div class = 'dropDownImport' id = 'FHMStatsDropDown' title = 'Import'>
                 <button type = "button" class = 'close' onclick = "document.getElementById('FHMStatsDropDown').style.display = 'none'">
                     Close
                 </button>
+                <div id = 'CSV'>
+                    <input id = 'CSVfile' name = 'file[]' title = 'CSVfile' type = 'file' accept = '.csv' multiple= 'multiple' />
+                    <button type = 'button' id = 'button' title = 'upload' onclick = 'upload()'>asdjhbasjbh</button>
+                </div>
             </div>
             <div id = 'topFilter'>
-                <select class = 'filters' id = 'FHMleaguesstats' name = 'FHMLeaguesStats' onchange = 'teamFilters(this.options[selectedIndex].text)'>
+                <select class = 'filters' id = 'FHMleaguesstats' name = 'FHMLeaguesStats' onchange = 'teamFilters(this.options[selectedIndex].text); seasonFilters(this.options[selectedIndex].text);'>
                 </select>
                 <select class = 'filters' id = 'FHMteamsstats' name = 'FHMTeamsStats'>
                 </select>
                 <select class = 'filters' id = 'FHMseasonstats' name = 'FHMSeasonStats'>
-                    <option value = 'ALL'3 selected>ALL</option>
-                    <option value = '2021/2022'>2021/2022</option>
-                    <option value = '2022/2023'>2022/2023</option>
-                    <option value = '2023/2024'>2023/2024</option>
-                    <option value = '2024/2025'>2024/2025</option>
                 </select>
-                <button class = 'filters' type = 'button' onclick='teamTablesOverview()'>Filter</button>
+                <button class = 'filters' type = 'button' onclick='teamTablesOverview(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text, document.getElementById("FHMseasonstats").options[document.getElementById("FHMseasonstats").options.selectedIndex].text, document.getElementById("FHMteamsstats").options[document.getElementById("FHMteamsstats").options.selectedIndex].text);'>Filter</button>
             </div>
             <div id = 'outermostLayer'>
-                <div id = 'outermostLayer'>
-                    <table id = 'teamTablesOverview'>
-                    </table>
-                </div>
+                <table id = 'teamTablesOverview'>
+                </table>
             </div>
             <div class = 'navBottom' id = 'navBottomFHMstats'>
                 <button type = 'button' class = 'navButton1' id = 'navButtonHomeFHMstats' title = 'Home' onclick = "document.location = 'index.html'">
@@ -50,7 +47,6 @@
         </div>
     </body>
     <script>
-        leagueFilters();
-        document.getElementById("FHMleaguesstats").onchange = teamFilters(console.log(this));
+        leagueFilters('FHM');
     </script>
 </html>

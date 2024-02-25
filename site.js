@@ -8,22 +8,23 @@ async function upload(){
 	
 		reader.onload = function(){
 			let input2 = reader.result;
-			fileName = input1[x].name.slice(0, input1[x].name.indexOf('.'));
-			checkAndUpload(input2, fileName);
+			fileName = input1[x].name.slice(0, input1[x].name.indexOf('.') - 4);
+			fileDate = input1[x].name.slice(input1[x].name.indexOf('.') - 4, input1[x].name.indexOf('.'));
+			checkAndUpload(input2, fileName, fileDate);
 		}
 	}
     location.reload();
 }
 
-function checkAndUpload(fileInput, league){
+function checkAndUpload(fileInput, league, date){
 
     let arrayBreak = [];
     let continueThrough;
-	console.log(league);
-    JSONparsed = JSON.parse(parseIntoJSON(fileInput, league));
+	console.log(date);
+    JSONparsed = JSON.parse(parseIntoJSON(fileInput, league, date));
 
 	if (localStorage['leagues'] == undefined){
-		localStorage.setItem('leagues', 'example, example2');
+		localStorage.setItem('leagues', 'ALL');
 	}
 
 	leagueCheck = localStorage['leagues'].split(',');
@@ -60,7 +61,7 @@ function checkAndUpload(fileInput, league){
 	FileReader.abort
 }
 
-function parseIntoJSON(fileInput, league){
+function parseIntoJSON(fileInput, league, date){
 
     let finalArray = [];
     let row = fileInput.slice(fileInput.indexOf("\n") + 1).split("\n");
@@ -80,6 +81,7 @@ function parseIntoJSON(fileInput, league){
             count++;
         });
 		obj['League'] = league;
+		obj['Season'] = date;
         finalArray.push(obj);
     });
 
@@ -89,15 +91,18 @@ function parseIntoJSON(fileInput, league){
 function leagueFilters(page){
 	let outputHTML = '';
 	leaguesToFilter = localStorage['leagues'].split(',');	
-	leaguesToFilter.forEach(value => {
-		outputHTML += `<option value = ` + value + `selected>` + value + `</option>`;
+	leaguesToFilter.slice(1).forEach(value => {
+		outputHTML += `<option value = ` + value + `>` + value + `</option>`;
 	})
+
 	document.getElementById('FHMleaguesstats').innerHTML = outputHTML;
 }
 
 function teamFilters(league){
 	let outputHTML = '';
-	outputHTML += `<option value = 'ALL' selected>ALL</option>`;
+
+	outputHTML += `<option value = ` + 'ALL' + `>` + 'ALL' + `</option>`;
+
 	JSON.parse(localStorage[league]).forEach(value => {
 		outputHTML += `<option value = ` + value.Abbr + `>` + value.Abbr + `</option>`;
 	})
@@ -105,25 +110,45 @@ function teamFilters(league){
 	document.getElementById('FHMteamsstats').innerHTML = outputHTML;
 }
 
+function seasonFilters(league){
+	let outputHTML = '';
+	team = JSON.parse(localStorage[league]);
+	
+	outputHTML += `<option value = ` + team[0].Season + `>` + team[0].Season + `</option>`;
+
+	document.getElementById('FHMseasonstats').innerHTML = outputHTML;
+}
 
 function teamTablesOverview(league, season, team){
-	let data = JSON.parse(localStorage['Retro Goon League']);
-    let outputHTML = '';
+	let data = JSON.parse(localStorage[league]);
+    console.log(data);
+	let outputHTML = '';
 	outputHTML += `<tbody>`;
 	outputHTML += `<tr>`;
-	outputHTML += `<th>League</th><th>Team</th><th>GP</th><th>Wins</th><th>Losses</th><th>OTL</th><th>Points</th><th>PCT</th><th>G</th>`;
+	outputHTML += `<th>League</th><th>Team</th><th>GP</th><th>Wins</th><th>Losses</th><th>Ties</th><th>OTL</th><th>Points</th><th>PCT</th><th>G</th>`;
 	outputHTML += `</tr>`;
 	data.forEach(value => {
-		outputHTML += `<tr>`;
-		outputHTML += `<td>` + value.League + `</td><td>` + value.Abbr + `</td><td>` + value.GP + `</td><td>` + value.Wins + `</td><td>` + value.Losses + `</td><td>` + value.OTL + `</td><td>` + value.Points + `</td><td>` + value.PCT + `</td><td>` + value.G + `</td>`;
-		outputHTML += `</tr>`;
+		if (team != 'ALL'){
+			if (value.Season == season && value.Abbr == team){
+				outputHTML += `<tr>`;
+				outputHTML += `<td>` + value.League + `</td><td>` + value.Abbr + `</td><td>` + value.GP_line + `</td><td>` + value.Wins + `</td><td>` + value.Losses + `</td><td>` + value.Ties + `</td><td>` + value.OTL + `</td><td>` + value.Points + `</td><td>` + value.PCT + `</td><td>` + value.G + `</td>`;
+				outputHTML += `</tr>`;
+			}
+		}
+		else{
+			if (value.Season == season){
+				outputHTML += `<tr>`;
+				outputHTML += `<td>` + value.League + `</td><td>` + value.Abbr + `</td><td>` + value.GP_line + `</td><td>` + value.Wins + `</td><td>` + value.Losses + `</td><td>` + value.Ties + `</td><td>` + value.OTL + `</td><td>` + value.Points + `</td><td>` + value.PCT + `</td><td>` + value.G + `</td>`;
+				outputHTML += `</tr>`;
+			}
+		}
 	});
     outputHTML += `</tbody>`;
 
     document.getElementById('teamTablesOverview').innerHTML = outputHTML;
 }
 
-function nhlStatsFilter(){
+function FHMseasonstats(){
 	let data = JSON.parse(localStorage['Retro Goon League']);
     let outputHTML = '';
 	outputHTML += `<tbody>`;
