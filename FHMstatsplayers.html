@@ -6,7 +6,7 @@
         <script src="site.js"></script>
         <title>FHM stats players</title>
     </head>
-    <body onload = 'leagueFilters("FHM"); teamFilters(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text); seasonFilters(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text); teamTablesOverview(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text, document.getElementById("FHMseasonstats").options[document.getElementById("FHMseasonstats").options.selectedIndex].text, document.getElementById("FHMteamsstats").options[document.getElementById("FHMteamsstats").options.selectedIndex].text)'>
+    <body onload = 'leagueFilters("FHM"); teamFilters(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text); seasonFilters(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text); playerTablesFHM(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text, document.getElementById("FHMseasonstats").options[document.getElementById("FHMseasonstats").options.selectedIndex].text, document.getElementById("FHMteamsstats").options[document.getElementById("FHMteamsstats").options.selectedIndex].text)'>
         <div id = 'canvas'>
             <div class = 'dropDownImport' id = 'FHMStatsPlayersDropDown' title = 'import'>
                 <button type = "button" class = 'close' onclick = "document.getElementById('FHMStatsPlayersDropDown').style.display = 'none'">
@@ -24,7 +24,7 @@
                 </select>
                 <select class = 'filters' id = 'FHMseasonstats' name = 'FHMSeasonStats'>
                 </select>
-                <button class = 'filters' type = 'button' onclick='teamTablesOverview(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text, document.getElementById("FHMseasonstats").options[document.getElementById("FHMseasonstats").options.selectedIndex].text, document.getElementById("FHMteamsstats").options[document.getElementById("FHMteamsstats").options.selectedIndex].text);'>Filter</button>
+                <button class = 'filters' type = 'button' onclick='playerTablesFHM(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text, document.getElementById("FHMseasonstats").options[document.getElementById("FHMseasonstats").options.selectedIndex].text, document.getElementById("FHMteamsstats").options[document.getElementById("FHMteamsstats").options.selectedIndex].text);'>Filter</button>
             </div>
             <div id = 'outermostLayer'>
                 <table id = 'teamTablesOverview'>

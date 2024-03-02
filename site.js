@@ -18,7 +18,7 @@ async function upload(){
 
 async function uploadTemplate(){
 
-	let templateLeagues = ['Retro Goon League1980.csv'];
+	let templateLeagues = ['Retro Goon League1980.csv', 'Netherton Hockey League2033.csv'];
 
 	templateLeagues.forEach(files => {
 		let data = fetch('csvtoupload/' + files);
@@ -138,23 +138,16 @@ function teamTablesOverview(league, season, team){
 	let data = JSON.parse(localStorage[league]);
     console.log(data);
 	let outputHTML = '';
-	outputHTML += `<tbody>`;
-	outputHTML += `<tr>`;
-	outputHTML += `<th>League</th><th>Team</th><th>GP</th><th>Wins</th><th>Losses</th><th>Ties</th><th>OTL</th><th>Points</th><th>PCT</th><th>G</th>`;
-	outputHTML += `</tr>`;
+	outputHTML += `<tbody><tr><th onclick = 'sortTable("teamTablesOverview", 0)'>Team</th><th onclick = 'sortTableNum("teamTablesOverview", 1)'>GP</th><th onclick = 'sortTableNum("teamTablesOverview", 2)'>Wins</th><th onclick = 'sortTableNum("teamTablesOverview", 3)'>Losses</th><th onclick = 'sortTableNum("teamTablesOverview", 4)'>Ties</th><th onclick = 'sortTableNum("teamTablesOverview", 5)'>OTL</th><th onclick = 'sortTableNum("teamTablesOverview", 6)'>Points</th><th onclick = 'sortTableNum("teamTablesOverview", 7)'>PCT</th><th onclick = 'sortTableNum("teamTablesOverview", 8)'>G</th></tr>`;
 	data.forEach(value => {
 		if (team != 'ALL'){
 			if (value.Season == season && value.Abbr == team){
-				outputHTML += `<tr>`;
-				outputHTML += `<td>` + value.League + `</td><td>` + value.Abbr + `</td><td>` + value.GP_line + `</td><td>` + value.Wins + `</td><td>` + value.Losses + `</td><td>` + value.Ties + `</td><td>` + value.OTL + `</td><td>` + value.Points + `</td><td>` + value.PCT + `</td><td>` + value.G + `</td>`;
-				outputHTML += `</tr>`;
+				outputHTML += `<tr><td>${value.Abbr}</td><td>${value.GP_line}</td><td>${value.Wins}</td><td>${value.Losses}</td><td>${value.Ties}</td><td>${value.OTL}</td><td>${value.Points}</td><td>${value.PCT}</td><td>${value.G}</td></tr>`;
 			}
 		}
 		else{
 			if (value.Season == season){
-				outputHTML += `<tr>`;
-				outputHTML += `<td>` + value.League + `</td><td>` + value.Abbr + `</td><td>` + value.GP_line + `</td><td>` + value.Wins + `</td><td>` + value.Losses + `</td><td>` + value.Ties + `</td><td>` + value.OTL + `</td><td>` + value.Points + `</td><td>` + value.PCT + `</td><td>` + value.G + `</td>`;
-				outputHTML += `</tr>`;
+				outputHTML += `<tr><td>${value.Abbr}</td><td>${value.GP_line}</td><td>${value.Wins}</td><td>${value.Losses}</td><td>${value.Ties}</td><td>${value.OTL}</td><td>${value.Points}</td><td>${value.PCT}</td><td>${value.G}</td></tr>`;
 			}
 		}
 	});
@@ -163,19 +156,88 @@ function teamTablesOverview(league, season, team){
     document.getElementById('teamTablesOverview').innerHTML = outputHTML;
 }
 
-function FHMseasonstats(){
-	let data = JSON.parse(localStorage['Retro Goon League']);
-    let outputHTML = '';
-	outputHTML += `<tbody>`;
+function playerTablesFHM(league, season, team){
+	let data = JSON.parse(localStorage[league]);
+    console.log(data);
+	let outputHTML = '';
+	outputHTML += `<tbody><tr><th onclick = 'sortTable("teamTablesOverview", 0)'>Team</th><th onclick = 'sortTable("teamTablesOverview", 1)'>First Name</th><th onclick = 'sortTable("teamTablesOverview", 2)'>Last Name</th><th onclick = 'sortTableNum("teamTablesOverview", 3)'>GP</th><th onclick = 'sortTableNum("teamTablesOverview", 4)'>G</th><th onclick = 'sortTableNum("teamTablesOverview", 5)'>A</th><th onclick = 'sortTableNum("teamTablesOverview", 6)'>Points</th><th onclick = 'sortTableNum("teamTablesOverview", 7)'>+/-</th><th onclick = 'sortTableNum("teamTablesOverview", 8)'>PIM</th><th onclick = 'sortTableNum("teamTablesOverview", 9)'>SOG</th><th onclick = 'sortTableNum("teamTablesOverview", 10)'>CF%</th></tr>`;
 	data.forEach(value => {
-		outputHTML += `<tr>`;
-		outputHTML += `<th>Team</th><th>GP</th><th>Wins</th><th>Losses</th><th>OTL</th><th>Points</th><th>PCT</th><th>G</th>`;
-    	outputHTML += `</tr>`;
-		outputHTML += `<tr>`;
-		outputHTML += `<td>` + value.Abbr + `</td><td>` + value.GP + `</td><td>` + value.Wins + `</td><td>` + value.Losses + `</td><td>` + value.OTL + `</td><td>` + value.Points + `</td><td>` + value.PCT + `</td><td>` + value.G + `</td>`;
-		outputHTML += `</tr>`;
+		if (team != 'ALL'){
+			if (value.Season == season && value.Abbr == team){
+				for (let x = 0; x < 21; x++){
+					if (x == 0){
+						outputHTML += `<tr><td>${value.Abbr}</td><td>${value["First Name"]}</td><td>${value["Last Name"]}</td><td>${value.GP}</td><td>${value.G}</td><td>${value.A}</td><td>` + (Number(value["G"]) + Number(value["A"])) + `</td><td>${value[`+/-`]}</td><td>${value.PIM}</td><td>${value.SOG}</td><td>${value[`CF%`]}</td></tr>`;	
+					}
+					else if (value["First Name" + x.toString()] != undefined){
+						outputHTML += `<tr><td>${value.Abbr}</td><td>${value["First Name" + x.toString()]}</td><td>${value["Last Name" + x.toString()]}</td><td>${value["GP" + x.toString()]}</td><td>${value["G" + x.toString()]}</td><td>${value["A" + x.toString()]}</td><td>` + (Number(value["G" + x.toString()]) + Number(value["A" + x.toString()])) + `</td><td>${value[`+/-` + x.toString()]}</td><td>${value["PIM" + x.toString()]}</td><td>${value["SOG" + x.toString()]}</td><td>${value[`CF%` + x.toString()]}</td>`;
+					}
+				}	
+			}
+		}
+		else{
+			if (value.Season == season){
+				for (let x = 0; x < 21; x++){
+					if (x == 0){
+						outputHTML += `<tr><td>${value.Abbr}</td><td>${value["First Name"]}</td><td>${value["Last Name"]}</td><td>${value.GP}</td><td>${value.G}</td><td>${value.A}</td><td>` + (Number(value["G"]) + Number(value["A"])) + `</td><td>${value[`+/-`]}</td><td>${value.PIM}</td><td>${value.SOG}</td><td>${value[`CF%`]}</td></tr>`;	
+					}
+					else if (value["First Name" + x.toString()] != undefined){
+						outputHTML += `<tr><td>${value.Abbr}</td><td>${value["First Name" + x.toString()]}</td><td>${value["Last Name" + x.toString()]}</td><td>${value["GP" + x.toString()]}</td><td>${value["G" + x.toString()]}</td><td>${value["A" + x.toString()]}</td><td>` + (Number(value["G" + x.toString()]) + Number(value["A" + x.toString()])) + `</td><td>${value[`+/-` + x.toString()]}</td><td>${value["PIM" + x.toString()]}</td><td>${value["SOG" + x.toString()]}</td><td>${value[`CF%` + x.toString()]}</td>`;
+					}
+				}
+			}
+		}
 	});
     outputHTML += `</tbody>`;
 
     document.getElementById('teamTablesOverview').innerHTML = outputHTML;
+}
+
+function sortTableNum(tableToSort, column){
+
+	let table, rows, switching, i, x, y, shouldSwitch;
+	table = document.getElementById(tableToSort);
+	table = table.firstChild;
+	switching = true;
+	while (switching) {
+	  switching = false;
+	  rows = table.rows;
+	  for (i = 1; i < (rows.length - 1); i++) {
+		shouldSwitch = false;
+		x = rows[i].getElementsByTagName('td')[column];
+		y = rows[i + 1].getElementsByTagName('td')[column];
+		if (x.innerHTML - y.innerHTML < 0) {
+		  shouldSwitch = true;
+		  break;
+		}
+	  }
+	  if (shouldSwitch) {
+		rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+		switching = true;
+		}
+	}
+}
+
+function sortTable(tableToSort, column){
+
+	let table, rows, switching, i, x, y, shouldSwitch;
+	table = document.getElementById(tableToSort);
+	table = table.firstChild;
+	switching = true;
+	while (switching) {
+	  switching = false;
+	  rows = table.rows;
+	  for (i = 1; i < (rows.length - 1); i++) {
+		shouldSwitch = false;
+		x = rows[i].getElementsByTagName('td')[column];
+		y = rows[i + 1].getElementsByTagName('td')[column];
+		if (x.innerHTML > y.innerHTML) {
+		  shouldSwitch = true;
+		  break;
+		}
+	  }
+	  if (shouldSwitch) {
+		rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+		switching = true;
+		}
+	}
 }

@@ -889,6 +889,11 @@
         text-align: center !important;
         background-color: darkgrey;
     }
+    th:hover{
+        border: 1px solid;
+        text-align: center !important;
+        background-color: rgb(113, 113, 113);
+    }
     .navButton1{
         width: 25%;
         height: 100%;
