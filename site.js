@@ -142,18 +142,31 @@ function teamTablesOverview(league, season, team){
 	data.forEach(value => {
 		if (team != 'ALL'){
 			if (value.Season == season && value.Abbr == team){
-				outputHTML += `<tr><td>${value.Abbr}</td><td>${value.GP_line}</td><td>${value.Wins}</td><td>${value.Losses}</td><td>${value.Ties}</td><td>${value.OTL}</td><td>${value.Points}</td><td>${value.PCT}</td><td>${value.G}</td></tr>`;
+				outputHTML += `<tr><td onclick = 'window.location.href = "FHMstatsteam.html"; ${localStorage["currentLeague"]} = ${league}; 'localStorage["currentTeam"] = ${value.Abbr}'>${value.Abbr}</td><td>${value.GP_RS}</td><td>${value.Wins}</td><td>${value.Losses}</td><td>${value.Ties}</td><td>${value.OTL}</td><td>${value.Points}</td><td>${value.PCT}</td><td>${value.G_RS}</td></tr>`;
 			}
 		}
 		else{
 			if (value.Season == season){
-				outputHTML += `<tr><td>${value.Abbr}</td><td>${value.GP_line}</td><td>${value.Wins}</td><td>${value.Losses}</td><td>${value.Ties}</td><td>${value.OTL}</td><td>${value.Points}</td><td>${value.PCT}</td><td>${value.G}</td></tr>`;
+				outputHTML += `<tr><td onclick = 'window.location.href = "FHMstatsteam.html";' 'localStorage.setItem("currentLeague", league);' 'localStorage["currentTeam"] = ${value.Abbr}'>${value.Abbr}</td><td>${value.GP_RS}</td><td>${value.Wins}</td><td>${value.Losses}</td><td>${value.Ties}</td><td>${value.OTL}</td><td>${value.Points}</td><td>${value.PCT}</td><td>${value.G_RS}</td></tr>`;
 			}
 		}
 	});
     outputHTML += `</tbody>`;
 
     document.getElementById('teamTablesOverview').innerHTML = outputHTML;
+}
+
+function teamStatsFHM(){
+	console.log(localStorage['currentLeague']);
+	console.log(localStorage['currentTeam']);
+	let data = localStorage[localStorage['currentLeague']];
+	let team = localStorage['currentTeam'];
+
+	data.forEach(value => {
+		if (value.Abbr == team){
+			document.getElementById('navButtonHomeFHMstatsteam').style.backgroundColor = value['Primary Color'];
+		}
+	})
 }
 
 function playerTablesFHM(league, season, team){
@@ -166,7 +179,7 @@ function playerTablesFHM(league, season, team){
 			if (value.Season == season && value.Abbr == team){
 				for (let x = 0; x < 21; x++){
 					if (value["First Name" + x.toString()] != undefined){
-						outputHTML += `<tr><td>${value.Abbr}</td><td>${value["First Name" + x.toString()]}</td><td>${value["Last Name" + x.toString()]}</td><td>${value["GP" + x.toString()]}</td><td>${value["G" + x.toString()]}</td><td>${value["A" + x.toString()]}</td><td>` + (Number(value["G" + x.toString()]) + Number(value["A" + x.toString()])) + `</td><td>${value[`+/-` + x.toString()]}</td><td>${value["PIM" + x.toString()]}</td><td>${value["SOG" + x.toString()]}</td><td>${value[`CF%` + x.toString()]}</td>`;
+						outputHTML += `<tr><td>${value.Abbr}</td><td>${value["First Name" + x.toString()]}</td><td>${value["Last Name" + x.toString()]}</td><td>${value["GP" + "_RS" + x.toString()]}</td><td>${value["G" + "_RS" + x.toString()]}</td><td>${value["A" + "_RS" + x.toString()]}</td><td>` + (Number(value["G" + "_RS" + x.toString()]) + Number(value["A" + "_RS" + x.toString()])) + `</td><td>${value[`+/-` + "_RS" + x.toString()]}</td><td>${value["PIM" + "_RS" + x.toString()]}</td><td>${value["SOG" + "_RS" + x.toString()]}</td><td>${value[`CF%` + "_RS" + x.toString()]}</td>`;
 					}
 				}	
 			}
@@ -175,7 +188,7 @@ function playerTablesFHM(league, season, team){
 			if (value.Season == season){
 				for (let x = 0; x < 21; x++){
 					if (value["First Name" + x.toString()] != undefined){
-						outputHTML += `<tr><td>${value.Abbr}</td><td>${value["First Name" + x.toString()]}</td><td>${value["Last Name" + x.toString()]}</td><td>${value["GP" + x.toString()]}</td><td>${value["G" + x.toString()]}</td><td>${value["A" + x.toString()]}</td><td>` + (Number(value["G" + x.toString()]) + Number(value["A" + x.toString()])) + `</td><td>${value[`+/-` + x.toString()]}</td><td>${value["PIM" + x.toString()]}</td><td>${value["SOG" + x.toString()]}</td><td>${value[`CF%` + x.toString()]}</td>`;
+						outputHTML += `<tr><td>${value.Abbr}</td><td>${value["First Name" + x.toString()]}</td><td>${value["Last Name" + x.toString()]}</td><td>${value["GP" + "_RS" + x.toString()]}</td><td>${value["G" + "_RS" + x.toString()]}</td><td>${value["A" + "_RS" + x.toString()]}</td><td>` + (Number(value["G" + "_RS" + x.toString()]) + Number(value["A" + "_RS" + x.toString()])) + `</td><td>${value[`+/-` + "_RS" + x.toString()]}</td><td>${value["PIM" + "_RS" + x.toString()]}</td><td>${value["SOG" + "_RS" + x.toString()]}</td><td>${value[`CF%` + "_RS" + x.toString()]}</td>`;
 					}
 				}
 			}
