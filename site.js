@@ -16,10 +16,25 @@ async function upload(){
     location.reload();
 }
 
+async function uploadTemplate(){
+
+	let templateLeagues = ['Retro Goon League1980.csv'];
+
+	templateLeagues.forEach(files => {
+		let data = fetch('csvtoupload/' + files);
+		let upload = data.text()
+		fileName = files.slice(0, files.indexOf('.') - 4);
+		fileDate = files.slice(files.indexOf('.') - 4, files.indexOf('.'));
+		checkAndUpload(upload, fileName, fileDate);
+	})
+
+	location.reload();
+}
 function checkAndUpload(fileInput, league, date){
 
     let arrayBreak = [];
     let continueThrough;
+	console.log(fileInput);
 	console.log(date);
     JSONparsed = JSON.parse(parseIntoJSON(fileInput, league, date));
 
