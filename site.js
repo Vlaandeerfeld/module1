@@ -165,10 +165,7 @@ function playerTablesFHM(league, season, team){
 		if (team != 'ALL'){
 			if (value.Season == season && value.Abbr == team){
 				for (let x = 0; x < 21; x++){
-					if (x == 0){
-						outputHTML += `<tr><td>${value.Abbr}</td><td>${value["First Name"]}</td><td>${value["Last Name"]}</td><td>${value.GP}</td><td>${value.G}</td><td>${value.A}</td><td>` + (Number(value["G"]) + Number(value["A"])) + `</td><td>${value[`+/-`]}</td><td>${value.PIM}</td><td>${value.SOG}</td><td>${value[`CF%`]}</td></tr>`;	
-					}
-					else if (value["First Name" + x.toString()] != undefined){
+					if (value["First Name" + x.toString()] != undefined){
 						outputHTML += `<tr><td>${value.Abbr}</td><td>${value["First Name" + x.toString()]}</td><td>${value["Last Name" + x.toString()]}</td><td>${value["GP" + x.toString()]}</td><td>${value["G" + x.toString()]}</td><td>${value["A" + x.toString()]}</td><td>` + (Number(value["G" + x.toString()]) + Number(value["A" + x.toString()])) + `</td><td>${value[`+/-` + x.toString()]}</td><td>${value["PIM" + x.toString()]}</td><td>${value["SOG" + x.toString()]}</td><td>${value[`CF%` + x.toString()]}</td>`;
 					}
 				}	
@@ -177,10 +174,7 @@ function playerTablesFHM(league, season, team){
 		else{
 			if (value.Season == season){
 				for (let x = 0; x < 21; x++){
-					if (x == 0){
-						outputHTML += `<tr><td>${value.Abbr}</td><td>${value["First Name"]}</td><td>${value["Last Name"]}</td><td>${value.GP}</td><td>${value.G}</td><td>${value.A}</td><td>` + (Number(value["G"]) + Number(value["A"])) + `</td><td>${value[`+/-`]}</td><td>${value.PIM}</td><td>${value.SOG}</td><td>${value[`CF%`]}</td></tr>`;	
-					}
-					else if (value["First Name" + x.toString()] != undefined){
+					if (value["First Name" + x.toString()] != undefined){
 						outputHTML += `<tr><td>${value.Abbr}</td><td>${value["First Name" + x.toString()]}</td><td>${value["Last Name" + x.toString()]}</td><td>${value["GP" + x.toString()]}</td><td>${value["G" + x.toString()]}</td><td>${value["A" + x.toString()]}</td><td>` + (Number(value["G" + x.toString()]) + Number(value["A" + x.toString()])) + `</td><td>${value[`+/-` + x.toString()]}</td><td>${value["PIM" + x.toString()]}</td><td>${value["SOG" + x.toString()]}</td><td>${value[`CF%` + x.toString()]}</td>`;
 					}
 				}
