@@ -879,6 +879,24 @@
         width: 100vw;
         height: auto;
     }
+    #FHMstatsteamRoster{
+        position: relative;
+        height: 33%;
+        width: 33%;
+        float: left;
+    }
+    #FHMstatsteamRosterStats{
+        position: relative;
+        Height: 67%;
+        width: 33%;
+        float: left;
+    }
+    #FHMstatsteamLinesStats{
+        position: relative;
+        Height: 67%;
+        width: 33%;
+        float: left;
+    }
     td{
         border: 1px solid;
         text-align: center;
@@ -958,12 +976,14 @@
         top: 2.5%;
     }
     .teamLogo{
-        position: absolute;
+        text-align: center;
+        display: block;
+        position: relative;
         background-color: whitesmoke;
         height: 20%;
-        width: 20%;
-        left: 40%;
-        top: 10%;
+        width: 100%;
+        left: 0%;
+        top: 0%;
     }
     .playerStats{
         position: absolute;
