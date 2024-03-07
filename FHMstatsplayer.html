@@ -6,7 +6,7 @@
         <script src="site.js"></script>
         <title>FHM stats player</title>
     </head>
-    <body>
+    <body onload = 'playerStatsFHM()'>
         <div id = 'canvas'>
             <div class = 'dropDownImport' id = 'FHMStatsPlayerDropDown' title = 'Import'>
                 <button type = "button" class = 'close' onclick = "document.getElementById('FHMStatsPlayerDropDown').style.display = 'none'">
@@ -16,6 +16,8 @@
             <div id = 'outermostLayer'>
                 <div class = 'playerPortrait' id = 'FHMPlayerPortrait'>
                 </div>
+                <table id = 'FHMstatsPlayerAttributes'>
+                </table>
             </div>
             <div class = 'navBottom'>
                 <button type = 'button' class = 'navButton1' id = 'navButtonHomeFHMstatsplayer' title = 'Home' onclick = "document.location = 'index.html'">

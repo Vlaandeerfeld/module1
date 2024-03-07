@@ -157,6 +157,47 @@ function teamTablesOverview(league, season, team){
     document.getElementById('teamTablesOverview').innerHTML = outputHTML;
 }
 
+function playerStatsFHM(){
+	console.log(localStorage['currentLeague']);
+	console.log(localStorage['currentTeam']);
+	console.log(localStorage['currentPlayer']);
+	let data = JSON.parse(localStorage[localStorage['currentLeague']]);
+	let team = localStorage['currentTeam'];
+	let player = localStorage['currentPlayer'];
+	let outputHTMLPlayer = '';
+	document.getElementById('FHMPlayerPortrait').innerHTML = localStorage['currentPlayer'];
+
+	outputHTMLPlayer += `<tbody>`;
+	data.forEach(value => {
+		if (value.Abbr == team){
+
+			console.log(value['Primary Color']);
+			console.log(value['Secondary Color']);
+			document.getElementById('FHMPlayerPortrait').style.backgroundColor = value['Secondary Color'];
+			document.getElementById('FHMPlayerPortrait').style.Color = value['Primary Color'];
+			document.getElementById('FHMPlayerPortrait').style.fontSize = '100px';
+
+			for (let x = 0; x < 25; x++){
+				console.log(value['Last Name' + x.toString()]);
+				if (value['Last Name' + x.toString()] == player){
+					outputHTMLPlayer += `
+							<tr><td>Screening</td><td>${value['Screening' + x.toString()]}</td></tr>
+							<tr><td>Getting Open</td><td>${value['Getting Open' + x.toString()]}</td></tr>
+							<tr><td>Passing</td><td>${value['Passing' + x.toString()]}</td></tr>
+							<tr><td>Puck Handling</td><td>${value['Puck Handling' + x.toString()]}</td></tr>
+							<tr><td>Shooting Accuracy</td><td>${value['Shooting Accuracy' + x.toString()]}</td></tr>
+							<tr><td>Shooting Range</td><td>${value['Shooting Range' + x.toString()]}</td></tr>
+							<tr><td>Offensive Read</td><td>${value['Offensive Read' + x.toString()]}</td></tr>
+					`;
+
+				}
+			}
+		}
+	})
+	outputHTMLPlayer += `</tbody>`;
+	document.getElementById('FHMstatsPlayerAttributes').innerHTML = outputHTMLPlayer;
+}
+
 function teamStatsFHM(){
 	console.log(localStorage['currentLeague']);
 	console.log(localStorage['currentTeam']);
@@ -166,9 +207,9 @@ function teamStatsFHM(){
 	let outputHTMLRosterStats = '';
 	let outputHTMLLinesStats = '';
 
-	outputHTMLRoster += `</tbody>`;
-	outputHTMLRosterStats += `</tbody>`;
-	outputHTMLLinesStats += `</tbody>`;
+	outputHTMLRoster += `<tbody>`;
+	outputHTMLRosterStats += `<tbody>`;
+	outputHTMLLinesStats += `<tbody>`;
 	data.forEach(value => {
 		if (value.Abbr == team){
 
@@ -178,13 +219,14 @@ function teamStatsFHM(){
 			document.getElementById('FHMTeamLogo').style.Color = value['Primary Color'];
 			document.getElementById('FHMTeamLogo').style.fontSize = '100px';
 			document.getElementById('FHMTeamLogo').innerHTML = value['Name'] + ' ' + value['Nickname'];
+			let url = `https://assets.nhle.com/logos/nhl/svg/${value.Abbr}_dark.svg`;
 			outputHTMLRoster += `
 					<tr><th>LW</th><th>C</th><th>RW</th></tr>
 					<tr><td>${value['LW1_line']}</td><td>${value['C1_line']}</td><td>${value['RW1_line']}</td></tr>
 					<tr><td>${value['LW2_line']}</td><td>${value['C2_line']}</td><td>${value['RW2_line']}</td></tr>
 					<tr><td>${value['LW3_line']}</td><td>${value['C3_line']}</td><td>${value['RW3_line']}</td></tr>
 					<tr><td>${value['LW4_line']}</td><td>${value['C4_line']}</td><td>${value['RW4_line']}</td></tr>
-					<tr><th>LD</th><th>RD</th><td rowspan="6"><img src = 'https://assets.nhle.com/logos/nhl/svg/ + ${value.Abbr} + _dark.svg'</img></td></tr>
+					<tr><th>LD</th><th>RD</th><td rowspan="6"><img src = ${url}></td></tr>
 					<tr><td>${value['LD1_line']}</td><td>${value['RD1_line']}</td></tr>
 					<tr><td>${value['LD2_line']}</td><td>${value['RD2_line']}</td></tr>
 					<tr><td>${value['LD3_line']}</td><td>${value['RD3_line']}</td></tr>
@@ -192,7 +234,7 @@ function teamStatsFHM(){
 					<tr><td>${value['G1']}</td><td>${value['G2']}</td></tr>
 			`;
 
-			outputHTMLRosterStats += `<tr><th>Name</th><th>DOB</th><th>Age</th><th>Height</th><th>Weight</th><th>Ability</th><th>Potential</th></tr>`;
+			outputHTMLRosterStats += `<tr><th onclick = 'sortTable("FHMstatsteamRosterStats", 0)'>Name</th><th onclick = 'sortTable("FHMstatsteamRosterStats", 1)'>DOB</th><th onclick = 'sortTableNum("FHMstatsteamRosterStats", 2)'>Age</th><th onclick = 'sortTable("FHMstatsteamRosterStats", 3)'>Height</th><th onclick = 'sortTableNum("FHMstatsteamRosterStats", 4)'>Weight</th><th onclick = 'sortTableNum("FHMstatsteamRosterStats", 5)'>Ability</th><th onclick = 'sortTableNum("FHMstatsteamRosterStats", 6)'>Potential</th></tr>`;
 
 			let F1Points = 0;
 			let F2Points = 0;
@@ -207,7 +249,7 @@ function teamStatsFHM(){
 
 				if(value['PlayerId' + count.toString()] != undefined){
 					outputHTMLRosterStats += `
-					<tr><td>${value['First Name' + count.toString()]} ${value['Last Name' + count.toString()]}</td><td>${value['Date Of Birth' + count.toString()]}</td><td>${value.Season - value['Date Of Birth' + count.toString()].slice(0,4)}</td><td>${Math.floor(value['Height' + count.toString()] / 12)}'${value['Height' + count.toString()] % 12}"</td><td>${value['Weight' + count.toString()]}</td><td>${value['Ability' + count.toString()]}</td><td>${value['Potential' + count.toString()]}</td></tr>
+					<tr><td id = ${value['Last Name' + count.toString()]} onclick = 'localStorage.setItem("currentPlayer", document.getElementById("${value['Last Name' + count.toString()]}").id); window.location.href = "FHMstatsplayer.html"'>${value['First Name' + count.toString()]} ${value['Last Name' + count.toString()]}</td><td>${value['Date Of Birth' + count.toString()]}</td><td>${value.Season - value['Date Of Birth' + count.toString()].slice(0,4)}</td><td>${Math.floor(value['Height' + count.toString()] / 12)}'${value['Height' + count.toString()] % 12}"</td><td>${value['Weight' + count.toString()]}</td><td>${value['Ability' + count.toString()]}</td><td>${value['Potential' + count.toString()]}</td></tr>
 					`;
 				}
 				if(value['Last Name' + count.toString()] == value['LW1_line'] || value['Last Name' + count.toString()] == value['C1_line'] || value['Last Name' + count.toString()] == value['RW1_line']){
@@ -265,7 +307,7 @@ function playerTablesFHM(league, season, team){
 			if (value.Season == season && value.Abbr == team){
 				for (let x = 0; x < 21; x++){
 					if (value["First Name" + x.toString()] != undefined){
-						outputHTML += `<tr><td>${value.Abbr}</td><td>${value["First Name" + x.toString()]}</td><td>${value["Last Name" + x.toString()]}</td><td>${value["GP" + "_RS" + x.toString()]}</td><td>${value["G" + "_RS" + x.toString()]}</td><td>${value["A" + "_RS" + x.toString()]}</td><td>` + (Number(value["G" + "_RS" + x.toString()]) + Number(value["A" + "_RS" + x.toString()])) + `</td><td>${value[`+/-` + "_RS" + x.toString()]}</td><td>${value["PIM" + "_RS" + x.toString()]}</td><td>${value["SOG" + "_RS" + x.toString()]}</td><td>${value[`CF%` + "_RS" + x.toString()]}</td>`;
+						outputHTML += `<tr><td id = ${value.Abbr} onclick = 'localStorage["currentLeague"] = document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("FHMteamsstats").options[document.getElementById("FHMteamsstats").options.selectedIndex].text; window.location.href = "FHMstatsteam.html"'>${value.Abbr}</td><td>${value["First Name" + x.toString()]}</td><td id = ${value['Last Name' + x.toString()]} onclick = 'localStorage["currentLeague"] = document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value.Abbr}").innerHTML); localStorage.setItem("currentPlayer", document.getElementById("${value['Last Name' + x.toString()]}").id); window.location.href = "FHMstatsplayer.html"'>${value["Last Name" + x.toString()]}</td><td>${value["GP" + "_RS" + x.toString()]}</td><td>${value["G" + "_RS" + x.toString()]}</td><td>${value["A" + "_RS" + x.toString()]}</td><td>` + (Number(value["G" + "_RS" + x.toString()]) + Number(value["A" + "_RS" + x.toString()])) + `</td><td>${value[`+/-` + "_RS" + x.toString()]}</td><td>${value["PIM" + "_RS" + x.toString()]}</td><td>${value["SOG" + "_RS" + x.toString()]}</td><td>${value[`CF%` + "_RS" + x.toString()]}</td>`;
 					}
 				}	
 			}
@@ -274,7 +316,7 @@ function playerTablesFHM(league, season, team){
 			if (value.Season == season){
 				for (let x = 0; x < 21; x++){
 					if (value["First Name" + x.toString()] != undefined){
-						outputHTML += `<tr><td>${value.Abbr}</td><td>${value["First Name" + x.toString()]}</td><td>${value["Last Name" + x.toString()]}</td><td>${value["GP" + "_RS" + x.toString()]}</td><td>${value["G" + "_RS" + x.toString()]}</td><td>${value["A" + "_RS" + x.toString()]}</td><td>` + (Number(value["G" + "_RS" + x.toString()]) + Number(value["A" + "_RS" + x.toString()])) + `</td><td>${value[`+/-` + "_RS" + x.toString()]}</td><td>${value["PIM" + "_RS" + x.toString()]}</td><td>${value["SOG" + "_RS" + x.toString()]}</td><td>${value[`CF%` + "_RS" + x.toString()]}</td>`;
+						outputHTML += `<tr><td id = ${value.Abbr} onclick = 'localStorage["currentLeague"] = document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value.Abbr}").innerHTML); window.location.href = "FHMstatsteam.html";'>${value.Abbr}</td><td>${value["First Name" + x.toString()]}</td><td id = ${value['Last Name' + x.toString()]} onclick = 'localStorage["currentLeague"] = document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value.Abbr}").innerHTML); localStorage.setItem("currentPlayer", document.getElementById("${value['Last Name' + x.toString()]}").id); window.location.href = "FHMstatsplayer.html"'>${value["Last Name" + x.toString()]}</td><td>${value["GP" + "_RS" + x.toString()]}</td><td>${value["G" + "_RS" + x.toString()]}</td><td>${value["A" + "_RS" + x.toString()]}</td><td>` + (Number(value["G" + "_RS" + x.toString()]) + Number(value["A" + "_RS" + x.toString()])) + `</td><td>${value[`+/-` + "_RS" + x.toString()]}</td><td>${value["PIM" + "_RS" + x.toString()]}</td><td>${value["SOG" + "_RS" + x.toString()]}</td><td>${value[`CF%` + "_RS" + x.toString()]}</td>`;
 					}
 				}
 			}

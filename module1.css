@@ -882,6 +882,8 @@
     #FHMstatsteamRoster{
         position: relative;
         margin-left: 16.5%;
+        margin-top: 2%;
+        margin-bottom: 2%;
         height: 33%;
         width: 33.33%;
         float: left;
@@ -890,6 +892,8 @@
         position: relative;
         margin-left: 16.5%;
         margin-right: 33.33%;
+        margin-top: 2%;
+        margin-bottom: 2%;
         Height: 67%;
         width: 33.33%;
         float: left;
@@ -897,6 +901,8 @@
     #FHMstatsteamLinesStats{
         position: relative;
         margin-right: 16.5%;
+        margin-top: 2%;
+        margin-bottom: 2%;
         Height: 67%;
         width: 33.33%;
         float: left;
