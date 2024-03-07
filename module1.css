@@ -881,20 +881,24 @@
     }
     #FHMstatsteamRoster{
         position: relative;
+        margin-left: 16.5%;
         height: 33%;
-        width: 33%;
+        width: 33.33%;
         float: left;
     }
     #FHMstatsteamRosterStats{
         position: relative;
+        margin-left: 16.5%;
+        margin-right: 33.33%;
         Height: 67%;
-        width: 33%;
+        width: 33.33%;
         float: left;
     }
     #FHMstatsteamLinesStats{
         position: relative;
+        margin-right: 16.5%;
         Height: 67%;
-        width: 33%;
+        width: 33.33%;
         float: left;
     }
     td{

@@ -179,20 +179,20 @@ function teamStatsFHM(){
 			document.getElementById('FHMTeamLogo').style.fontSize = '100px';
 			document.getElementById('FHMTeamLogo').innerHTML = value['Name'] + ' ' + value['Nickname'];
 			outputHTMLRoster += `
-					<tr><th>LW</th><th>C</th><th>RW</th>
-					<tr><th>${value['LW1_line']}</th><th>${value['C1_line']}</th><th>${value['RW1_line']}</th></tr>
-					<tr><th>${value['LW2_line']}</th><th>${value['C2_line']}</th><th>${value['RW2_line']}</th></tr>
-					<tr><th>${value['LW3_line']}</th><th>${value['C3_line']}</th><th>${value['RW3_line']}</th></tr>
-					<tr><th>${value['LW4_line']}</th><th>${value['C4_line']}</th><th>${value['RW4_line']}</th></tr>
-					<tr><th>LD</th><th>RD</th>
-					<tr><th>${value['LD1_line']}</th><th>${value['RD1_line']}</th></tr>
-					<tr><th>${value['LD2_line']}</th><th>${value['RD2_line']}</th></tr>
-					<tr><th>${value['LD3_line']}</th><th>${value['RD3_line']}</th></tr>
+					<tr><th>LW</th><th>C</th><th>RW</th></tr>
+					<tr><td>${value['LW1_line']}</td><td>${value['C1_line']}</td><td>${value['RW1_line']}</td></tr>
+					<tr><td>${value['LW2_line']}</td><td>${value['C2_line']}</td><td>${value['RW2_line']}</td></tr>
+					<tr><td>${value['LW3_line']}</td><td>${value['C3_line']}</td><td>${value['RW3_line']}</td></tr>
+					<tr><td>${value['LW4_line']}</td><td>${value['C4_line']}</td><td>${value['RW4_line']}</td></tr>
+					<tr><th>LD</th><th>RD</th><td rowspan="6"><img src = 'https://assets.nhle.com/logos/nhl/svg/ + ${value.Abbr} + _dark.svg'</img></td></tr>
+					<tr><td>${value['LD1_line']}</td><td>${value['RD1_line']}</td></tr>
+					<tr><td>${value['LD2_line']}</td><td>${value['RD2_line']}</td></tr>
+					<tr><td>${value['LD3_line']}</td><td>${value['RD3_line']}</td></tr>
 					<tr><th>Main</th><th>Backup</th>
-					<tr><th>${value['G1']}</th><th>${value['G2']}</th></tr>
+					<tr><td>${value['G1']}</td><td>${value['G2']}</td></tr>
 			`;
 
-			outputHTMLRosterStats += `<tr><th>Name</th><th>Points</th><th>G/60</th>`;
+			outputHTMLRosterStats += `<tr><th>Name</th><th>DOB</th><th>Age</th><th>Height</th><th>Weight</th><th>Ability</th><th>Potential</th></tr>`;
 
 			let F1Points = 0;
 			let F2Points = 0;
@@ -207,7 +207,7 @@ function teamStatsFHM(){
 
 				if(value['PlayerId' + count.toString()] != undefined){
 					outputHTMLRosterStats += `
-					<tr><td>${value['First Name' + count.toString()]} ${value['Last Name' + count.toString()]}</td><td>` + (Number(value['G_RS' + count.toString()]) + Number(value['A_RS' + count.toString()])) + `</td><td>${value['GF/60_RS' + count.toString()]}</td></tr>
+					<tr><td>${value['First Name' + count.toString()]} ${value['Last Name' + count.toString()]}</td><td>${value['Date Of Birth' + count.toString()]}</td><td>${value.Season - value['Date Of Birth' + count.toString()].slice(0,4)}</td><td>${Math.floor(value['Height' + count.toString()] / 12)}'${value['Height' + count.toString()] % 12}"</td><td>${value['Weight' + count.toString()]}</td><td>${value['Ability' + count.toString()]}</td><td>${value['Potential' + count.toString()]}</td></tr>
 					`;
 				}
 				if(value['Last Name' + count.toString()] == value['LW1_line'] || value['Last Name' + count.toString()] == value['C1_line'] || value['Last Name' + count.toString()] == value['RW1_line']){
@@ -232,20 +232,23 @@ function teamStatsFHM(){
 					D3Points += Number(value['G_RS' + count.toString()]) + Number(value['A_RS' + count.toString()]);
 				}
 			}
+			totalPoints = F1Points + F2Points + F3Points + F4Points + D1Points + D2Points + D3Points;
+
 			outputHTMLLinesStats += `
 					<tr><th>Offense</th><th>Points</th><th>Team%</th></tr>
-					<tr><td>1</td><td>${F1Points}</td></tr>
-					<tr><td>2</td><td>${F2Points}</td></tr>
-					<tr><td>3</td><td>${F3Points}</td></tr>
-					<tr><td>4</td><td>${F4Points}</td></tr>
+					<tr><td>1</td><td>${F1Points}</td><td>` + Math.floor(F1Points / totalPoints * 100) + `%</td></tr>
+					<tr><td>2</td><td>${F2Points}</td><td>` + Math.floor(F2Points / totalPoints * 100) + `%</td></tr>
+					<tr><td>3</td><td>${F3Points}</td><td>` + Math.floor(F3Points / totalPoints * 100) + `%</td></tr>
+					<tr><td>4</td><td>${F4Points}</td><td>` + Math.floor(F4Points / totalPoints * 100) + `%</td></tr>
 					<tr><th>Defense</th><th>Points</th><th>Team%</th></tr>
-					<tr><td>1</td><td>${D1Points}</td></tr>
-					<tr><td>2</td><td>${D2Points}</td></tr>
-					<tr><td>3</td><td>${D3Points}</td></tr>
+					<tr><td>1</td><td>${D1Points}</td><td>` + Math.floor(D1Points / totalPoints * 100) + `%</td></tr>
+					<tr><td>2</td><td>${D2Points}</td><td>` + Math.floor(D2Points / totalPoints * 100) + `%</td></tr>
+					<tr><td>3</td><td>${D3Points}</td><td>` + Math.floor(D3Points / totalPoints * 100) + `%</td></tr>
 					`
 		}
 		outputHTMLRoster += `</tbody>`;
 		outputHTMLRosterStats += `</tbody>`;
+		outputHTMLLinesStats += `<tbody>`;
 		document.getElementById('FHMstatsteamRoster').innerHTML = outputHTMLRoster;
 		document.getElementById('FHMstatsteamRosterStats').innerHTML = outputHTMLRosterStats;
 		document.getElementById('FHMstatsteamLinesStats').innerHTML = outputHTMLLinesStats;
