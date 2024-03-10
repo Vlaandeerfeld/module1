@@ -158,16 +158,30 @@ function teamTablesOverview(league, season, team){
 }
 
 function playerStatsFHM(){
-	console.log(localStorage['currentLeague']);
-	console.log(localStorage['currentTeam']);
-	console.log(localStorage['currentPlayer']);
+
 	let data = JSON.parse(localStorage[localStorage['currentLeague']]);
 	let team = localStorage['currentTeam'];
 	let player = localStorage['currentPlayer'];
-	let outputHTMLPlayer = '';
-	document.getElementById('FHMPlayerPortrait').innerHTML = localStorage['currentPlayer'];
 
-	outputHTMLPlayer += `<tbody>`;
+	let outputHTMLPlayerDefense = '';
+	let outputHTMLPlayerOffense = '';
+	let outputHTMLPlayerMental = '';
+	let outputHTMLPlayerPhysical = '';
+	let outputHTMLPlayerAbility = '';
+	let outputHTMLPlayerPotential = '';
+	let outputHTMLPlayerAge = '';
+	let outputHTMLPlayerRoles = '';
+	let outputHTMLPlayerName = '';
+
+	outputHTMLPlayerOffense += `<tbody>`;
+	outputHTMLPlayerDefense += `<tbody>`;
+	outputHTMLPlayerMental += `<tbody>`;
+	outputHTMLPlayerPhysical += `<tbody>`;
+	outputHTMLPlayerAbility += `<tbody>`;
+	outputHTMLPlayerPotential += `<tbody>`;
+	outputHTMLPlayerAge += `<tbody>`;
+	outputHTMLPlayerRoles += `<tbody>`;
+
 	data.forEach(value => {
 		if (value.Abbr == team){
 
@@ -180,7 +194,10 @@ function playerStatsFHM(){
 			for (let x = 0; x < 25; x++){
 				console.log(value['Last Name' + x.toString()]);
 				if (value['Last Name' + x.toString()] == player){
-					outputHTMLPlayer += `
+
+					outputHTMLPlayerName += `${value['First Name' + x.toString()]} ${value['Last Name' + x.toString()]}`;
+
+					outputHTMLPlayerOffense += `
 							<tr><td>Screening</td><td>${value['Screening' + x.toString()]}</td></tr>
 							<tr><td>Getting Open</td><td>${value['Getting Open' + x.toString()]}</td></tr>
 							<tr><td>Passing</td><td>${value['Passing' + x.toString()]}</td></tr>
@@ -190,12 +207,74 @@ function playerStatsFHM(){
 							<tr><td>Offensive Read</td><td>${value['Offensive Read' + x.toString()]}</td></tr>
 					`;
 
+					outputHTMLPlayerDefense += `
+							<tr><td>Checking</td><td>${value['Checking' + x.toString()]}</td></tr>
+							<tr><td>Faceoffs</td><td>${value['Faceoffs' + x.toString()]}</td></tr>
+							<tr><td>Hitting</td><td>${value['Hitting' + x.toString()]}</td></tr>
+							<tr><td>Positioning</td><td>${value['Positioning' + x.toString()]}</td></tr>
+							<tr><td>Shot Blocking</td><td>${value['Shot Blocking' + x.toString()]}</td></tr>
+							<tr><td>Stick Checking</td><td>${value['Stickchecking' + x.toString()]}</td></tr>
+							<tr><td>Defensive Read</td><td>${value['Defensive Read' + x.toString()]}</td></tr>
+					`;
+
+					outputHTMLPlayerMental += `
+							<tr><td>Aggression</td><td>${value['Aggression' + x.toString()]}</td></tr>
+							<tr><td>Bravery</td><td>${value['Bravery' + x.toString()]}</td></tr>
+							<tr><td>Determination</td><td>${value['Determination' + x.toString()]}</td></tr>
+							<tr><td>Teamplayer</td><td>${value['Teamplayer' + x.toString()]}</td></tr>
+							<tr><td>Leadership</td><td>${value['Leadership' + x.toString()]}</td></tr>
+							<tr><td>Temperament</td><td>${value['Temperament' + x.toString()]}</td></tr>
+							<tr><td>Professionalism</td><td>${value['Professionalism' + x.toString()]}</td></tr>
+					`;
+				
+					outputHTMLPlayerPhysical += `
+							<tr><td>Acceleration</td><td>${value['Acceleration' + x.toString()]}</td></tr>
+							<tr><td>Agility</td><td>${value['Agility' + x.toString()]}</td></tr>
+							<tr><td>Balance</td><td>${value['Balance' + x.toString()]}</td></tr>
+							<tr><td>Speed</td><td>${value['Speed' + x.toString()]}</td></tr>
+							<tr><td>Stamina</td><td>${value['Stamina' + x.toString()]}</td></tr>
+							<tr><td>Strength</td><td>${value['Strength' + x.toString()]}</td></tr>
+							<tr><td>Fighting</td><td>${value['Fighting' + x.toString()]}</td></tr>
+					`;
+					outputHTMLPlayerAbility += `
+							<tr><td>Ability</td><td>${value['Ability' + x.toString()]}</td></tr>
+					`;
+					outputHTMLPlayerPotential += `
+							<tr><td>Potential</td><td>${value['Potential' + x.toString()]}</td></tr>
+					`;
+					outputHTMLPlayerAge += `
+							<tr><td>Age</td><td>${value.Season - value['Date Of Birth' + x.toString()].slice(0,4)}</td></tr>
+					`;
+					outputHTMLPlayerRoles += `
+							<tr><td>C</td><td>${value['C' + x.toString()]}</td></tr>
+							<tr><td>LW</td><td>${value['LW' + x.toString()]}</td></tr>
+							<tr><td>RW</td><td>${value['RW' + x.toString()]}</td></tr>
+							<tr><td>LD</td><td>${value['LD' + x.toString()]}</td></tr>
+							<tr><td>RD</td><td>${value['RD' + x.toString()]}</td></tr>
+					`;
 				}
 			}
 		}
 	})
-	outputHTMLPlayer += `</tbody>`;
-	document.getElementById('FHMstatsPlayerAttributes').innerHTML = outputHTMLPlayer;
+	outputHTMLPlayerOffense += `</tbody>`;
+	outputHTMLPlayerDefense += `</tbody>`;
+	outputHTMLPlayerMental += `</tbody>`;
+	outputHTMLPlayerPhysical += `</tbody>`;
+	outputHTMLPlayerAbility += `</tbody>`;
+	outputHTMLPlayerPotential += `</tbody>`;
+	outputHTMLPlayerAge += `</tbody>`;
+	outputHTMLPlayerRoles += `</tbody>`;
+
+	document.getElementById('FHMstatsPlayerAttributesOffense').innerHTML = outputHTMLPlayerOffense;
+	document.getElementById('FHMstatsPlayerAttributesDefense').innerHTML = outputHTMLPlayerDefense;
+	document.getElementById('FHMstatsPlayerAttributesMental').innerHTML = outputHTMLPlayerMental;
+	document.getElementById('FHMstatsPlayerAttributesPhysical').innerHTML = outputHTMLPlayerPhysical;
+	document.getElementById('FHMstatsPlayerAbility').innerHTML = outputHTMLPlayerAbility;
+	document.getElementById('FHMstatsPlayerPotential').innerHTML = outputHTMLPlayerPotential;
+	document.getElementById('FHMstatsPlayerAge').innerHTML = outputHTMLPlayerAge;
+	document.getElementById('FHMstatsPlayerRoles').innerHTML = outputHTMLPlayerRoles;
+	document.getElementById('FHMPlayerPortrait').innerHTML = outputHTMLPlayerName;
+
 }
 
 function teamStatsFHM(){
@@ -249,7 +328,7 @@ function teamStatsFHM(){
 
 				if(value['PlayerId' + count.toString()] != undefined){
 					outputHTMLRosterStats += `
-					<tr><td id = ${value['Last Name' + count.toString()]} onclick = 'localStorage.setItem("currentPlayer", document.getElementById("${value['Last Name' + count.toString()]}").id); window.location.href = "FHMstatsplayer.html"'>${value['First Name' + count.toString()]} ${value['Last Name' + count.toString()]}</td><td>${value['Date Of Birth' + count.toString()]}</td><td>${value.Season - value['Date Of Birth' + count.toString()].slice(0,4)}</td><td>${Math.floor(value['Height' + count.toString()] / 12)}'${value['Height' + count.toString()] % 12}"</td><td>${value['Weight' + count.toString()]}</td><td>${value['Ability' + count.toString()]}</td><td>${value['Potential' + count.toString()]}</td></tr>
+					<tr><td id = '${value['Last Name' + count.toString()]}' onclick = 'localStorage.setItem("currentPlayer", document.getElementById("${value['Last Name' + count.toString()]}").id); window.location.href = "FHMstatsplayer.html"'>${value['First Name' + count.toString()]} ${value['Last Name' + count.toString()]}</td><td>${value['Date Of Birth' + count.toString()]}</td><td>${value.Season - value['Date Of Birth' + count.toString()].slice(0,4)}</td><td>${Math.floor(value['Height' + count.toString()] / 12)}'${value['Height' + count.toString()] % 12}"</td><td>${value['Weight' + count.toString()]}</td><td>${value['Ability' + count.toString()]}</td><td>${value['Potential' + count.toString()]}</td></tr>
 					`;
 				}
 				if(value['Last Name' + count.toString()] == value['LW1_line'] || value['Last Name' + count.toString()] == value['C1_line'] || value['Last Name' + count.toString()] == value['RW1_line']){

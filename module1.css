@@ -979,11 +979,13 @@
     }
     .playerPortrait{
         position: relative;
+        display: block;
         background-color: whitesmoke;
         height: 40%;
-        width: 20%;
-        left: 40%;
+        width: 60%;
+        left: 20%;
         top: 2.5%;
+        text-align: center;
     }
     .teamLogo{
         text-align: center;
@@ -1026,5 +1028,64 @@
         width: 100%;
         left: 0px;
         top: 0%;
+    }
+    .PlayerAttributes{
+        position: relative;
+        height: 45%;
+        width: 45%;
+        float: left;
+        margin: 2.5%;
+    }
+    .PlayerAttributesDiv{
+        position: relative;
+        height: 50%;
+        width: 50%;
+        top: 10%;
+        margin-left: 25%;
+        margin-right: 25%;
+    }
+    .PlayerAbilityPotentialDiv{
+        position: relative;
+        height: 50%;
+        width: 50%;
+        top: 10%;
+        margin-left: 25%;
+        margin-right: 25%;
+    }
+    .PlayerAbility{
+        position: relative;
+        height: 45%;
+        width: 45%;
+        float: left;
+        margin: 2.5%;
+    }
+    .PlayerPotential{
+        position: relative;
+        height: 45%;
+        width: 45%;
+        float: left;
+        margin: 2.5%;
+    }
+    .PlayerIdentDiv{
+        position: relative;
+        height: 50%;
+        width: 50%;
+        top: 10%;
+        margin-left: 25%;
+        margin-right: 25%;
+    }
+    .PlayerAge{
+        position: relative;
+        height: 45%;
+        width: 95%;
+        float: left;
+        margin: 2.5%;
+    }
+    .PlayerRoles{
+        position: relative;
+        height: 45%;
+        width: 45%;
+        float: left;
+        margin: 2.5%;
     }
 }
