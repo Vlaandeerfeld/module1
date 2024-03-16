@@ -187,9 +187,11 @@ function playerStatsFHM(){
 
 			console.log(value['Primary Color']);
 			console.log(value['Secondary Color']);
-			document.getElementById('FHMPlayerPortrait').style.backgroundColor = value['Secondary Color'];
-			document.getElementById('FHMPlayerPortrait').style.Color = value['Primary Color'];
-			document.getElementById('FHMPlayerPortrait').style.fontSize = '100px';
+
+				document.getElementById('FHMPlayerPortrait').style.backgroundColor = value['Secondary Color'];
+				document.getElementById('FHMPlayerPortrait').style.color = value['Primary Color'];
+				document.getElementById('FHMPlayerPortrait').style.fontSize = '100px';
+			
 
 			for (let x = 0; x < 25; x++){
 				console.log(value['Last Name' + x.toString()]);
@@ -295,9 +297,10 @@ function teamStatsFHM(){
 			console.log(value['Primary Color']);
 			console.log(value['Secondary Color']);
 			document.getElementById('FHMTeamLogo').style.backgroundColor = value['Secondary Color'];
-			document.getElementById('FHMTeamLogo').style.Color = value['Primary Color'];
+			document.getElementById('FHMTeamLogo').style.color = value['Primary Color'];
 			document.getElementById('FHMTeamLogo').style.fontSize = '100px';
 			document.getElementById('FHMTeamLogo').innerHTML = value['Name'] + ' ' + value['Nickname'];
+
 			let url = `https://assets.nhle.com/logos/nhl/svg/${value.Abbr}_dark.svg`;
 			outputHTMLRoster += `
 					<tr><th>LW</th><th>C</th><th>RW</th></tr>
