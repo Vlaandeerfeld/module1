@@ -24,7 +24,7 @@
                 </select>
                 <select class = 'filters' id = 'NHLseasonstats' name = 'NHLSeasonStats'>
                 </select>
-                <button class = 'filters' type = 'button' onclick='teamTablesOverview(document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text);'>Filter</button>
+                <button class = 'filters' type = 'button' onclick='teamTablesOverview(document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text);'>Filter</button>
             </div>
             <div id = 'outermostLayer'>
                 <table id = 'teamTablesOverview'>
