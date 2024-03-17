@@ -3,10 +3,10 @@
     <head>
         <meta name= 'viewport' content = 'width=device-width, initial-scale = 1'>
         <link rel = 'stylesheet' href = 'module1.css'>
-        <link rel = 'stylesheet' href = 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+        <script src="NHL.js"></script>
         <title>NHL stats player</title>
     </head>
-    <body>
+    <body onload = 'playerStatsNHL()'>
         <div id = 'canvas'>
             <div class = 'dropDownImport' id = 'NHLStatsPlayerDropDown' title = 'Import'>
                 <button type = "button" class = 'close' onclick = "document.getElementById('NHLStatsPlayerDropDown').style.display = 'none'">
@@ -14,8 +14,12 @@
                 </button>
             </div>
             <div id = 'outermostLayer'>
+                <div class = 'playerName' id = 'NHLPlayerName'>
+                </div>
                 <div class = 'playerPortrait' id = 'NHLPlayerPortrait'>
                 </div>
+                <table class = 'PlayerStats' id = 'NHLstatsPlayer'>
+                </table>
             </div>
             <div class = 'navBottom' id = 'navBottomNHLstatsplayer'>
                 <button type = 'button' class = 'navButton1' id = 'navButtonHomeNHLstatsplayer' title = 'Home' onclick = "document.location = 'index.html'">

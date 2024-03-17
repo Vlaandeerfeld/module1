@@ -188,9 +188,9 @@ function playerStatsFHM(){
 			console.log(value['Primary Color']);
 			console.log(value['Secondary Color']);
 
-				document.getElementById('FHMPlayerPortrait').style.backgroundColor = value['Secondary Color'];
-				document.getElementById('FHMPlayerPortrait').style.color = value['Primary Color'];
-				document.getElementById('FHMPlayerPortrait').style.fontSize = '100px';
+				document.getElementById('FHMPlayerName').style.backgroundColor = value['Secondary Color'];
+				document.getElementById('FHMPlayerName').style.color = value['Primary Color'];
+				document.getElementById('FHMPlayerName').style.fontSize = '100px';
 			
 
 			for (let x = 0; x < 25; x++){
@@ -275,7 +275,7 @@ function playerStatsFHM(){
 	document.getElementById('FHMstatsPlayerPotential').innerHTML = outputHTMLPlayerPotential;
 	document.getElementById('FHMstatsPlayerAge').innerHTML = outputHTMLPlayerAge;
 	document.getElementById('FHMstatsPlayerRoles').innerHTML = outputHTMLPlayerRoles;
-	document.getElementById('FHMPlayerPortrait').innerHTML = outputHTMLPlayerName;
+	document.getElementById('FHMPlayerName').innerHTML = outputHTMLPlayerName;
 
 }
 
@@ -312,7 +312,7 @@ function teamStatsFHM(){
 					<tr><td>${value['LD1_line']}</td><td>${value['RD1_line']}</td></tr>
 					<tr><td>${value['LD2_line']}</td><td>${value['RD2_line']}</td></tr>
 					<tr><td>${value['LD3_line']}</td><td>${value['RD3_line']}</td></tr>
-					<tr><th>Main</th><th>Backup</th>
+					<tr><th>Main</th><th>Backup</th></tr>
 					<tr><td>${value['G1']}</td><td>${value['G2']}</td></tr>
 			`;
 

@@ -102,126 +102,81 @@ async function teamTablesOverview(team){
 	}
 }
 
-function playerStatsNHL(){
+async function playerStatsNHL(){
 
-	let data = JSON.parse(localStorage[localStorage['currentLeague']]);
 	let team = localStorage['currentTeam'];
 	let player = localStorage['currentPlayer'];
+	let playerStats = await getPlayerStats();
 
-	let outputHTMLPlayerDefense = '';
-	let outputHTMLPlayerOffense = '';
-	let outputHTMLPlayerMental = '';
-	let outputHTMLPlayerPhysical = '';
-	let outputHTMLPlayerAbility = '';
-	let outputHTMLPlayerPotential = '';
-	let outputHTMLPlayerAge = '';
-	let outputHTMLPlayerRoles = '';
-	let outputHTMLPlayerName = '';
-
-	outputHTMLPlayerOffense += `<tbody>`;
-	outputHTMLPlayerDefense += `<tbody>`;
-	outputHTMLPlayerMental += `<tbody>`;
-	outputHTMLPlayerPhysical += `<tbody>`;
-	outputHTMLPlayerAbility += `<tbody>`;
-	outputHTMLPlayerPotential += `<tbody>`;
-	outputHTMLPlayerAge += `<tbody>`;
-	outputHTMLPlayerRoles += `<tbody>`;
-
-	data.forEach(value => {
-		if (value.Abbr == team){
-
-			console.log(value['Primary Color']);
-			console.log(value['Secondary Color']);
-
-				document.getElementById('FHMPlayerPortrait').style.backgroundColor = value['Secondary Color'];
-				document.getElementById('FHMPlayerPortrait').style.color = value['Primary Color'];
-				document.getElementById('FHMPlayerPortrait').style.fontSize = '100px';
-			
-
-			for (let x = 0; x < 25; x++){
-				console.log(value['Last Name' + x.toString()]);
-				if (value['Last Name' + x.toString()] == player){
-
-					outputHTMLPlayerName += `${value['First Name' + x.toString()]} ${value['Last Name' + x.toString()]}`;
-
-					outputHTMLPlayerOffense += `
-							<tr><td>Screening</td><td>${value['Screening' + x.toString()]}</td></tr>
-							<tr><td>Getting Open</td><td>${value['Getting Open' + x.toString()]}</td></tr>
-							<tr><td>Passing</td><td>${value['Passing' + x.toString()]}</td></tr>
-							<tr><td>Puck Handling</td><td>${value['Puck Handling' + x.toString()]}</td></tr>
-							<tr><td>Shooting Accuracy</td><td>${value['Shooting Accuracy' + x.toString()]}</td></tr>
-							<tr><td>Shooting Range</td><td>${value['Shooting Range' + x.toString()]}</td></tr>
-							<tr><td>Offensive Read</td><td>${value['Offensive Read' + x.toString()]}</td></tr>
-					`;
-
-					outputHTMLPlayerDefense += `
-							<tr><td>Checking</td><td>${value['Checking' + x.toString()]}</td></tr>
-							<tr><td>Faceoffs</td><td>${value['Faceoffs' + x.toString()]}</td></tr>
-							<tr><td>Hitting</td><td>${value['Hitting' + x.toString()]}</td></tr>
-							<tr><td>Positioning</td><td>${value['Positioning' + x.toString()]}</td></tr>
-							<tr><td>Shot Blocking</td><td>${value['Shot Blocking' + x.toString()]}</td></tr>
-							<tr><td>Stick Checking</td><td>${value['Stickchecking' + x.toString()]}</td></tr>
-							<tr><td>Defensive Read</td><td>${value['Defensive Read' + x.toString()]}</td></tr>
-					`;
-
-					outputHTMLPlayerMental += `
-							<tr><td>Aggression</td><td>${value['Aggression' + x.toString()]}</td></tr>
-							<tr><td>Bravery</td><td>${value['Bravery' + x.toString()]}</td></tr>
-							<tr><td>Determination</td><td>${value['Determination' + x.toString()]}</td></tr>
-							<tr><td>Teamplayer</td><td>${value['Teamplayer' + x.toString()]}</td></tr>
-							<tr><td>Leadership</td><td>${value['Leadership' + x.toString()]}</td></tr>
-							<tr><td>Temperament</td><td>${value['Temperament' + x.toString()]}</td></tr>
-							<tr><td>Professionalism</td><td>${value['Professionalism' + x.toString()]}</td></tr>
-					`;
-				
-					outputHTMLPlayerPhysical += `
-							<tr><td>Acceleration</td><td>${value['Acceleration' + x.toString()]}</td></tr>
-							<tr><td>Agility</td><td>${value['Agility' + x.toString()]}</td></tr>
-							<tr><td>Balance</td><td>${value['Balance' + x.toString()]}</td></tr>
-							<tr><td>Speed</td><td>${value['Speed' + x.toString()]}</td></tr>
-							<tr><td>Stamina</td><td>${value['Stamina' + x.toString()]}</td></tr>
-							<tr><td>Strength</td><td>${value['Strength' + x.toString()]}</td></tr>
-							<tr><td>Fighting</td><td>${value['Fighting' + x.toString()]}</td></tr>
-					`;
-					outputHTMLPlayerAbility += `
-							<tr><td>Ability</td><td>${value['Ability' + x.toString()]}</td></tr>
-					`;
-					outputHTMLPlayerPotential += `
-							<tr><td>Potential</td><td>${value['Potential' + x.toString()]}</td></tr>
-					`;
-					outputHTMLPlayerAge += `
-							<tr><td>Age</td><td>${value.Season - value['Date Of Birth' + x.toString()].slice(0,4)}</td></tr>
-					`;
-					outputHTMLPlayerRoles += `
-							<tr><td>C</td><td>${value['C' + x.toString()]}</td></tr>
-							<tr><td>LW</td><td>${value['LW' + x.toString()]}</td></tr>
-							<tr><td>RW</td><td>${value['RW' + x.toString()]}</td></tr>
-							<tr><td>LD</td><td>${value['LD' + x.toString()]}</td></tr>
-							<tr><td>RD</td><td>${value['RD' + x.toString()]}</td></tr>
-					`;
-				}
-			}
-		}
+	console.log(player);
+	console.log(playerStats.Name);
+	const arrayPlayerStats = playerStats.find(info => {
+		return info.Name === player;
 	})
-	outputHTMLPlayerOffense += `</tbody>`;
-	outputHTMLPlayerDefense += `</tbody>`;
-	outputHTMLPlayerMental += `</tbody>`;
-	outputHTMLPlayerPhysical += `</tbody>`;
-	outputHTMLPlayerAbility += `</tbody>`;
-	outputHTMLPlayerPotential += `</tbody>`;
-	outputHTMLPlayerAge += `</tbody>`;
-	outputHTMLPlayerRoles += `</tbody>`;
 
-	document.getElementById('FHMstatsPlayerAttributesOffense').innerHTML = outputHTMLPlayerOffense;
-	document.getElementById('FHMstatsPlayerAttributesDefense').innerHTML = outputHTMLPlayerDefense;
-	document.getElementById('FHMstatsPlayerAttributesMental').innerHTML = outputHTMLPlayerMental;
-	document.getElementById('FHMstatsPlayerAttributesPhysical').innerHTML = outputHTMLPlayerPhysical;
-	document.getElementById('FHMstatsPlayerAbility').innerHTML = outputHTMLPlayerAbility;
-	document.getElementById('FHMstatsPlayerPotential').innerHTML = outputHTMLPlayerPotential;
-	document.getElementById('FHMstatsPlayerAge').innerHTML = outputHTMLPlayerAge;
-	document.getElementById('FHMstatsPlayerRoles').innerHTML = outputHTMLPlayerRoles;
-	document.getElementById('FHMPlayerPortrait').innerHTML = outputHTMLPlayerName;
+	console.log(arrayPlayerStats);
 
+	async function getPlayerStats(){
+		return await getAPI(`https://hockey1.p.rapidapi.com/v1/nhl/teams-stats?teamAbbrev=${team}`)
+			.then(value => {
+				console.log(value);
+				const newArray = value.body.skaters.map(info => {
+					return {
+						playerId: info.playerId,
+						headshot: info.headshot,
+						Name: `${info.firstName.default} ${info.lastName.default}`,
+						GP: info.gamesPlayed,
+						Goals: info.goals,
+						Assists: info.assists,
+						Points: info.points,
+						PlusMinus: info.plusMinus,
+						PIM: info.penaltyMinutes,
+						PPG: info.powerPlayGoals,
+						SHG: info.shorthandedGoals,
+						GWG: info.gameWinningGoals,
+						OTG: info.overtimeGoals,
+						Shots: info.shots,
+						ShotPer: info.shootingPctg,
+						FOPer: info.faceoffWinPctg,
+					}
+				})
+			return newArray;
+		})
+	}
+
+	let outputHTMLPlayer = '';
+	let outputHTMLPlayerName = '';
+	let outputHTMLPlayerPortrait = '';
+	outputHTMLPlayer += `<tbody>`;
+	outputHTMLPlayerName += `<tbody>`;
+
+	outputHTMLPlayerName += `${playerStats[0].Name}`;
+
+	document.getElementById('NHLPlayerName').style.fontSize = '100px';
+
+	outputHTMLPlayer += `
+			<tr><th>GP</th><td>${arrayPlayerStats.GP}</td></tr>
+			<tr><th>Goals</th><td>${arrayPlayerStats.Goals}</td></tr>
+			<tr><th>Assists</th><td>${arrayPlayerStats.Assists}</td></tr>
+			<tr><th>Points</th><td>${arrayPlayerStats.Points}</td></tr>
+			<tr><th>PlusMinus</th><td>${arrayPlayerStats.PlusMinus}</td></tr>
+			<tr><th>PIM</td><td>${arrayPlayerStats.PIM}</td></tr>
+			<tr><th>PPG</td><td>${arrayPlayerStats.PPG}</td></tr>
+			<tr><th>SHG</td><td>${arrayPlayerStats.SHG}</td></tr>
+			<tr><th>GWG</td><td>${arrayPlayerStats.GWG}</td></tr>
+			<tr><th>OT Goals</th><td>${arrayPlayerStats.OTG}</td></tr>
+			<tr><th>Shots</th><td>${arrayPlayerStats.Shots}</td></tr>
+			<tr><th>Shots%</th><td>${arrayPlayerStats.ShotPer}</td></tr>
+			<tr><th>FO%</th><td>${arrayPlayerStats.FOPer}</td></tr>
+		`;
+
+	let url = arrayPlayerStats.headshot;
+	
+	outputHTMLPlayerPortrait += `<img src = ${url}></img>`;
+	
+	document.getElementById('NHLstatsPlayer').innerHTML = outputHTMLPlayer;
+	document.getElementById('NHLPlayerName').innerHTML = outputHTMLPlayerName;
+	document.getElementById('NHLPlayerPortrait').innerHTML = outputHTMLPlayerPortrait;
 }
 
 
@@ -232,9 +187,11 @@ async function teamStatsNHL(){
 
     let teamStats = await getTeamStats();
 	let teamRoster = await getTeamRoster();
+	let teamInfo = await getTeamInfo();
 
 	console.log(teamRoster);
 	console.log(teamStats);
+	console.log(teamInfo);
 
 	const combinedArray = teamStats.map(info => ({
 		...info,
@@ -243,6 +200,15 @@ async function teamStatsNHL(){
 		}),
 	}))
 
+	async function getTeamInfo(){
+		return await getAPI(`https://hockey1.p.rapidapi.com/v1/nhl/teams`)
+			.then(value => {
+				return value.body.find((info) => {
+						return info.abbrev === team	
+				})			
+		})
+	}
+
 	async function getTeamStats(){
 		return await getAPI(`https://hockey1.p.rapidapi.com/v1/nhl/teams-stats?teamAbbrev=${team}`)
 			.then(value => {
@@ -250,11 +216,19 @@ async function teamStatsNHL(){
 				const newArraySkaters = value.body.skaters.map(info => {
 					return {
 						playerId: info.playerId,
-						points: info.points,	
+						points: info.points,
+						TOI: info.avgTimeOnIcePerGame,	
+					}
+				})
+				const newArrayGoalies = value.body.goalies.map(info => {
+					return {
+						playerId: info.playerId,
+						points: info.points,
+						TOI: info.avgTimeOnIcePerGame,	
 					}
 				})
 				console.log(newArraySkaters);
-				return newArraySkaters;
+				return newArraySkaters.concat(newArrayGoalies);		
 			})
 	}
 
@@ -308,6 +282,9 @@ async function teamStatsNHL(){
 	let LW = [];
 	let RW = [];
 	let C = [];
+	let LD = [];
+	let RD = [];
+	let G = [];
 	let F1Points = 0;
 	let F2Points = 0;
 	let F3Points = 0;
@@ -315,6 +292,11 @@ async function teamStatsNHL(){
 	let D1Points = 0;
 	let D2Points = 0;
 	let D3Points = 0;
+	let LWCount = 1;
+	let RWCount = 1;
+	let CCount = 1;
+	let LDCount = 1;
+	let RDCount = 1;
 	let outputHTMLLinesStats = '';
 
 	outputHTMLRoster += `
@@ -325,22 +307,13 @@ async function teamStatsNHL(){
 	outputHTMLLinesStats += `<tbody>`;
 	outputHTMLRosterStats += `<tr><th onclick = 'sortTable("NHLstatsteamRosterStats", 0)'>Name</th><th onclick = 'sortTable("NHLstatsteamRosterStats", 1)'>DOB</th><th onclick = 'sortTableNum("NHLstatsteamRosterStats", 2)'>Age</th><th onclick = 'sortTable("NHLstatsteamRosterStats", 3)'>Height</th><th onclick = 'sortTableNum("NHLstatsteamRosterStats", 4)'>Weight</th></tr>`;
 
+	document.getElementById('NHLTeamLogo').style.fontSize = '100px';
+	document.getElementById('NHLTeamLogo').innerHTML = teamInfo.name.default;
+
+	let url = teamInfo.darkLogo;
+
 	combinedArray.sort(compareNumbers).reverse().forEach(value => {
-		/*if (value.Abbr == team){
 
-			console.log(value['Primary Color']);
-			console.log(value['Secondary Color']);
-			document.getElementById('FHMTeamLogo').style.backgroundColor = value['Secondary Color'];
-			document.getElementById('FHMTeamLogo').style.color = value['Primary Color'];
-			document.getElementById('FHMTeamLogo').style.fontSize = '100px';
-			document.getElementById('FHMTeamLogo').innerHTML = value['Name'] + ' ' + value['Nickname'];
-
-			let url = `https://assets.nhle.com/logos/nhl/svg/${value.Abbr}_dark.svg`;
-		*/	
-
-		let LWCount = 1;
-		let RWCount = 1;
-		let CCount = 1;
 		if(value.position == 'L'){
 			if(LWCount == 1){
 				F1Points += value.points;
@@ -354,7 +327,7 @@ async function teamStatsNHL(){
 			if(LWCount == 4){
 				F4Points += value.points;
 			}
-			LWCount += 1
+			LWCount += 1;
 			LW.push(value.name);
 		}
 		else if(value.position =='C'){
@@ -370,7 +343,7 @@ async function teamStatsNHL(){
 			if(CCount == 4){
 				F4Points += value.points;
 			}
-			CCount += 1
+			CCount += 1;
 			C.push(value.name);
 		}
 		else if(value.position =='R'){
@@ -386,43 +359,44 @@ async function teamStatsNHL(){
 			if(RWCount == 4){
 				F4Points += value.points;
 			}
-			RWCount += 1
+			RWCount += 1;
 			RW.push(value.name);
 		}
-
-/*
-
-			for(let count = 0; count <= 25; count++){
-*/
+		else if(value.position =='D' && value.hand == 'R'){
+			if(LDCount == 1){
+				D1Points += value.points;
+			}
+			if(LDCount == 2){
+				D2Points += value.points;
+			}
+			if(LDCount == 3){
+				D3Points += value.points;
+			}
+			LDCount += 1;
+			LD.push(value.name);
+		}
+		else if(value.position =='D' && value.hand == 'L'){
+			if(RDCount == 1){
+				D1Points += value.points;
+			}
+			if(RDCount == 2){
+				D2Points += value.points;
+			}
+			if(RDCount == 3){
+				D3Points += value.points;
+			}
+			RDCount += 1;
+			RD.push(value.name);
+		}
+		else if(value.position == 'G'){
+			G.push(value.name);
+		}
 
 			outputHTMLRosterStats += `
 				<tr><td id = '${value.name}' onclick = 'localStorage.setItem("currentPlayer", document.getElementById("${value.name}").id); window.location.href = "NHLstatsplayer.html"'>${value.name}</td><td>${value.DOB}</td><td>${2023 - value.DOB.slice(0,4)}</td><td>${Math.floor(value.height / 12)}'${value.height % 12}"</td><td>${value.weight}</td></tr>
 			`;
-/*				if(value['Last Name' + count.toString()] == value['LW1_line'] || value['Last Name' + count.toString()] == value['C1_line'] || value['Last Name' + count.toString()] == value['RW1_line']){
-					F1Points += Number(value['G_RS' + count.toString()]) + Number(value['A_RS' + count.toString()]);
-				}
-				if(value['Last Name' + count.toString()] == value['LW2_line'] || value['Last Name' + count.toString()] == value['C2_line'] || value['Last Name' + count.toString()] == value['RW2_line']){
-					F2Points += Number(value['G_RS' + count.toString()]) + Number(value['A_RS' + count.toString()]);
-				}
-				if(value['Last Name' + count.toString()] == value['LW3_line'] || value['Last Name' + count.toString()] == value['C3_line'] || value['Last Name' + count.toString()] == value['RW3_line']){
-					F3Points += Number(value['G_RS' + count.toString()]) + Number(value['A_RS' + count.toString()]);
-				}
-				if(value['Last Name' + count.toString()] == value['LW4_line'] || value['Last Name' + count.toString()] == value['C4_line'] || value['Last Name' + count.toString()] == value['RW4_line']){
-					F4Points += Number(value['G_RS' + count.toString()]) + Number(value['A_RS' + count.toString()]);
-				}
-				if(value['Last Name' + count.toString()] == value['LD1_line'] || value['Last Name' + count.toString()] == value['RD1_line']){
-					D1Points += Number(value['G_RS' + count.toString()]) + Number(value['A_RS' + count.toString()]);
-				}
-				if(value['Last Name' + count.toString()] == value['LD2_line'] || value['Last Name' + count.toString()] == value['RD2_line']){
-					D2Points += Number(value['G_RS' + count.toString()]) + Number(value['A_RS' + count.toString()]);
-				}
-				if(value['Last Name' + count.toString()] == value['LD3_line'] || value['Last Name' + count.toString()] == value['RD3_line']){
-					D3Points += Number(value['G_RS' + count.toString()]) + Number(value['A_RS' + count.toString()]);
-				}
-			}
-
-*/		
 		})
+
 		totalPoints = F1Points + F2Points + F3Points + F4Points + D1Points + D2Points + D3Points;
 
 		outputHTMLLinesStats += `
@@ -442,6 +416,12 @@ async function teamStatsNHL(){
 				<tr><td>${LW[1]}</td><td>${C[1]}</td><td>${RW[1]}</td></tr>
 				<tr><td>${LW[2]}</td><td>${C[2]}</td><td>${RW[2]}</td></tr>
 				<tr><td>${LW[3]}</td><td>${C[3]}</td><td>${RW[3]}</td></tr>
+				<tr><th>LD</th><th>RD</th><td rowspan="6"><img src = ${url}></td></tr>
+				<tr><td>${LD[0]}</td><td>${RD[0]}</td></tr>
+				<tr><td>${LD[1]}</td><td>${RD[1]}</td></tr>
+				<tr><td>${LD[2]}</td><td>${RD[2]}</td></tr>
+				<tr><th>Main</th><th>Backup</th></tr>
+				<tr><td>${G[0]}</td><td>${G[1]}</td></tr>
 				</tbody>
 		`;
 		outputHTMLRosterStats += `</tbody>`;
@@ -452,5 +432,5 @@ async function teamStatsNHL(){
 }
 
 function compareNumbers(a, b) {
-	return a.points - b.points;
+	return a.TOI - b.TOI;
   }
