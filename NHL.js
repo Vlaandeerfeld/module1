@@ -236,11 +236,12 @@ async function teamStatsNHL(){
 	console.log(teamRoster);
 	console.log(teamStats);
 
-	const combinedArray = teamStats.map(info => {
-		return teamRoster.find((element) => {
-			return element.playerId === info.playerId;
-		})
-	});
+	const combinedArray = teamStats.map(info => ({
+		...info,
+		...teamRoster.find((element) => {
+			return element.playerId === info.playerId
+		}),
+	}))
 
 	async function getTeamStats(){
 		return await getAPI(`https://hockey1.p.rapidapi.com/v1/nhl/teams-stats?teamAbbrev=${team}`)
@@ -307,14 +308,21 @@ async function teamStatsNHL(){
 	let LW = [];
 	let RW = [];
 	let C = [];
-//	let outputHTMLLinesStats = '';
+	let F1Points = 0;
+	let F2Points = 0;
+	let F3Points = 0;
+	let F4Points = 0;
+	let D1Points = 0;
+	let D2Points = 0;
+	let D3Points = 0;
+	let outputHTMLLinesStats = '';
 
 	outputHTMLRoster += `
 			<tbody>
 			<tr><th>LW</th><th>C</th><th>RW</th></tr>
 `;
 	outputHTMLRosterStats += `<tbody>`;
-//	outputHTMLLinesStats += `<tbody>`;
+	outputHTMLLinesStats += `<tbody>`;
 	outputHTMLRosterStats += `<tr><th onclick = 'sortTable("NHLstatsteamRosterStats", 0)'>Name</th><th onclick = 'sortTable("NHLstatsteamRosterStats", 1)'>DOB</th><th onclick = 'sortTableNum("NHLstatsteamRosterStats", 2)'>Age</th><th onclick = 'sortTable("NHLstatsteamRosterStats", 3)'>Height</th><th onclick = 'sortTableNum("NHLstatsteamRosterStats", 4)'>Weight</th></tr>`;
 
 	combinedArray.sort(compareNumbers).reverse().forEach(value => {
@@ -329,24 +337,60 @@ async function teamStatsNHL(){
 
 			let url = `https://assets.nhle.com/logos/nhl/svg/${value.Abbr}_dark.svg`;
 		*/	
+
+		let LWCount = 1;
+		let RWCount = 1;
+		let CCount = 1;
 		if(value.position == 'L'){
+			if(LWCount == 1){
+				F1Points += value.points;
+			}
+			if(LWCount == 2){
+				F2Points += value.points;
+			}
+			if(LWCount == 3){
+				F3Points += value.points;
+			}
+			if(LWCount == 4){
+				F4Points += value.points;
+			}
+			LWCount += 1
 			LW.push(value.name);
 		}
 		else if(value.position =='C'){
+			if(CCount == 1){
+				F1Points += value.points;
+			}
+			if(CCount == 2){
+				F2Points += value.points;
+			}
+			if(CCount == 3){
+				F3Points += value.points;
+			}
+			if(CCount == 4){
+				F4Points += value.points;
+			}
+			CCount += 1
 			C.push(value.name);
 		}
 		else if(value.position =='R'){
+			if(RWCount == 1){
+				F1Points += value.points;
+			}
+			if(RWCount == 2){
+				F2Points += value.points;
+			}
+			if(RWCount == 3){
+				F3Points += value.points;
+			}
+			if(RWCount == 4){
+				F4Points += value.points;
+			}
+			RWCount += 1
 			RW.push(value.name);
 		}
 
 /*
-			let F1Points = 0;
-			let F2Points = 0;
-			let F3Points = 0;
-			let F4Points = 0;
-			let D1Points = 0;
-			let D2Points = 0;
-			let D3Points = 0;
 
 			for(let count = 0; count <= 25; count++){
 */
@@ -376,21 +420,23 @@ async function teamStatsNHL(){
 					D3Points += Number(value['G_RS' + count.toString()]) + Number(value['A_RS' + count.toString()]);
 				}
 			}
-			totalPoints = F1Points + F2Points + F3Points + F4Points + D1Points + D2Points + D3Points;
 
-			outputHTMLLinesStats += `
-					<tr><th>Offense</th><th>Points</th><th>Team%</th></tr>
-					<tr><td>1</td><td>${F1Points}</td><td>` + Math.floor(F1Points / totalPoints * 100) + `%</td></tr>
-					<tr><td>2</td><td>${F2Points}</td><td>` + Math.floor(F2Points / totalPoints * 100) + `%</td></tr>
-					<tr><td>3</td><td>${F3Points}</td><td>` + Math.floor(F3Points / totalPoints * 100) + `%</td></tr>
-					<tr><td>4</td><td>${F4Points}</td><td>` + Math.floor(F4Points / totalPoints * 100) + `%</td></tr>
-					<tr><th>Defense</th><th>Points</th><th>Team%</th></tr>
-					<tr><td>1</td><td>${D1Points}</td><td>` + Math.floor(D1Points / totalPoints * 100) + `%</td></tr>
-					<tr><td>2</td><td>${D2Points}</td><td>` + Math.floor(D2Points / totalPoints * 100) + `%</td></tr>
-					<tr><td>3</td><td>${D3Points}</td><td>` + Math.floor(D3Points / totalPoints * 100) + `%</td></tr>
-					`
+*/		
 		})
-	*/	})
+		totalPoints = F1Points + F2Points + F3Points + F4Points + D1Points + D2Points + D3Points;
+
+		outputHTMLLinesStats += `
+				<tr><th>Offense</th><th>Points</th><th>Team%</th></tr>
+				<tr><td>1</td><td>${F1Points}</td><td>` + Math.floor(F1Points / totalPoints * 100) + `%</td></tr>
+				<tr><td>2</td><td>${F2Points}</td><td>` + Math.floor(F2Points / totalPoints * 100) + `%</td></tr>
+				<tr><td>3</td><td>${F3Points}</td><td>` + Math.floor(F3Points / totalPoints * 100) + `%</td></tr>
+				<tr><td>4</td><td>${F4Points}</td><td>` + Math.floor(F4Points / totalPoints * 100) + `%</td></tr>
+				<tr><th>Defense</th><th>Points</th><th>Team%</th></tr>
+				<tr><td>1</td><td>${D1Points}</td><td>` + Math.floor(D1Points / totalPoints * 100) + `%</td></tr>
+				<tr><td>2</td><td>${D2Points}</td><td>` + Math.floor(D2Points / totalPoints * 100) + `%</td></tr>
+				<tr><td>3</td><td>${D3Points}</td><td>` + Math.floor(D3Points / totalPoints * 100) + `%</td></tr>
+				`
+
 		outputHTMLRoster += `
 				<tr><td>${LW[0]}</td><td>${C[0]}</td><td>${RW[0]}</td></tr>
 				<tr><td>${LW[1]}</td><td>${C[1]}</td><td>${RW[1]}</td></tr>
@@ -399,12 +445,12 @@ async function teamStatsNHL(){
 				</tbody>
 		`;
 		outputHTMLRosterStats += `</tbody>`;
-//		outputHTMLLinesStats += `<tbody>`;
+		outputHTMLLinesStats += `<tbody>`;
 		document.getElementById('NHLstatsteamRoster').innerHTML = outputHTMLRoster;
 		document.getElementById('NHLstatsteamRosterStats').innerHTML = outputHTMLRosterStats;
-//		document.getElementById('FHMstatsteamLinesStats').innerHTML = outputHTMLLinesStats;
+		document.getElementById('NHLstatsteamLinesStats').innerHTML = outputHTMLLinesStats;
 }
 
 function compareNumbers(a, b) {
-	return a - b;
+	return a.points - b.points;
   }
