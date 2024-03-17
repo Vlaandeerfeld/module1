@@ -84,7 +84,7 @@
     }
     #canvas{
         position: relative;
-        height: 95vh;
+        height: 100vh;
         width: 100%;
         background-color: black;
         overflow: auto;
@@ -115,15 +115,33 @@
         height: auto;
         min-height: 100vh;
         background-color: aqua;
-        width: 100%;
+        width: 100vw;
         display: block;
-        float: left;
         z-index: 1;
+        overflow-x: auto;
     }
-    .mainTableContent{
-        display: table;
-        height: 80%;
-        width: 100%;
+    .statsTeamRoster{
+        position: relative;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        height: 33%;
+        width: 33.33%;
+        float: left;
+    }
+    .statsTeamRosterStats{
+        position: relative;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        Height: 67%;
+        width: 33.33%;
+        float: left;
+    }
+    .statsTeamLinesStats{
+        position: relative;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        Height: 67%;
+        width: 33.33%;
         float: left;
     }
     table{
@@ -131,18 +149,28 @@
         margin: 0px;
         padding: 0px;
         border-spacing: 0px;
-        width: 100vw;
-        height: auto;
+        min-width: 100vw;
+        max-width: 200vw;
+        width: 200vw;
+        overflow-x: auto;
+        height: 100vh;
+        table-layout: fixed;
     }
     td{
         border: 1px solid;
         text-align: center;
         background-color: grey;
+        width: 5%;
+        height: 5%;
+        overflow: hidden;
     }
     th{
         border: 1px solid;
-        text-align: center !important;
+        text-align: center;
         background-color: darkgrey;
+        width: 5%;
+        height: 5;
+        overflow: hidden;
     }
     .navButton1{
         width: 25%;
@@ -199,21 +227,31 @@
         align-self: flex-start;
         z-index: 2;
     }
-    .playerPortrait{
-        position: absolute;
+    .playerName{
+        text-align: center;
+        display: block;
+        position: relative;
         background-color: whitesmoke;
         height: 20%;
-        width: 40%;
-        left: 30%;
-        top: 2.5%;
+        width: 100%;
+        left: 0%;
+        top: 0%;
+    }
+    .playerPortrait{
+        position: relative;
+        display: block;
+        width: 20%;
+        left: 40%;
     }
     .teamLogo{
-        position: absolute;
+        text-align: center;
+        display: block;
+        position: relative;
         background-color: whitesmoke;
         height: 20%;
-        width: 40%;
-        left: 30%;
-        top: 10%;
+        width: 100%;
+        left: 0%;
+        top: 0%;
     }
     .playerStats{
         position: absolute;
@@ -249,62 +287,54 @@
     }
     .PlayerAttributes{
         position: relative;
-        height: 45%;
-        width: 45%;
+        width: 100%;
         float: left;
-        margin: 2.5%;
+        margin-top: 2.5%;
     }
     .PlayerAttributesDiv{
         position: relative;
-        height: 50%;
-        width: 50%;
-        top: 10%;
-        margin-left: 25%;
-        margin-right: 25%;
+        width: 100%;
+        height: 20%;
+        margin-top: 2.5%;
     }
     .PlayerAbilityPotentialDiv{
         position: relative;
-        height: 50%;
-        width: 50%;
-        top: 10%;
-        margin-left: 25%;
-        margin-right: 25%;
+        width: 100%;
+        height: 20%;
+        margin-top: 2.5%;
     }
     .PlayerAbility{
         position: relative;
-        height: 45%;
-        width: 45%;
+        width: 100%;
+        height: 20;
         float: left;
-        margin: 2.5%;
+        margin-top: 2.5%;
+
     }
     .PlayerPotential{
         position: relative;
-        height: 45%;
-        width: 45%;
+        width: 100%;
+        height: 20%;
         float: left;
-        margin: 2.5%;
+        margin-top: 2.5%;
     }
     .PlayerIdentDiv{
         position: relative;
-        height: 50%;
-        width: 50%;
-        top: 10%;
-        margin-left: 25%;
-        margin-right: 25%;
+        width: 100%;
+        height: 20%;
+        margin-top: 2.5%;
     }
     .PlayerAge{
         position: relative;
-        height: 45%;
-        width: 95%;
+        width: 100%;
         float: left;
-        margin: 2.5%;
+        margin-top: 2.5%;
     }
     .PlayerRoles{
         position: relative;
-        height: 45%;
-        width: 45%;
+        width: 100%;
         float: left;
-        margin: 2.5%;
+        margin-top: 2.5%;
     }
 }
 @media (orientation: landscape) and (max-height: 41em){
@@ -422,15 +452,33 @@
         height: auto;
         min-height: 100vh;
         background-color: aqua;
-        width: 100%;
+        width: 100vw;
         display: block;
         float: left;
         z-index: 1;
     }
-    .mainTableContent{
-        display: table;
-        height: 100%;
-        width: 50%;
+    .statsTeamRoster{
+        position: relative;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        height: 33%;
+        width: 33.33%;
+        float: left;
+    }
+    .statsTeamRosterStats{
+        position: relative;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        Height: 67%;
+        width: 33.33%;
+        float: left;
+    }
+    .statsTeamLinesStats{
+        position: relative;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        Height: 67%;
+        width: 33.33%;
         float: left;
     }
     table{
@@ -506,21 +554,31 @@
         align-self: flex-start;
         z-index: 2;
     }
-    .playerPortrait{
-        position: absolute;
+    .playerName{
+        text-align: center;
+        display: block;
+        position: relative;
         background-color: whitesmoke;
-        height: 40%;
+        height: 20%;
+        width: 100%;
+        left: 0%;
+        top: 0%;
+    }
+    .playerPortrait{
+        position: relative;
+        display: block;
         width: 20%;
         left: 40%;
-        top: 2.5%;
     }
     .teamLogo{
-        position: absolute;
+        text-align: center;
+        display: block;
+        position: relative;
         background-color: whitesmoke;
-        height: 40%;
-        width: 20%;
-        left: 40%;
-        top: 2.5%;
+        height: 20%;
+        width: 100%;
+        left: 0%;
+        top: 0%;
     }
     .playerStats{
         position: absolute;
@@ -735,10 +793,32 @@
         float: left;
         z-index: 1;
     }
-    .mainTableContent{
-        display: table;
-        height: 33.33%;
-        width: 100%;
+    .statsTeamRoster{
+        position: relative;
+        margin-left: 16.5%;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        height: 33%;
+        width: 33.33%;
+        float: left;
+    }
+    .statsTeamRosterStats{
+        position: relative;
+        margin-left: 16.5%;
+        margin-right: 33.33%;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        Height: 67%;
+        width: 33.33%;
+        float: left;
+    }
+    .statsTeamLinesStats{
+        position: relative;
+        margin-right: 16.5%;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        Height: 67%;
+        width: 33.33%;
         float: left;
     }
     table{
@@ -814,21 +894,31 @@
         align-self: flex-start;
         z-index: 2;
     }
-    .playerPortrait{
-        position: absolute;
-        background-color: whitesmoke;
-        height: 40%;
-        width: 20%;
-        left: 40%;
-        top: 2.5%;
-    }
-    .teamLogo{
-        position: absolute;
+    .playerName{
+        text-align: center;
+        display: block;
+        position: relative;
         background-color: whitesmoke;
         height: 20%;
+        width: 100%;
+        left: 0%;
+        top: 0%;
+    }
+    .playerPortrait{
+        position: relative;
+        display: block;
         width: 20%;
         left: 40%;
-        top: 10%;
+    }
+    .teamLogo{
+        text-align: center;
+        display: block;
+        position: relative;
+        background-color: whitesmoke;
+        height: 20%;
+        width: 100%;
+        left: 0%;
+        top: 0%;
     }
     .playerStats{
         position: absolute;
@@ -865,7 +955,7 @@
     .PlayerAttributes{
         position: relative;
         height: 45%;
-        width: 50%;
+        width: 45%;
         float: left;
         margin: 2.5%;
     }
@@ -1050,14 +1140,6 @@
         width: 33.33%;
         float: left;
     }
-    table{
-        display: table;
-        margin: 0px;
-        padding: 0px;
-        border-spacing: 0px;
-        width: 100vw;
-        height: auto;
-    }
     .statsTeamRoster{
         position: relative;
         margin-left: 16.5%;
@@ -1086,6 +1168,15 @@
         width: 33.33%;
         float: left;
     }
+    table{
+        display: table;
+        margin: 0px;
+        padding: 0px;
+        border-spacing: 0px;
+        width: 100vw;
+        height: auto;
+    }
+
     td{
         border: 1px solid;
         text-align: center;
