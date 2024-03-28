@@ -22,9 +22,10 @@ async function uploadTemplate(){
 
 	templateLeagues.forEach(async files => {
 		let data = await fetch(`csvtoupload/${files}`);
-		let upload = await data.text()
-		fileName = files.slice(0, files.indexOf('.') - 4);
-		fileDate = files.slice(files.indexOf('.') - 4, files.indexOf('.'));
+		let upload = data.text()
+		let fileName = files.slice(0, files.indexOf('.') - 4);
+		let fileDate = files.slice(files.indexOf('.') - 4, files.indexOf('.'));
+		console.log(upload)
 		checkAndUpload(upload, fileName, fileDate);
 	})
 }
@@ -98,12 +99,13 @@ function parseIntoJSON(fileInput, league, date){
         finalArray.push(obj);
     });
 
+	console.loy(finalArray)
     return(JSON.stringify(finalArray));
 }
 
 function leagueFilters(page){
 	let outputHTML = '';
-	leaguesToFilter = localStorage['leagues'].split(',');	
+	let leaguesToFilter = localStorage['leagues'].split(',');	
 	leaguesToFilter.slice(1).forEach(value => {
 		outputHTML += `<option value = ` + value + `>` + value + `</option>`;
 	})
