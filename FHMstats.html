@@ -6,7 +6,7 @@
         <script src="FHM.js"></script>
         <title>FHM stats</title>
     </head>
-    <body onload = 'uploadTemplate(); leagueFilters("FHM"); teamFilters(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text); seasonFilters(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text); teamTablesOverview(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text, document.getElementById("FHMseasonstats").options[document.getElementById("FHMseasonstats").options.selectedIndex].text, document.getElementById("FHMteamsstats").options[document.getElementById("FHMteamsstats").options.selectedIndex].text)'>
+    <body onload = 'leagueFilters("FHM"); teamFilters(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text); seasonFilters(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text); teamTablesOverview(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text, document.getElementById("FHMseasonstats").options[document.getElementById("FHMseasonstats").options.selectedIndex].text, document.getElementById("FHMteamsstats").options[document.getElementById("FHMteamsstats").options.selectedIndex].text)'>
         <div id = 'canvas'>
             <div class = 'dropDownImport' id = 'FHMStatsDropDown' title = 'Import'>
                 <button type = "button" class = 'close' onclick = "document.getElementById('FHMStatsDropDown').style.display = 'none'">

@@ -1,5 +1,3 @@
-uploadTemplate();
-
 async function upload(){
 
 	const input = await document.getElementById('CSVfile');
@@ -20,17 +18,15 @@ async function upload(){
 
 async function uploadTemplate(){
 
-	let templateLeagues = ['Retro Goon League1980.csv', 'Netherton Hockey League2033.csv'];
+	let templateLeagues = ['RetroGoonLeague1980.csv', 'NethertonHockeyLeague2033.csv'];
 
-	templateLeagues.forEach(files => {
-		let data = fetch('csvtoupload/' + files);
-		let upload = data.text()
+	templateLeagues.forEach(async files => {
+		let data = await fetch(`https://raw.githubusercontent.com/Vlaandeerfeld/module1/main/csvstoupload/'${files}`);
+		let upload = await data.text()
 		fileName = files.slice(0, files.indexOf('.') - 4);
 		fileDate = files.slice(files.indexOf('.') - 4, files.indexOf('.'));
 		checkAndUpload(upload, fileName, fileDate);
 	})
-
-	location.reload();
 }
 function checkAndUpload(fileInput, league, date){
 
