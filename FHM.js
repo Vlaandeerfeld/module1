@@ -29,7 +29,7 @@ async function uploadTemplate(){
 		checkAndUpload(upload, fileName, fileDate);
 	})
 }
-function checkAndUpload(fileInput, league, date){
+async function checkAndUpload(fileInput, league, date){
 
     let arrayBreak = [];
     let continueThrough;
