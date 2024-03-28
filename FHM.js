@@ -1,3 +1,5 @@
+uploadTemplate();
+
 async function upload(){
 
 	const input = await document.getElementById('CSVfile');
