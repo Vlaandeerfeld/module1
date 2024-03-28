@@ -23,8 +23,8 @@ async function uploadTemplate(){
 	templateLeagues.forEach(async files => {
 		let data = await fetch(`csvtoupload/${files}`);
 		let upload = data.text()
-		let fileName = files.slice(0, files.indexOf('.') - 4);
-		let fileDate = files.slice(files.indexOf('.') - 4, files.indexOf('.'));
+		fileName = files.slice(0, files.indexOf('.') - 4);
+		fileDate = files.slice(files.indexOf('.') - 4, files.indexOf('.'));
 		console.log(upload)
 		checkAndUpload(upload, fileName, fileDate);
 	})
@@ -41,7 +41,7 @@ function checkAndUpload(fileInput, league, date){
 		localStorage.setItem('leagues', 'ALL');
 	}
 
-	leagueCheck = localStorage['leagues'].split(',');
+	let leagueCheck = localStorage['leagues'].split(',');
 
 	leagueCheck.forEach(value => {
 		if (value == league) {
