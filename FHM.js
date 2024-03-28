@@ -99,7 +99,7 @@ function parseIntoJSON(fileInput, league, date){
         finalArray.push(obj);
     });
 
-	console.loy(finalArray)
+	console.log(finalArray)
     return(JSON.stringify(finalArray));
 }
 
