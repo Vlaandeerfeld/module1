@@ -21,7 +21,7 @@ async function uploadTemplate(){
 	let templateLeagues = ['Retro GoonLeague 1980.csv', 'Netherton Hockey League2033.csv'];
 
 	templateLeagues.forEach(async files => {
-		let data = await fetch(`csvtoupload/${files}`, {});
+		let data = await fetch(`csvtoupload/${files}`);
 		let upload = await data.text()
 		fileName = files.slice(0, files.indexOf('.') - 4);
 		fileDate = files.slice(files.indexOf('.') - 4, files.indexOf('.'));
