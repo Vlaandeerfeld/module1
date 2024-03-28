@@ -22,7 +22,7 @@ async function uploadTemplate(){
 
 	templateLeagues.forEach(async files => {
 		let data = await fetch(`csvtoupload/${files}`);
-		let upload = data.text()
+		let upload = await data.text()
 		fileName = files.slice(0, files.indexOf('.') - 4);
 		fileDate = files.slice(files.indexOf('.') - 4, files.indexOf('.'));
 		console.log(upload)
