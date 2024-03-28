@@ -1,20 +1,38 @@
+const date = new Date();
+
+let day = date.getDate();
+let month = date.getMonth() + 1;
+let year = date.getFullYear();
+
 async function getAPI(url){
-	const options = {
-		method: 'GET',
-		headers: {
-			'X-RapidAPI-Key': '74547496c9msh5494298114437afp1e5ccbjsn780ce414b9d8',
-			'X-RapidAPI-Host': 'hockey1.p.rapidapi.com'
+
+	console.log(day);
+	if (day === Number(localStorage['day']) - 1){
+	keys = ['74547496c9msh5494298114437afp1e5ccbjsn780ce414b9d8', '3d8b532b6amsh9d0a8e0a2b73df6p1748b4jsn711a2222c274'];
+	let timeCode = time
+	keys.forEach(async key => {
+
+		let options = {
+			method: 'GET',
+			headers: {
+				'X-RapidAPI-Key': key,
+				'X-RapidAPI-Host': 'hockey1.p.rapidapi.com'
+			}
+		};
+
+		try {
+			const response = await fetch(url, options);
+			const result = await response.json();
+			console.log(result.body);
+			return result;
+		} catch (error) {
+			console.error(error);
 		}
-	};
-	
-	try {
-		const response = await fetch(url, options);
-		const result = await response.json();
-        console.log(result.body);
-		return result;
-	} catch (error) {
-		console.error(error);
-	}
+	})
+}
+else{
+	return localStorage['NationalHockeyLeague'];
+}
 }
 
 function leagueFilters(){
