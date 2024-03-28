@@ -18,7 +18,7 @@ async function upload(){
 
 async function uploadTemplate(){
 
-	let templateLeagues = ['RetroGoonLeague1980.csv', 'NethertonHockeyLeague2033.csv'];
+	let templateLeagues = ['Retro GoonLeague 1980.csv', 'Netherton Hockey League2033.csv'];
 
 	templateLeagues.forEach(async files => {
 		let data = await import(`/csvstoupload/'${files}`);
