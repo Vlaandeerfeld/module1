@@ -6,36 +6,37 @@ let year = date.getFullYear();
 
 async function getAPI(url){
 
-	console.log(day);
-	if (day === Number(localStorage['day']) - 1){
-	keys = ['74547496c9msh5494298114437afp1e5ccbjsn780ce414b9d8', '3d8b532b6amsh9d0a8e0a2b73df6p1748b4jsn711a2222c274'];
-	let timeCode = time
-	keys.forEach(async key => {
-
-		let options = {
-			method: 'GET',
-			headers: {
-				'X-RapidAPI-Key': key,
-				'X-RapidAPI-Host': 'hockey1.p.rapidapi.com'
+	console.log(localStorage[url]);
+	localStorage['day'] = localStorage['day'] ?? day;
+	localStorage['month'] = localStorage['month'] ?? month;
+	localStorage['year'] = localStorage['year'] ?? year; 
+	console.log(day === Number(localStorage['day']));
+	if (day > Number(localStorage['day']) || month > Number(localStorage['month']) || year > Number(localStorage['year']) || localStorage[url] == undefined){
+		keys = '3d8b532b6amsh9d0a8e0a2b73df6p1748b4jsn711a2222c274';
+			let options = {
+				method: 'GET',
+				headers: {
+					'X-RapidAPI-Key': keys,
+					'X-RapidAPI-Host': 'hockey1.p.rapidapi.com'
+				}
+			};
+			try {
+				const response = await fetch(url, options);
+				const result = await response.json()
+				console.log(await result.body);
+				localStorage[url] = JSON.stringify(result);
+				console.log(url);
+				return result;
+			} catch (error) {
+				console.error(error);
 			}
-		};
-
-		try {
-			const response = await fetch(url, options);
-			const result = await response.json();
-			console.log(result.body);
-			return result;
-		} catch (error) {
-			console.error(error);
-		}
-	})
-}
-else{
-	return localStorage['NationalHockeyLeague'];
-}
+	}
+	else{
+		return JSON.parse(localStorage[url]);
+	}
 }
 
-function leagueFilters(){
+async function leagueFilters(){
 	let outputHTML = '';
     outputHTML += `<option value = 'NHL'>NHL</option>`;
 
@@ -46,24 +47,27 @@ async function teamFilters(){
 	let outputHTML = '';
 
     let leagueArray = [];
-    let teamArray =  await getAPI('https://hockey1.p.rapidapi.com/v1/nhl/teams');
+    const teamArray = await getAPI('https://hockey1.p.rapidapi.com/v1/nhl/teams')
     const sortedTeamArray = teamArray.body.slice(0,32).map(value => {
-       return{
-            Abbr: value.abbrev
-       }
-    });
-
-    sortedTeamArray.forEach(value => {
+       	return{
+        	    Abbr: value.abbrev
+       	}
+   	});
+    await sortedTeamArray.forEach(value => {
         leagueArray.push(value.Abbr);
     })
 
+	console.log(leagueArray);
     localStorage['NHL'] = leagueArray;
 
 	outputHTML += `<option value = 'ALL' selected>ALL</option>`;
 
+	console.log(sortedTeamArray);
 	sortedTeamArray.forEach(value => {
 		outputHTML += `<option value = '${value.Abbr}'>${value.Abbr}</option>`;
 	})
+
+	console.log(outputHTML);
 	
 	document.getElementById('NHLteamsstats').innerHTML = outputHTML;
 }
@@ -166,9 +170,8 @@ async function playerStatsNHL(){
 	let outputHTMLPlayerName = '';
 	let outputHTMLPlayerPortrait = '';
 	outputHTMLPlayer += `<tbody>`;
-	outputHTMLPlayerName += `<tbody>`;
 
-	outputHTMLPlayerName += `${playerStats[0].Name}`;
+	outputHTMLPlayerName += `${player}`;
 
 	document.getElementById('NHLPlayerName').style.fontSize = '100px';
 

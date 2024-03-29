@@ -6,7 +6,7 @@
         <script src="NHL.js"></script>
         <title>NHL stats</title>
     </head>
-    <body onload = 'leagueFilters("NHL"); teamFilters(document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text); seasonFilters(document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text); teamTablesOverview(document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text)'>
+    <body onload = 'leagueFilters("NHL"); seasonFilters(document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text);'>
         <div id = 'canvas'>
             <div class = 'dropDownImport' id = 'NHLStatsDropDown' title = 'Import'>
                 <button type = "button" class = 'close' onclick = "document.getElementById('NHLStatsDropDown').style.display = 'none'">
@@ -45,5 +45,8 @@
                 </button>
             </div>
         </div>
+        <script>
+            teamFilters();
+        </script>
     </body>
 </html>
