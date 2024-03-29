@@ -44,11 +44,11 @@ async function checkAndUpload(fileInput, league, date){
 	let leagueCheck = localStorage['leagues'].split(',');
 
 	leagueCheck.forEach(value => {
-		if (value == league) {
-			console.log(JSON.stringify(localStorage[league]));
+		if (value === league) {
+			console.log(localStorage[league]);
 			console.log(JSON.stringify(JSONparsed.toString()));
 			console.log(JSON.stringify(localStorage[league]) == JSON.stringify(JSONparsed));
-			if (JSON.stringify(localStorage[league]) == JSON.stringify(JSONparsed.toString())){
+			if (JSON.stringify(localStorage[league]) === JSON.stringify(JSONparsed.toString())){
 				arrayBreak.push(true);
 			}
 			else{
