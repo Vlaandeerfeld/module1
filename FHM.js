@@ -46,8 +46,8 @@ async function checkAndUpload(fileInput, league, date){
 	leagueCheck.forEach(value => {
 		if (value === league) {
 			console.log(localStorage[league]);
-			console.log(JSON.stringify(JSONparsed.toString()));
-			console.log(JSON.stringify(localStorage[league]) == JSON.stringify(JSONparsed));
+			console.log(JSON.stringify(JSONparsed));
+			console.log(localStorage[league] == JSON.stringify(JSONparsed));
 			if (JSON.stringify(localStorage[league]) === JSON.stringify(JSONparsed.toString())){
 				arrayBreak.push(true);
 			}
