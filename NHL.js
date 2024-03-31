@@ -4,13 +4,12 @@ let day = date.getDate();
 let month = date.getMonth() + 1;
 let year = date.getFullYear();
 
+localStorage['day'] = day;
+localStorage['month'] = month;
+localStorage['year'] = year; 
+
 async function getAPI(url){
 
-	console.log(localStorage[url]);
-	localStorage['day'] = localStorage['day'] ?? day;
-	localStorage['month'] = localStorage['month'] ?? month;
-	localStorage['year'] = localStorage['year'] ?? year; 
-	console.log(day === Number(localStorage['day']));
 	if (day > Number(localStorage['day']) || month > Number(localStorage['month']) || year > Number(localStorage['year']) || localStorage[url] == undefined){
 		keys = '3d8b532b6amsh9d0a8e0a2b73df6p1748b4jsn711a2222c274';
 			let options = {
@@ -85,15 +84,15 @@ async function teamTablesOverview(team){
 		.then(value1 => {
 			console.log(value1);
 			let outputHTML = '';
-			outputHTML += `<tbody><tr><th onclick = 'sortTable("teamTablesOverview", 0)'>Team</th><th onclick = 'sortTableNum("teamTablesOverview", 1)'>GP</th><th onclick = 'sortTableNum("teamTablesOverview", 2)'>Wins</th><th onclick = 'sortTableNum("teamTablesOverview", 3)'>Losses</th><th onclick = 'sortTableNum("teamTablesOverview", 4)'>Ties</th><th onclick = 'sortTableNum("teamTablesOverview", 5)'>OTL</th><th onclick = 'sortTableNum("teamTablesOverview", 6)'>Points</th><th onclick = 'sortTableNum("teamTablesOverview", 7)'>PCT</th><th onclick = 'sortTableNum("teamTablesOverview", 8)'>G</th></tr>`;
+			outputHTML += `<tbody><tr><th onclick = 'sortTable("teamTablesOverview", 0)'>Team</th><th onclick = 'sortTableNum("teamTablesOverview", 1)'>GP</th><th onclick = 'sortTableNum("teamTablesOverview", 2)'>Wins</th><th onclick = 'sortTableNum("teamTablesOverview", 3)'>Losses</th><th onclick = 'sortTableNum("teamTablesOverview", 4)'>Ties</th><th onclick = 'sortTableNum("teamTablesOverview", 5)'>OTL</th><th onclick = 'sortTableNum("teamTablesOverview", 6)'>Points</th><th onclick = 'sortTableNum("teamTablesOverview", 7)'>PCT</th><th onclick = 'sortTableNum("teamTablesOverview", 8)'>Last 10 Wins</th></tr>`;
 			value1.forEach(value => {
 				if (team != 'ALL'){
 					if (value.Abbr == team){
-						outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${value.Abbr}</td><td>${value.GP_RS}</td><td>${value.Wins}</td><td>${value.Losses}</td><td>${value.Ties}</td><td>${value.OTL}</td><td>${value.Points}</td><td>${value.PCT}</td><td>${value.G_RS}</td></tr>`;
+						outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${value.Abbr}</td><td>${value.GP_RS}</td><td>${value.Wins}</td><td>${value.Losses}</td><td>${value.Ties}</td><td>${value.OTL}</td><td>${value.Points}</td><td>${value.PCT}</td><td>${value.l10}</td></tr>`;
 					}
 				}
 				else{
-					outputHTML += `<tr><td id = ${value.Abbr} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value.Abbr}").innerHTML); window.location.href = "NHLstatsteam.html";'>${value.Abbr}</td><td>${value.GP_RS}</td><td>${value.Wins}</td><td>${value.Losses}</td><td>${value.Ties}</td><td>${value.OTL}</td><td>${value.Points}</td><td>${value.PCT}</td><td>${value.G_RS}</td></tr>`;
+					outputHTML += `<tr><td id = ${value.Abbr} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value.Abbr}").innerHTML); window.location.href = "NHLstatsteam.html";'>${value.Abbr}</td><td>${value.GP_RS}</td><td>${value.Wins}</td><td>${value.Losses}</td><td>${value.Ties}</td><td>${value.OTL}</td><td>${value.Points}</td><td>${value.PCT}</td><td>${value.l10}</td></tr>`;
 				}
 			});
     	outputHTML += `</tbody>`;
@@ -115,7 +114,7 @@ async function teamTablesOverview(team){
 						OTL: info.otLosses,
 						Points: info.points,
 						PCT: info.pointPctg,
-						G_RS: info.goalFor,
+						l10: info.l10Wins,
 					}
 				})
 				console.log(newArray);
@@ -323,7 +322,7 @@ async function teamStatsNHL(){
 	outputHTMLRoster += `
 			<tbody>
 			<tr><th>LW</th><th>C</th><th>RW</th></tr>
-`;
+	`;
 	outputHTMLRosterStats += `<tbody>`;
 	outputHTMLLinesStats += `<tbody>`;
 	outputHTMLRosterStats += `<tr><th onclick = 'sortTable("NHLstatsteamRosterStats", 0)'>Name</th><th onclick = 'sortTable("NHLstatsteamRosterStats", 1)'>DOB</th><th onclick = 'sortTableNum("NHLstatsteamRosterStats", 2)'>Age</th><th onclick = 'sortTable("NHLstatsteamRosterStats", 3)'>Height</th><th onclick = 'sortTableNum("NHLstatsteamRosterStats", 4)'>Weight</th></tr>`;
@@ -452,6 +451,168 @@ async function teamStatsNHL(){
 		document.getElementById('NHLstatsteamLinesStats').innerHTML = outputHTMLLinesStats;
 }
 
-function compareNumbers(a, b) {
-	return a.TOI - b.TOI;
-  }
+async function playerStatsNHL(team){
+
+	console.log(localStorage['NHL'].split(','));
+	console.log(localStorage['currentTeam']);
+	let promise1 =[];
+	let promise2 = [];
+	let outputHTML = '';
+	outputHTML += `<tbody><tr><th onclick = 'sortTable("playersTablesOverview", 0)'>Team</th><th onclick = 'sortTable("playersTablesOverview", 1)'>Player</th><th onclick = 'sortTableNum("playersTablesOverview", 2)'>GP</th><th onclick = 'sortTableNum("playersTablesOverview", 3)'>Goals</th><th onclick = 'sortTableNum("playersTablesOverview", 4)'>Assists</th><th onclick = 'sortTableNum("playersTablesOverview", 5)'>Points</th><th onclick = 'sortTableNum("playersTablesOverview", 6)'>PlusMinus</th><th onclick = 'sortTableNum("playersTablesOverview", 7)'>PIM</th><th onclick = 'sortTableNum("playersTablesOverview", 8)'>ShotPer</th><th onclick = 'sortTableNum("playersTablesOverview", 9)'>FOPer</th></tr>`;
+	console.log(team !== 'ALL');
+	if(team !== 'ALL'){
+		await getPlayerStats(team)
+			.then(value => {
+				value.forEach(value1 => {
+					outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${team}</td><td>${value1.Name}</td><td>${value1.GP}</td><td>${value1.Goals}</td><td>${value1.Assists}</td><td>${value1.Points}</td><td>${value1.PlusMinus}</td><td>${value1.PIM}</td><td>${value1.ShotPer}</td><td>${value1.FOPer}</td></tr>`;
+				});
+				outputHTML += `</tbody>`;
+			});
+	}
+
+	else{
+
+		const promise1 = localStorage['NHL'].split(',').map(info => {
+			promise2 = getPlayerStats(info);
+			return Promise.resolve(promise2);
+		});
+
+		console.log(await Promise.all(promise1));
+		const teamStatsRoster = await Promise.all(promise1);
+				teamStatsRoster.map(value2 => {
+					value2.map(value1 => {
+						outputHTML += `<tr><td id = ${value1.team} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value1.team}").innerHTML); window.location.href = "NHLstatsteam.html";'>${value1.team}</td><td>${value1.Name}</td><td>${value1.GP}</td><td>${value1.Goals}</td><td>${value1.Assists}</td><td>${value1.Points}</td><td>${value1.PlusMinus}</td><td>${value1.PIM}</td><td>${value1.ShotPer}</td><td>${value1.FOPer}</td></tr>`;
+					});		
+				});
+
+		console.log(outputHTML);
+		outputHTML += `</tbody>`;
+		document.getElementById('playersTablesOverview').innerHTML = outputHTML;
+	}
+		
+	async function getPlayerStats(team){
+		return await getAPI(`https://hockey1.p.rapidapi.com/v1/nhl/teams-stats?teamAbbrev=${team}`)
+			.then(value => {
+				const newArray = value.body.skaters.map(info => {
+					return {
+						playerId: info.playerId,
+						headshot: info.headshot,
+						Name: `${info.firstName.default} ${info.lastName.default}`,
+						GP: info.gamesPlayed,
+						Goals: info.goals,
+						Assists: info.assists,
+						Points: info.points,
+						PlusMinus: info.plusMinus,
+						PIM: info.penaltyMinutes,
+						PPG: info.powerPlayGoals,
+						SHG: info.shorthandedGoals,
+						GWG: info.gameWinningGoals,
+						OTG: info.overtimeGoals,
+						Shots: info.shots,
+						ShotPer: info.shootingPctg,
+						FOPer: info.faceoffWinPctg,
+						team: team,
+					}
+				})
+			return newArray;
+		})
+	}
+}
+
+async function teamStatsTables(team){
+    let teamArray = [];
+    teamArray = await getTeam()
+		.then(value1 => {
+			console.log(value1);
+			let outputHTML = '';
+			outputHTML += `<tbody><tr><th onclick = 'sortTable("teamTablesOverview", 0)'>Team</th><th onclick = 'sortTableNum("teamTablesOverview", 1)'>GP</th><th onclick = 'sortTableNum("teamTablesOverview", 2)'>Wins</th><th onclick = 'sortTableNum("teamTablesOverview", 3)'>Losses</th><th onclick = 'sortTableNum("teamTablesOverview", 4)'>Ties</th><th onclick = 'sortTableNum("teamTablesOverview", 5)'>OTL</th><th onclick = 'sortTableNum("teamTablesOverview", 6)'>Points</th><th onclick = 'sortTableNum("teamTablesOverview", 7)'>PCT</th><th onclick = 'sortTableNum("teamTablesOverview", 8)'>Last 10</th><th onclick = 'sortTableNum("teamTablesOverview", 9)'>GF</th><th onclick = 'sortTableNum("teamTablesOverview", 10)'>GA</th><th onclick = 'sortTableNum("teamTablesOverview", 11)'>Goal Diff</th></tr>`;
+			value1.forEach(value => {
+				if (team != 'ALL'){
+					if (value.Abbr == team){
+						outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${value.Abbr}</td><td>${value.GP_RS}</td><td>${value.Wins}</td><td>${value.Losses}</td><td>${value.Ties}</td><td>${value.OTL}</td><td>${value.Points}</td><td>${value.PCT}</td><td>${value.l10}</td><td>${value.GF}</td><td>${value.GA}</td><td>${value.Goal_Diff}</td></tr>`;
+					}
+				}
+				else{
+					outputHTML += `<tr><td id = ${value.Abbr} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value.Abbr}").innerHTML); window.location.href = "NHLstatsteam.html";'>${value.Abbr}</td><td>${value.GP_RS}</td><td>${value.Wins}</td><td>${value.Losses}</td><td>${value.Ties}</td><td>${value.OTL}</td><td>${value.Points}</td><td>${value.PCT}</td><td>${value.l10}</td><td>${value.GF}</td><td>${value.GA}</td><td>${value.Goal_Diff}</td></tr>`;
+				}
+			});
+    	outputHTML += `</tbody>`;
+
+    	document.getElementById('teamTablesOverview').innerHTML = outputHTML;
+		})
+
+	async function getTeam(){
+		return await getAPI(`https://hockey1.p.rapidapi.com/v1/nhl/standings`)
+			.then(value => {
+				console.log(value);
+				const newArray = value.body.map(info => {
+					return {
+						Abbr: info.teamAbbrev.default,
+						GP_RS: info.gamesPlayed,
+						Wins: info.wins,
+						Losses: info.losses,
+						Ties: info.ties,
+						OTL: info.otLosses,
+						Points: info.points,
+						PCT: info.pointPctg,
+						l10: info.l10Wins,
+						GF: info.goalFor,
+						GA: info.goalAgainst,
+						Goal_Diff: info.goalDifferential,
+					}
+				})
+				console.log(newArray);
+				return newArray;
+			})
+	}
+}
+
+function sortTableNum(tableToSort, column){
+
+	let table, rows, switching, i, x, y, shouldSwitch;
+	table = document.getElementById(tableToSort);
+	table = table.firstChild;
+	switching = true;
+	while (switching) {
+	  switching = false;
+	  rows = table.rows;
+	  for (i = 1; i < (rows.length - 1); i++) {
+		shouldSwitch = false;
+		x = rows[i].getElementsByTagName('td')[column];
+		y = rows[i + 1].getElementsByTagName('td')[column];
+		if (x.innerHTML - y.innerHTML < 0) {
+		  shouldSwitch = true;
+		  break;
+		}
+	  }
+	  if (shouldSwitch) {
+		rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+		switching = true;
+		}
+	}
+}
+
+function sortTable(tableToSort, column){
+
+	let table, rows, switching, i, x, y, shouldSwitch;
+	table = document.getElementById(tableToSort);
+	table = table.firstChild;
+	switching = true;
+	while (switching) {
+	  switching = false;
+	  rows = table.rows;
+	  for (i = 1; i < (rows.length - 1); i++) {
+		shouldSwitch = false;
+		x = rows[i].getElementsByTagName('td')[column];
+		y = rows[i + 1].getElementsByTagName('td')[column];
+		if (x.innerHTML > y.innerHTML) {
+		  shouldSwitch = true;
+		  break;
+		}
+	  }
+	  if (shouldSwitch) {
+		rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+		switching = true;
+		}
+	}
+}

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name= 'viewport' content = 'width=device-width, initial-scale = 1'>
+        <meta name= 'viewport' content = 'width=device-width, height=device-height, initial-scale = 1'>
         <link rel = 'stylesheet' href = 'module1.css'>
         <script src="NHL.js"></script>
         <title>NHL stats</title>
     </head>
-    <body onload = 'leagueFilters("NHL"); seasonFilters(document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text);'>
+    <body onload = 'teamFilters(); leagueFilters("NHL"); seasonFilters(document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text);'>
         <div id = 'canvas'>
             <div class = 'dropDownImport' id = 'NHLStatsDropDown' title = 'Import'>
                 <button type = "button" class = 'close' onclick = "document.getElementById('NHLStatsDropDown').style.display = 'none'">
@@ -45,8 +45,5 @@
                 </button>
             </div>
         </div>
-        <script>
-            teamFilters();
-        </script>
     </body>
 </html>

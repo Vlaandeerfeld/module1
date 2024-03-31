@@ -12,6 +12,10 @@
                 <button type = "button" class = 'close' onclick = "document.getElementById('NHLStatsPlayerDropDown').style.display = 'none'">
                     Close
                 </button>
+                <div id = 'CSV'>
+                    <input id = 'CSVfile' name = 'file[]' title = 'CSVfile' type = 'file' accept = '.csv' multiple= 'multiple' />
+                    <button type = 'button' id = 'button' title = 'upload' onclick = 'upload()'>Upload</button>
+                </div>   
             </div>
             <div id = 'outermostLayer'>
                 <div class = 'playerName' id = 'NHLPlayerName'>
