@@ -6,7 +6,9 @@
         <script src="NHL.js"></script>
         <title>NHL stats players</title>
     </head>
-    <body onload = 'teamFilters(); seasonFilters(document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text);'>
+    <body onload = 'leagueFilters("NHL"); teamFilters(); seasonFilters(document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text);'>
+        <div id = 'loader'>
+        </div>
         <div id = 'canvas'>
             <div class = 'dropDownImport' id = 'NHLStatsPlayersDropDown' title = 'Import'>
                 <button type = "button" class = 'close' onclick = "document.getElementById('NHLStatsPlayersDropDown').style.display = 'none'">
@@ -19,7 +21,6 @@
             </div>
             <div id = 'topFilter'>
                 <select class = 'filters' id = 'NHLleaguesstats' name = 'NHLLeaguesPlayers'>
-                    <option value = 'NHL' selected>National Hockey League</option>
                 </select>
                 <select class = 'filters' id = 'NHLteamsstats' name = 'NHLTeamsPlayers'>
                 </select>
