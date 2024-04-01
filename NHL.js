@@ -3,6 +3,7 @@ const date = new Date();
 let day = date.getDate();
 let month = date.getMonth() + 1;
 let year = date.getFullYear();
+let counter1 = 0;
 
 function sorterMain(table, numColumn){
 
@@ -52,31 +53,49 @@ function sorterTeams(table, numColumn){
 
 async function getAPI(url){
 
-	if (day > Number(localStorage[url + 'day']) || month > Number(localStorage[url + 'month']) || year > Number(localStorage[url + 'year']) || localStorage[url] == undefined || localStorage[url + 'day'] == undefined){
-		keys = '3d8b532b6amsh9d0a8e0a2b73df6p1748b4jsn711a2222c274';
-			let options = {
-				method: 'GET',
-				headers: {
-					'X-RapidAPI-Key': keys,
-					'X-RapidAPI-Host': 'hockey1.p.rapidapi.com'
-				}
-			};
-			try {
-				const response = await fetch(url, options);
-				const result = await response.json()
-				console.log(await result.body);
-				localStorage[url] = JSON.stringify(result);
-				console.log(url);
-				localStorage[url + 'day'] = day;
-				localStorage[url + 'month'] = month;
-				localStorage[url + 'year'] = year;
-				return result;
-			} catch (error) {
-				console.error(error);
-			}
+	console.log(counter1 < 5);
+	console.log(counter1);
+	if (counter1 < 5 && (day > Number(localStorage[url + 'day']) || month > Number(localStorage[url + 'month']) || year > Number(localStorage[url + 'year']) || localStorage[url] == undefined || localStorage[url + 'day'] == undefined)){
+		return await tryGetAPI();
+	}
+	else if(counter1 === 5){
+		counter1 = 0;
+		console.log(counter1);
+		function timeout(ms) {
+			console.log('here')
+			return new Promise(resolve => setTimeout(resolve, ms));
+		}
+		await timeout(1500);
+		return await getAPI(url);
 	}
 	else{
 		return JSON.parse(localStorage[url]);
+	}
+
+	async function tryGetAPI(){
+		keys = '3d8b532b6amsh9d0a8e0a2b73df6p1748b4jsn711a2222c274';
+		let options = {
+			method: 'GET',
+			headers: {
+				'X-RapidAPI-Key': keys,
+				'X-RapidAPI-Host': 'hockey1.p.rapidapi.com'
+			}
+		};
+		try {
+			const response = await fetch(url, options);
+			const result = await response.json()
+			console.log(await result.body);
+			localStorage[url] = JSON.stringify(result);
+			console.log(url);
+			localStorage[url + 'day'] = day;
+			localStorage[url + 'month'] = month;
+			localStorage[url + 'year'] = year;
+			counter1 = counter1 + 1;
+			console.log(counter1);
+			return result;
+		} catch (error) {
+			console.error(error);
+		}
 	}
 }
 
@@ -391,7 +410,7 @@ async function teamStatsNHL(){
 				F3Points += value.points;
 			}
 			if(LWCount == 4){
-				F4Points += value.points;
+				F4Points += value.points;async
 			}
 			LWCount += 1;
 			LW.push(value.name);
@@ -500,7 +519,7 @@ async function teamStatsNHL(){
 async function playerStatsNHL(team){
 
 	console.log(localStorage['NHL'].split(','));
-	console.log(localStorage['currentTeam']);
+	console.log(team);
 	let promise1 =[];
 	let promise2 = [];
 	let outputHTML = '';
@@ -518,9 +537,9 @@ async function playerStatsNHL(team){
 	}
 
 	else{
-
-		const promise1 = localStorage['NHL'].split(',').map(info => {
-			promise2 = getPlayerStats(info);
+		const promise1 = localStorage['NHL'].split(',').map(async info => {
+			counter1++;
+			promise2 = await getPlayerStats(info);
 			return Promise.resolve(promise2);
 		});
 
