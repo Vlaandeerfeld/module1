@@ -1,3 +1,29 @@
+async function tryGetAPI(){
+    keys = '3d8b532b6amsh9d0a8e0a2b73df6p1748b4jsn711a2222c274';
+    let options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': keys,
+            'X-RapidAPI-Host': 'hockey1.p.rapidapi.com'
+        }
+    };
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json()
+        console.log(await result.body);
+        localStorage[url] = JSON.stringify(result);
+        console.log(url);
+        localStorage[url + 'day'] = day;
+        localStorage[url + 'month'] = month;
+        localStorage[url + 'year'] = year;
+        counter1 = counter1 + 1;
+        console.log(counter1);
+        return result;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 async function functionMain(){
 
     let counter = 0;

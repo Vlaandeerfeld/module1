@@ -1,10 +1,3 @@
-const date = new Date();
-
-let day = date.getDate();
-let month = date.getMonth() + 1;
-let year = date.getFullYear();
-let counter1 = 0;
-
 function sorterMain(table, numColumn){
 
 	let sorter1 = `<tr>`;
@@ -53,50 +46,9 @@ function sorterTeams(table, numColumn){
 
 async function getAPI(url){
 
-	console.log(counter1 < 5);
-	console.log(counter1);
-	if (counter1 < 5 && (day > Number(localStorage[url + 'day']) || month > Number(localStorage[url + 'month']) || year > Number(localStorage[url + 'year']) || localStorage[url] == undefined || localStorage[url + 'day'] == undefined)){
-		return await tryGetAPI();
-	}
-	else if(counter1 === 5){
-		counter1 = 0;
-		console.log(counter1);
-		function timeout(ms) {
-			console.log('here')
-			return new Promise(resolve => setTimeout(resolve, ms));
-		}
-		await timeout(1500);
-		return await getAPI(url);
-	}
-	else{
-		return JSON.parse(localStorage[url]);
-	}
-
-	async function tryGetAPI(){
-		keys = '3d8b532b6amsh9d0a8e0a2b73df6p1748b4jsn711a2222c274';
-		let options = {
-			method: 'GET',
-			headers: {
-				'X-RapidAPI-Key': keys,
-				'X-RapidAPI-Host': 'hockey1.p.rapidapi.com'
-			}
-		};
-		try {
-			const response = await fetch(url, options);
-			const result = await response.json()
-			console.log(await result.body);
-			localStorage[url] = JSON.stringify(result);
-			console.log(url);
-			localStorage[url + 'day'] = day;
-			localStorage[url + 'month'] = month;
-			localStorage[url + 'year'] = year;
-			counter1 = counter1 + 1;
-			console.log(counter1);
-			return result;
-		} catch (error) {
-			console.error(error);
-		}
-	}
+	const response = await fetch(url);
+	const result = await response.json()
+	return result;
 }
 
 async function leagueFilters(){
@@ -110,10 +62,10 @@ async function teamFilters(){
 	let outputHTML = '';
 
     let leagueArray = [];
-    const teamArray = await getAPI('https://hockey1.p.rapidapi.com/v1/nhl/teams')
-    const sortedTeamArray = teamArray.body.slice(0,32).map(value => {
+    const teamArray = await getAPI('https://api-web.nhle.com/v1/standings/now')
+    const sortedTeamArray = teamArray.standings.map(value => {
        	return{
-        	    Abbr: value.abbrev
+        	    Abbr: value.teamAbbrev.default
        	}
    	});
     await sortedTeamArray.forEach(value => {
@@ -166,10 +118,10 @@ async function teamTablesOverview(team){
 		})
 
 	async function getTeam(){
-		return await getAPI(`https://hockey1.p.rapidapi.com/v1/nhl/standings`)
+		return await getAPI('https://api-web.nhle.com/v1/standings/now')
 			.then(value => {
 				console.log(value);
-				const newArray = value.body.map(info => {
+				const newArray = value.standings.map(info => {
 					return {
 						Abbr: info.teamAbbrev.default,
 						GP_RS: info.gamesPlayed,
@@ -192,41 +144,87 @@ async function playerStatsNHL(){
 
 	let team = localStorage['currentTeam'];
 	let player = localStorage['currentPlayer'];
-	let playerStats = await getPlayerStats();
-
 	console.log(player);
-	console.log(playerStats.Name);
-	const arrayPlayerStats = playerStats.find(info => {
-		return info.Name === player;
-	})
+
+	let playerStats = await getPlayerStats();
+	let playerInfo = await getPlayerInfo();
+
+
+	console.log(playerInfo);
+	console.log(playerStats);
+
+	const arrayPlayerStats = {
+		...playerStats,
+		...playerInfo.find((element) => {
+			return element.playerId === playerStats.playerId
+		}),
+	}
 
 	console.log(arrayPlayerStats);
 
 	async function getPlayerStats(){
-		return await getAPI(`https://hockey1.p.rapidapi.com/v1/nhl/teams-stats?teamAbbrev=${team}`)
+		return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/now`)
 			.then(value => {
 				console.log(value);
-				const newArray = value.body.skaters.map(info => {
+				const info = value.skaters.find(element => {
+					return element.playerId == player
+				})
+				console.log(info);
+				return {
+					playerId: info.playerId,
+					GP: info.gamesPlayed,
+					Goals: info.goals,
+					Assists: info.assists,
+					Points: info.points,
+					PlusMinus: info.plusMinus,
+					PIM: info.penaltyMinutes,
+					PPG: info.powerPlayGoals,
+					SHG: info.shorthandedGoals,
+					GWG: info.gameWinningGoals,
+					OTG: info.overtimeGoals,
+					Shots: info.shots,
+					ShotPer: info.shootingPctg,
+					FOPer: info.faceoffWinPctg,
+				}
+		})
+	}
+
+	async function getPlayerInfo(){
+		return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/current`)
+			.then(value => {
+				console.log(value);
+				const forwardsArray = value.forwards.map(info => {
 					return {
-						playerId: info.playerId,
+						playerId: info.id,
 						headshot: info.headshot,
 						Name: `${info.firstName.default} ${info.lastName.default}`,
-						GP: info.gamesPlayed,
-						Goals: info.goals,
-						Assists: info.assists,
-						Points: info.points,
-						PlusMinus: info.plusMinus,
-						PIM: info.penaltyMinutes,
-						PPG: info.powerPlayGoals,
-						SHG: info.shorthandedGoals,
-						GWG: info.gameWinningGoals,
-						OTG: info.overtimeGoals,
-						Shots: info.shots,
-						ShotPer: info.shootingPctg,
-						FOPer: info.faceoffWinPctg,
+						sweaterNumber: info.sweaterNumber,
+						position: info.positionCode,
+						shoots: info.shootsCatches,
+						height: info.heightInInches,
+						weight: info.weightInPounds,
+						DOB: info.birthDate,
+						nationality: info.birthCountry,
 					}
 				})
-			return newArray;
+				const defensemenArray = value.defensemen.map(info => {
+					return {
+						playerId: info.id,
+						headshot: info.headshot,
+						Name: `${info.firstName.default} ${info.lastName.default}`,
+						sweaterNumber: info.sweaterNumber,
+						position: info.positionCode,
+						shoots: info.shootsCatches,
+						height: info.heightInInches,
+						weight: info.weightInPounds,
+						DOB: info.birthDate,
+						nationality: info.birthCountry,
+					}
+				})
+			return newArray = [
+				...forwardsArray,
+				...defensemenArray,
+			];
 		})
 	}
 
@@ -269,14 +267,100 @@ async function teamStatsNHL(){
 	console.log(localStorage['currentLeague']);
 	console.log(localStorage['currentTeam']);
 	let team = localStorage['currentTeam'];
-
-    let teamStats = await getTeamStats();
 	let teamRoster = await getTeamRoster();
+	let teamStats = await getTeamStats();
 	let teamInfo = await getTeamInfo();
 
 	console.log(teamRoster);
-	console.log(teamStats);
 	console.log(teamInfo);
+	console.log(teamStats);
+
+	async function getTeamInfo(){
+		return await getAPI(`https://api-web.nhle.com/v1/standings/now`)
+			.then(value => {
+				return value.standings.find((info) => {
+						return info.teamAbbrev.default === team	
+				})			
+		})
+	}
+	async function getTeamStats(){
+		return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/now`)
+			.then(value => {
+				console.log(value);
+				const skatersArray = value.skaters.map(info => {
+					return {
+						playerId: info.playerId,
+						points: info.points,
+					}
+					
+				})
+				const goaliesArray = value.goalies.map(info => {
+					return {
+						playerId: info.playerId,
+						points: info.points,
+					}
+				})
+			return newArray = [
+				...skatersArray,
+				...goaliesArray,
+			];
+		})
+	}
+
+	async function getTeamRoster(){
+		return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/current`)
+			.then(value => {
+				console.log(value);
+				const forwardsArray = value.forwards.map(info => {
+					return {
+						playerId: info.id,
+						headshot: info.headshot,
+						name: `${info.firstName.default} ${info.lastName.default}`,
+						sweaterNumber: info.sweaterNumber,
+						position: info.positionCode,
+						hand: info.shootsCatches,
+						height: info.heightInInches,
+						weight: info.weightInPounds,
+						DOB: info.birthDate,
+						nationality: info.birthCountry,
+					}
+					
+				})
+				const defensemenArray = value.defensemen.map(info => {
+					return {
+						playerId: info.id,
+						headshot: info.headshot,
+						name: `${info.firstName.default} ${info.lastName.default}`,
+						sweaterNumber: info.sweaterNumber,
+						position: info.positionCode,
+						hand: info.shootsCatches,
+						height: info.heightInInches,
+						weight: info.weightInPounds,
+						DOB: info.birthDate,
+						nationality: info.birthCountry,
+					}
+				})
+				const goaliesArray = value.goalies.map(info => {
+					return {
+						playerId: info.id,
+						headshot: info.headshot,
+						name: `${info.firstName.default} ${info.lastName.default}`,
+						sweaterNumber: info.sweaterNumber,
+						position: info.positionCode,
+						hand: info.shootsCatches,
+						height: info.heightInInches,
+						weight: info.weightInPounds,
+						DOB: info.birthDate,
+						nationality: info.birthCountry,
+					}
+				})
+			return newArray = [
+				...forwardsArray,
+				...defensemenArray,
+				...goaliesArray,
+			];
+		})
+	}
 
 	const combinedArray = teamStats.map(info => ({
 		...info,
@@ -285,83 +369,9 @@ async function teamStatsNHL(){
 		}),
 	}))
 
-	async function getTeamInfo(){
-		return await getAPI(`https://hockey1.p.rapidapi.com/v1/nhl/teams`)
-			.then(value => {
-				return value.body.find((info) => {
-						return info.abbrev === team	
-				})			
-		})
-	}
 
-	async function getTeamStats(){
-		return await getAPI(`https://hockey1.p.rapidapi.com/v1/nhl/teams-stats?teamAbbrev=${team}`)
-			.then(value => {
-				console.log(value);
-				const newArraySkaters = value.body.skaters.map(info => {
-					return {
-						playerId: info.playerId,
-						points: info.points,
-						TOI: info.avgTimeOnIcePerGame,	
-					}
-				})
-				const newArrayGoalies = value.body.goalies.map(info => {
-					return {
-						playerId: info.playerId,
-						points: info.points,
-						TOI: info.avgTimeOnIcePerGame,	
-					}
-				})
-				console.log(newArraySkaters);
-				return newArraySkaters.concat(newArrayGoalies);		
-			})
-	}
-
-	async function getTeamRoster(){
-		return await getAPI(`https://hockey1.p.rapidapi.com/v1/nhl/teams-roster?teamAbbrev=${team}`)
-			.then(value => {
-				console.log(value);
-				const newArrayForwards = value.body.forwards.map(info => {
-					return {
-						playerId: info.id,
-						headshot: info.headshot,
-						name: `${info.firstName.default} ${info.lastName.default}`,
-						position: info.positionCode,
-						hand: info.shootsCatches,
-						height: info.heightInInches,
-						weight: info.weightInPounds,
-						DOB: info.birthDate,
-					}
-				})
-				const newArrayDefensemen = value.body.defensemen.map(info => {
-					return {
-						playerId: info.id,
-						headshot: info.headshot,
-						name: `${info.firstName.default} ${info.lastName.default}`,
-						position: info.positionCode,
-						hand: info.shootsCatches,
-						height: info.heightInInches,
-						weight: info.weightInPounds,
-						DOB: info.birthDate,
-					}
-				})
-				const newArrayGoalies = value.body.goalies.map(info => {
-					return {
-						playerId: info.id,
-						headshot: info.headshot,
-						name: `${info.firstName.default} ${info.lastName.default}`,
-						position: info.positionCode,
-						hand: info.shootsCatches,
-						height: info.heightInInches,
-						weight: info.weightInPounds,
-						DOB: info.birthDate,
-					}
-				})
-				console.log(newArrayForwards.concat(newArrayDefensemen.concat(newArrayGoalies)));
-				return newArrayForwards.concat(newArrayDefensemen.concat(newArrayGoalies));
-			})
-	}
 	console.log(combinedArray);
+
 	let outputHTMLRoster = '';
 	let outputHTMLRosterStats = '';
 	let LW = [];
@@ -393,11 +403,11 @@ async function teamStatsNHL(){
 	outputHTMLRosterStats += `<tr><th onclick = 'sortTable("NHLstatsteamRosterStats", 0)'>Name</th><th onclick = 'sortTable("NHLstatsteamRosterStats", 1)'>DOB</th><th onclick = 'sortTableNum("NHLstatsteamRosterStats", 2)'>Age</th><th onclick = 'sortTable("NHLstatsteamRosterStats", 3)'>Height</th><th onclick = 'sortTableNum("NHLstatsteamRosterStats", 4)'>Weight</th></tr>`;
 
 	document.getElementById('NHLTeamLogo').style.fontSize = '100px';
-	document.getElementById('NHLTeamLogo').innerHTML = teamInfo.name.default;
+	document.getElementById('NHLTeamLogo').innerHTML = teamInfo.teamName.default;
 
-	let url = teamInfo.darkLogo;
+	let url = teamInfo.teamLogo;
 
-	combinedArray.sort(compareNumbers).reverse().forEach(value => {
+	combinedArray.sort(function(a, b){return b-a}).reverse().forEach(value => {
 
 		if(value.position == 'L'){
 			if(LWCount == 1){
@@ -410,7 +420,7 @@ async function teamStatsNHL(){
 				F3Points += value.points;
 			}
 			if(LWCount == 4){
-				F4Points += value.points;async
+				F4Points += value.points;
 			}
 			LWCount += 1;
 			LW.push(value.name);
@@ -478,7 +488,7 @@ async function teamStatsNHL(){
 		}
 
 			outputHTMLRosterStats += `
-				<tr><td id = '${value.name}' onclick = 'localStorage.setItem("currentPlayer", document.getElementById("${value.name}").id); window.location.href = "NHLstatsplayer.html"'>${value.name}</td><td>${value.DOB}</td><td>${2023 - value.DOB.slice(0,4)}</td><td>${Math.floor(value.height / 12)}'${value.height % 12}"</td><td>${value.weight}</td></tr>
+				<tr><td id = '${value.playerId}' onclick = 'localStorage.setItem("currentPlayer", document.getElementById("${value.playerId}").id); window.location.href = "NHLstatsplayer.html"'>${value.name}</td><td>${value.DOB}</td><td>${2023 - value.DOB.slice(0,4)}</td><td>${Math.floor(value.height / 12)}'${value.height % 12}"</td><td>${value.weight}</td></tr>
 			`;
 		})
 
@@ -516,17 +526,18 @@ async function teamStatsNHL(){
 		document.getElementById('NHLstatsteamLinesStats').innerHTML = outputHTMLLinesStats;
 }
 
-async function playerStatsNHL(team){
+async function playersStatsNHL(team){
 
 	console.log(localStorage['NHL'].split(','));
 	console.log(team);
-	let promise1 =[];
-	let promise2 = [];
+
+	let promise2;
+
 	let outputHTML = '';
 	outputHTML += sorterPlayers('playersTablesOverview',9);
 	console.log(team !== 'ALL');
 	if(team !== 'ALL'){
-		await getPlayerStats(team)
+		await getPlayerStatsArray(team)
 			.then(value => {
 				value.forEach(value1 => {
 					outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${team}</td><td>${value1.Name}</td><td>${value1.GP}</td><td>${value1.Goals}</td><td>${value1.Assists}</td><td>${value1.Points}</td><td>${value1.PlusMinus}</td><td>${value1.PIM}</td><td>${value1.ShotPer}</td><td>${value1.FOPer}</td></tr>`;
@@ -538,8 +549,7 @@ async function playerStatsNHL(team){
 
 	else{
 		const promise1 = localStorage['NHL'].split(',').map(async info => {
-			counter1++;
-			promise2 = await getPlayerStats(info);
+			promise2 = await getPlayerStatsArray(info);
 			return Promise.resolve(promise2);
 		});
 
@@ -555,33 +565,84 @@ async function playerStatsNHL(team){
 		outputHTML += `</tbody>`;
 		document.getElementById('playersTablesOverview').innerHTML = outputHTML;
 	}
-		
-	async function getPlayerStats(team){
-		return await getAPI(`https://hockey1.p.rapidapi.com/v1/nhl/teams-stats?teamAbbrev=${team}`)
-			.then(value => {
-				const newArray = value.body.skaters.map(info => {
-					return {
-						playerId: info.playerId,
-						headshot: info.headshot,
-						Name: `${info.firstName.default} ${info.lastName.default}`,
-						GP: info.gamesPlayed,
-						Goals: info.goals,
-						Assists: info.assists,
-						Points: info.points,
-						PlusMinus: info.plusMinus,
-						PIM: info.penaltyMinutes,
-						PPG: info.powerPlayGoals,
-						SHG: info.shorthandedGoals,
-						GWG: info.gameWinningGoals,
-						OTG: info.overtimeGoals,
-						Shots: info.shots,
-						ShotPer: info.shootingPctg,
-						FOPer: info.faceoffWinPctg,
-						team: team,
-					}
+
+	async function getPlayerStatsArray(team){
+		let playerStats = await getPlayerStats();
+		let playerInfo = await getPlayerInfo();
+	
+		return playerStats.map(info => {
+			return{
+				...info,
+				...playerInfo.find((element) => {
+					return element.playerId === info.playerId
+				}),
+			}
+		});
+
+		async function getPlayerStats(){
+			return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/now`)
+				.then(value => {
+					console.log(value);
+					return value.skaters.map(info => {
+						return {
+							team: team,
+							playerId: info.playerId,
+							GP: info.gamesPlayed,
+							Goals: info.goals,
+							Assists: info.assists,
+							Points: info.points,
+							PlusMinus: info.plusMinus,
+							PIM: info.penaltyMinutes,
+							PPG: info.powerPlayGoals,
+							SHG: info.shorthandedGoals,
+							GWG: info.gameWinningGoals,
+							OTG: info.overtimeGoals,
+							Shots: info.shots,
+							ShotPer: info.shootingPctg,
+							FOPer: info.faceoffWinPctg,
+						}
+					})
 				})
-			return newArray;
-		})
+		}
+
+		async function getPlayerInfo(){
+			return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/current`)
+				.then(value => {
+					console.log(value);
+					const forwardsArray = value.forwards.map(info => {
+						return {
+							playerId: info.id,
+							headshot: info.headshot,
+							Name: `${info.firstName.default} ${info.lastName.default}`,
+							sweaterNumber: info.sweaterNumber,
+							position: info.positionCode,
+							shoots: info.shootsCatches,
+							height: info.heightInInches,
+							weight: info.weightInPounds,
+							DOB: info.birthDate,
+							nationality: info.birthCountry,
+						}
+					})
+					const defensemenArray = value.defensemen.map(info => {
+						return {
+							playerId: info.id,
+							headshot: info.headshot,
+							Name: `${info.firstName.default} ${info.lastName.default}`,
+							sweaterNumber: info.sweaterNumber,
+							position: info.positionCode,
+							shoots: info.shootsCatches,
+							height: info.heightInInches,
+							weight: info.weightInPounds,
+							DOB: info.birthDate,
+							nationality: info.birthCountry,
+						}
+					})
+				return newArray = [
+					...forwardsArray,
+					...defensemenArray,
+				];
+			})
+		}
 	}
 }
 
