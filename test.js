@@ -27,7 +27,7 @@ async function tryGetAPI(){
 async function functionMain(){
 
     let counter = 0;
-    const array1 = [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+    const array1 = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
     async function function1(){
         counter++;
         if (counter < 10){

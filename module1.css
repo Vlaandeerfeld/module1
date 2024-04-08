@@ -1134,6 +1134,17 @@
         float: left;
         z-index: 1;
     }
+    #teamScheduleOverview{
+        position: relative;
+        display: table;
+        height: 70%;
+        width: 70%;
+        left: 15%;
+        top: 15%;
+    }
+    .content{
+        aspect-ratio: 1 / 1 ;
+    }
     .mainTableContent{
         display: table;
         height: 40%;

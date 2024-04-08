@@ -23,6 +23,11 @@ localStorage['GF'] = true;
 localStorage['GA'] = true;
 localStorage['Goal_Diff'] = true;
 
+
+let date = new Date();
+localStorage['year'] = date.getFullYear();
+localStorage['month'] = date.getMonth();
+
 function sorterMain(table, numColumn){
 
 	let sorter1 = `<tr>`;
@@ -137,6 +142,101 @@ function seasonFilters(){
     outputHTML += `<option value = '2023'>2023</option>`;
 
 	document.getElementById('NHLseasonstats').innerHTML = outputHTML;
+}
+
+async function teamScheduleOverview(team){
+
+	let year = Number(localStorage['year']);
+	let month = Number(localStorage['month']);
+
+	const months = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December"
+	];
+	const days = [
+		"Sunday",
+		"Monday",
+		"Tuesday",
+		"Wednesday",
+		"Thursday",
+		"Friday",
+		"Saturday",
+	];
+
+	let outputHTML = `<tbody>
+						<tr><th onclick = 'if(Number(localStorage["month"]) === 0){localStorage["month"] = 11; localStorage["year"] = Number(localStorage["year"]) - 1; teamScheduleOverview(localStorage["currentTeam"])}else{localStorage["month"] = Number(localStorage["month"]) - 1; teamScheduleOverview(localStorage["currentTeam"])}'><</th><th colspan="5">${months[Number(localStorage["month"])]} ${localStorage["year"]}</th><th onclick = 'if(Number(localStorage["month"]) === 11){localStorage["month"] = 0; localStorage["year"] = Number(localStorage["year"]) + 1; teamScheduleOverview(localStorage["currentTeam"])}else{localStorage["month"] = Number(localStorage["month"]) + 1; teamScheduleOverview(localStorage["currentTeam"])}'>></th></tr>
+						<tr><th>Sunday</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th><th>Saturday</th></tr>
+					`;
+	let dayone = new Date(year, month, 1).getDay();
+    let lastdate = new Date(year, month + 1, 0).getDate();
+	let lastdatePrev = new Date(year, month, 0).getDate();
+    let dayend = new Date(year, month -1, lastdatePrev).getDay();
+	let dayendNext = new Date(year, month + 1, lastdate).getDay();
+    let monthlastdate = new Date(year, month, 0).getDate();
+
+	console.log(lastdate);
+	console.log(dayend);
+	let counter = 0;
+	let reverseCounter = 0 - dayend;
+	let dayOfWeekCounter = dayone;
+	let dayOfWeekCounterReverse = 6 - dayone;
+
+	for(let x = 0; x <= (lastdate + dayend) / 7; x++){
+		if(x === 0){
+			for(let y = 0 - dayend; y < 7 - dayend; y++){
+				if(dayOfWeekCounter === 7){
+					dayOfWeekCounter = 0;
+				}
+					if(y === 8 - dayone){
+						outputHTML += `</tr><tr>`
+					}
+					if(y > 0){
+						counter++;
+						outputHTML += `<td><div class = content><p class = dayNumber>${counter}</p></div></td>`;
+						dayOfWeekCounter++;
+					}
+					else{
+						if(dayOfWeekCounterReverse === 7) {
+							dayOfWeekCounterReverse = 0;
+						}
+						outputHTML += `<td><div class = content><p class = dayNumber>${monthlastdate + reverseCounter}</p></div></td>`;
+						dayOfWeekCounterReverse++;
+						reverseCounter++;
+
+					}
+
+				}
+			}
+		else{
+			outputHTML += `<tr>`;
+			for(let y = 0; y < 7; y++){
+				if(counter < lastdate){
+					console.log(y);
+					counter++;
+					outputHTML += `<td><div class = content><p class = dayNumber>${counter}</p></div></td>`;
+				}
+				else{
+					continue;
+				}
+			}
+			outputHTML += `</tr>`;
+		}
+	}
+	outputHTML += `</tbody>`;
+
+	console.log(outputHTML);
+
+	document.getElementById('teamScheduleOverview').innerHTML = outputHTML;
 }
 
 async function teamTablesOverview(team){
