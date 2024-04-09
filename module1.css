@@ -1433,4 +1433,7 @@
         display: table;
         text-align: center !important;
     }
+    .scheduleLogo{
+        z-index: 100;
+    }
 }

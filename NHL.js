@@ -202,7 +202,8 @@ async function teamScheduleOverview(team){
 					}
 					if(y > 0){
 						counter++;
-						outputHTML += `<td><div class = content><p class = dayNumber>${counter}</p></div></td>`;
+						const game = await getSchedule(counter);
+						outputHTML += `<td><div class = content><p class = dayNumber><a class = "scheduleLogo" href = "https://assets.nhle.com/logos/nhl/svg/${game[0]}_light.svg"></a>${counter}<a href = "https://assets.nhle.com/logos/nhl/svg/${game[1]}_light.svg"></a></p></div></td>`;
 						dayOfWeekCounter++;
 					}
 					else{
@@ -221,9 +222,10 @@ async function teamScheduleOverview(team){
 			outputHTML += `<tr>`;
 			for(let y = 0; y < 7; y++){
 				if(counter < lastdate){
-					console.log(y);
 					counter++;
-					outputHTML += `<td><div class = content><p class = dayNumber>${counter}</p></div></td>`;
+					const game = await getSchedule(counter);
+					console.log(game);
+					outputHTML += `<td><div class = content><p class = dayNumber><a class = "scheduleLogo" href = "https://assets.nhle.com/logos/nhl/svg/${game[0]}_light.svg"></a>${counter}<a href = "https://assets.nhle.com/logos/nhl/svg/${game[1]}_light.svg"></a></p></div></td>`;
 				}
 				else{
 					continue;
@@ -237,6 +239,58 @@ async function teamScheduleOverview(team){
 	console.log(outputHTML);
 
 	document.getElementById('teamScheduleOverview').innerHTML = outputHTML;
+
+	async function getSchedule(day){
+
+		if(day < 10 && month < 10){
+			return await getAPI(`https://api-web.nhle.com/v1/schedule/${year}-0${month + 1}-0${day}`)
+				.then(info => {
+					if(info.gameWeek[0].date === `${year}-0${month + 1}-0${day}` && info.gameWeek[0].games[0] != undefined && info.gameWeek[0].games[0] != undefined){
+						const returnThis = [info.gameWeek[0].games[0].awayTeam.abbrev, info.gameWeek[0].games[0].homeTeam.abbrev];
+						return returnThis;
+					}
+					else{
+						return [`No Games`, `No Games`];
+					}
+				})
+		}
+		else if(day < 10){
+			return await getAPI(`https://api-web.nhle.com/v1/schedule/${year}-${month + 1}-0${day}`)
+				.then(info => {
+					if(info.gameWeek[0].date === `${year}-${month + 1}-0${day}` && info.gameWeek[0].games[0] != undefined && info.gameWeek[0].games[0] != undefined){
+						const returnThis = [info.gameWeek[0].games[0].awayTeam.abbrev, info.gameWeek[0].games[0].homeTeam.abbrev];
+						return returnThis;
+					}
+					else{
+						return [`No Games`, `No Games`];
+					}
+				})
+		}
+		else if(month < 10){
+			return await getAPI(`https://api-web.nhle.com/v1/schedule/${year}-0${month + 1}-${day}`)
+				.then(info => {
+					if(info.gameWeek[0].date === `${year}-0${month + 1}-${day}` && info.gameWeek[0].games[0]!= undefined && info.gameWeek[0].games[0]!= undefined){
+						const returnThis = [info.gameWeek[0].games[0].awayTeam.abbrev, info.gameWeek[0].games[0].homeTeam.abbrev];
+						return returnThis;
+					}
+					else{
+						return [`No Games`, `No Games`];
+					}
+				})
+		}
+		else{
+			return await getAPI(`https://api-web.nhle.com/v1/schedule/${year}-${month + 1}-${day}`)
+				.then(info => {
+					if(info.gameWeek[0].date === `${year}-${month + 1}-${day}` && info.gameWeek[0].games[0]!= undefined && info.gameWeek[0].games[0] != undefined){
+						const returnThis = [info.gameWeek[0].games[0].awayTeam.abbrev, info.gameWeek[0].games[0].homeTeam.abbrev];
+						return returnThis;
+					}
+					else{
+						return [`No Games`, `No Games`];
+					}
+				})
+		}
+	}
 }
 
 async function teamTablesOverview(team){
