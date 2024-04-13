@@ -1,4 +1,4 @@
-localStorage["PlayerGP"] = true; 
+localStorage["GP"] = true; 
 localStorage["Goals"] = true; 
 localStorage["Assists"] = true; 
 localStorage["PlayerPoints"] = true; 
@@ -46,7 +46,7 @@ function sorterMain(table, numColumn){
 function sorterPlayers(table){
 	let numColumn = 1;
 	let columns = [];
-	list = ['PlayerGP', 'Goals', 'Assists', 'PlayerPoints', 'PlusMinus', 'PIM', 'PPG', 'SHG', 'GWG', 'OTG', 'Shots', 'ShotPer', 'FOPer'];
+	list = ['GP', 'Goals', 'Assists', 'PlayerPoints', 'PlusMinus', 'PIM', 'PPG', 'SHG', 'GWG', 'OTG', 'Shots', 'ShotPer', 'FOPer'];
 	
 	list.forEach(x => {
 		console.log(localStorage[x]);
@@ -203,7 +203,7 @@ async function teamScheduleOverview(team){
 					if(y > 0){
 						counter++;
 						const game = await getSchedule(counter);
-						outputHTML += `<td><div class = content><p class = dayNumber><a class = "scheduleLogo" href = "https://assets.nhle.com/logos/nhl/svg/${game[0]}_light.svg"></a>${counter}<a href = "https://assets.nhle.com/logos/nhl/svg/${game[1]}_light.svg"></a></p></div></td>`;
+						outputHTML += `<td><div class = content><p class = dayNumber><img class = "scheduleLogo" href = "https://assets.nhle.com/logos/nhl/svg/${game[0]}_light.svg">${counter}<img = "https://assets.nhle.com/logos/nhl/svg/${game[1]}_light.svg"></p></div></td>`;
 						dayOfWeekCounter++;
 					}
 					else{
@@ -225,7 +225,7 @@ async function teamScheduleOverview(team){
 					counter++;
 					const game = await getSchedule(counter);
 					console.log(game);
-					outputHTML += `<td><div class = content><p class = dayNumber><a class = "scheduleLogo" href = "https://assets.nhle.com/logos/nhl/svg/${game[0]}_light.svg"></a>${counter}<a href = "https://assets.nhle.com/logos/nhl/svg/${game[1]}_light.svg"></a></p></div></td>`;
+					outputHTML += `<td><div class = content><p class = dayNumber><img class = "scheduleLogoAway" src = "https://assets.nhle.com/logos/nhl/svg/${game[0]}_light.svg">${counter}<img class = "scheduleLogoHome src = "https://assets.nhle.com/logos/nhl/svg/${game[1]}_light.svg"></p></div></td>`;
 				}
 				else{
 					continue;
@@ -740,7 +740,7 @@ async function playersStatsNHL(team){
 		await getPlayerStatsArray(team)
 			.then(value => {
 				value.forEach(value1 => {
-					outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${team}</td><td>${value1.Name}</td>`
+					outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${team}</td><td id = "${value1.playerId}" onlick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; localStorage.setItem("currentPlayer", document.getElementById("${value.playerId}").id); window.location.href = "NHLstatsplayer.html";'>${value1.Name}</td>`
 					columns.forEach(info => {
 						outputHTML += `<td>${value1[info]}</td>`;
 					})
@@ -761,7 +761,7 @@ async function playersStatsNHL(team){
 		const teamStatsRoster = await Promise.all(promise1);
 				teamStatsRoster.map(value2 => {
 					value2.map(value1 => {
-						outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${value1.team}</td><td>${value1.Name}</td>`
+						outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${value1.team}</td><td id = "${value1.playerId}" onlick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; localStorage.setItem("currentPlayer", document.getElementById("${value.playerId}").id); window.location.href = "NHLstatsplayer.html";'>${value1.Name}</td>`
 						columns.forEach(info => {
 							outputHTML += `<td>${value1[info]}</td>`;
 						})
@@ -795,7 +795,7 @@ async function playersStatsNHL(team){
 						return {
 							team: team,
 							playerId: info.playerId,
-							PlayerGP: info.gamesPlayed,
+							GP: info.gamesPlayed,
 							Goals: info.goals,
 							Assists: info.assists,
 							PlayerPoints: info.points,
