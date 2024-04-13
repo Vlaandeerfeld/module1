@@ -20,7 +20,7 @@
                 </select>
                 <select class = 'filters' id = 'NHLseasonstats' name = 'NHLSeasonTeams'>
                 </select>
-                <button class = 'filters' type = 'button' onclick='teamStatsTables(document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text);'>Filter</button>
+                <button class = 'filters' type = 'button' onclick='teamStatsTables(document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text);'>Get Stats</button>
             </div>
             <div id = 'outermostLayer'>
                 <table id = 'teamTablesOverview'>
@@ -31,7 +31,7 @@
                     Home
                 </button>
                 <button type = 'button' class = 'navButton2' id = 'navButtonImportNHLstatsteams' title = 'Import' onclick = "if (document.getElementById('NHLStatsTeamsDropDown').style.display == 'block') {document.getElementById('NHLStatsTeamsDropDown').style.display = 'none'} else {document.getElementById('NHLStatsTeamsDropDown').style.display = 'block'}">
-                    Advanced Filter
+                    Filter
                 </button>                   
                 <button type = 'button' class = 'navButton3' id = 'navButtonMainNHLstatsteams' title = 'Main' onclick = "document.location = 'NHLstats.html'">
                     Main
