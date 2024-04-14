@@ -404,6 +404,86 @@ async function teamTablesOverview(team){
 	}
 }
 
+async function standingsNHL(){
+	let team = localStorage['currentTeam'];
+
+	const standings = await getStandings()
+	
+	const standingsSortedWest = standings.standings.filter(info => info.conferenceAbbrev.includes('W'));
+
+	const standingsSortedEast = standings.standings.filter(info => info.conferenceAbbrev.includes('E'));
+
+	let outputHTMLWest = `
+						<table id = 'West'>
+							<tbody>
+								<tr>
+									<th>Team</th><th>Division</th><th>GP</th><th>Points</th><th>Wins</th><th>Position</th>
+								</tr>
+						`;
+
+	console.log(standingsSortedWest);
+	standingsSortedWest.forEach(value => {
+		console.log(value);
+		if(value.clinchIndicator != undefined){
+			outputHTMLWest += `
+							<tr>
+								<td>${value.teamName.default}</td><td>${value.divisionName}</td><td>${value.gamesPlayed}</td><td>${value.points}</td><td>${value.regulationPlusOtWins}</td><td>${value.clinchIndicator}</td>
+							</tr>
+							`;
+		}
+		else{
+			outputHTMLWest += `
+							<tr>		
+								<td>${value.teamName.default}</td><td>${value.divisionName}</td><td>${value.gamesPlayed}</td><td>${value.points}</td><td>${value.regulationPlusOtWins}</td><td>${value.conferenceSequence}</td>
+							</tr>
+							`;
+		}
+	})
+	outputHTMLWest += `
+							</tbody>
+						</table>
+					`;
+	document.getElementById('teamStandingsOverview').innerHTML += outputHTMLWest;
+
+	let outputHTMLEast = `
+						<table id = 'East'>
+							<tbody>
+								<tr>
+									<th>Team</th><th>Division</th><th>GP</th><th>Points</th><th>Wins</th><th>Position</th>
+								</tr>
+						`;
+
+	console.log(standingsSortedEast);
+	standingsSortedEast.forEach(value => {
+		console.log(value);
+		if(value.clinchIndicator != undefined){
+			outputHTMLEast += `
+							<tr>		
+								<td>${value.teamName.default}</td><td>${value.divisionName}</td><td>${value.gamesPlayed}</td><td>${value.points}</td><td>${value.regulationPlusOtWins}</td><td>${value.clinchIndicator}</td>
+							</tr>
+							`
+		}
+		else{
+			outputHTMLEast += `
+							<tr>		
+								<td>${value.teamName.default}</td><td>${value.divisionName}</td><td>${value.gamesPlayed}</td><td>${value.points}</td><td>${value.regulationPlusOtWins}</td><td>${value.conferenceSequence}</td>
+							</tr>
+			`
+		}
+	})
+	outputHTMLEast += `
+						</tbody>
+					</table>
+					`;
+
+document.getElementById('teamStandingsOverview').innerHTML += outputHTMLEast;
+
+
+	async function getStandings(){
+		return await getAPI(`https://api-web.nhle.com/v1/standings/now`);
+	}
+}
+
 async function playerStatsNHL(){
 
 	let team = localStorage['currentTeam'];
