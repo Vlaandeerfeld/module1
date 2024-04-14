@@ -201,23 +201,34 @@ async function teamScheduleOverview(team){
 
 	for(let x = 0; x <= (lastdate + dayend) / 7; x++){
 		if(x === 0){
-			for(let y = 0 - dayend; y < 7 - dayend; y++){
-				if(dayOfWeekCounter === 7){
-					dayOfWeekCounter = 0;
-				}
-					if(y === 8 - dayone){
-						outputHTML += `</tr><tr>`
-					}
-					if(y > 0){
+			outputHTML += `<tr>`;
+			for(let y = (0 - dayone); y <= 0; y++){
+				console.log(y);
+					if(y === 0){
 						counter++;
-						const game = await getSchedule(counter);
-						outputHTML += `<td><div class = content><p class = dayNumber><img class = "scheduleLogo" href = "https://assets.nhle.com/logos/nhl/svg/${game[0]}_light.svg">${counter}<img = "https://assets.nhle.com/logos/nhl/svg/${game[1]}_light.svg"></p></div></td>`;
+						const game = await getSchedule(1);
+						game.forEach(info => {
+							console.log(info);
+							if(info !== 'No Games'){
+								if(counter <= 7 - dayone){
+									outputHTML += `<td><div class = content>${counter}<p class = dayNumber>`
+									info.games.forEach(info2 => {
+										outputHTML += `<div class = 'Matchup'><img class = "scheduleLogoAway" src = "https://assets.nhle.com/logos/nhl/svg/${info2.awayTeam.abbrev}_light.svg">vs<img class = "scheduleLogoHome src = "https://assets.nhle.com/logos/nhl/svg/${info2.homeTeam.abbrev}_light.svg"></div></p>`;
+									})
+									counter++;
+									outputHTML += `</div></td>`;
+								}
+							}			
+							else{
+								if(counter <= 7 - dayone){
+									outputHTML += `<td><div class = content><p class = dayNumber>${counter}</p></div></td>`;
+									counter++;
+								}
+							}
+						});						
 						dayOfWeekCounter++;
 					}
 					else{
-						if(dayOfWeekCounterReverse === 7) {
-							dayOfWeekCounterReverse = 0;
-						}
 						outputHTML += `<td><div class = content><p class = dayNumber>${monthlastdate + reverseCounter}</p></div></td>`;
 						dayOfWeekCounterReverse++;
 						reverseCounter++;
@@ -225,21 +236,50 @@ async function teamScheduleOverview(team){
 					}
 
 				}
+				outputHTML += `</tr>`;
 			}
 		else{
+			let check = 0
+			let schedule = [];
+			counter++;
+			dateofday = counter;
+			for(let y = 0; y < 5; y++){
 			outputHTML += `<tr>`;
-			for(let y = 0; y < 7; y++){
 				if(counter < lastdate){
-					counter++;
-					const game = await getSchedule(counter);
+					console.log(counter);
+					if (counter === (Number(check)) || Number(check) === 0){
+						schedule = await getSchedule(counter);
+						console.log("here")
+						check = (counter + 7);
+					}
+					const game = schedule;
 					console.log(game);
-					outputHTML += `<td><div class = content><p class = dayNumber><img class = "scheduleLogoAway" src = "https://assets.nhle.com/logos/nhl/svg/${game[0]}_light.svg">${counter}<img class = "scheduleLogoHome src = "https://assets.nhle.com/logos/nhl/svg/${game[1]}_light.svg"></p></div></td>`;
+						game.forEach(info => {
+							console.log(info);
+							if(info !== 'No Games'){
+								if(dateofday <= lastdate){
+									outputHTML += `<td><div class = content><p class = dayNumber>`
+									info.games.forEach(info2 => {
+										outputHTML += `<img class = "scheduleLogoAway" src = "https://assets.nhle.com/logos/nhl/svg/${info2.awayTeam.abbrev}_light.svg">${dateofday}<img class = "scheduleLogoHome src = "https://assets.nhle.com/logos/nhl/svg/${info2.homeTeam.abbrev}_light.svg"></p>`;
+									})
+									dateofday++;
+									outputHTML += `</div></td>`;
+								}
+							}			
+							else{
+								if(dateofday <= lastdate){
+									outputHTML += `<td><div class = content><p class = dayNumber>${dateofday}</p></div></td>`;
+									dateofday++;
+								}
+							}
+						});
 				}
 				else{
 					continue;
 				}
-			}
 			outputHTML += `</tr>`;
+			counter = counter + 7;
+			}
 		}
 	}
 	outputHTML += `</tbody>`;
@@ -249,54 +289,71 @@ async function teamScheduleOverview(team){
 	document.getElementById('teamScheduleOverview').innerHTML = outputHTML;
 
 	async function getSchedule(day){
-
+		let returnthat = [];
+		console.log(month + " " + day)
 		if(day < 10 && month < 10){
 			return await getAPI(`https://api-web.nhle.com/v1/schedule/${year}-0${month + 1}-0${day}`)
-				.then(info => {
-					if(info.gameWeek[0].date === `${year}-0${month + 1}-0${day}` && info.gameWeek[0].games[0] != undefined && info.gameWeek[0].games[0] != undefined){
-						const returnThis = [info.gameWeek[0].games[0].awayTeam.abbrev, info.gameWeek[0].games[0].homeTeam.abbrev];
-						return returnThis;
+			.then(info => {
+				for(data in info.gameWeek){
+					if(info.gameWeek[data].numberOfGames !== 0){
+						console.log(info.gameWeek[data]);
+						returnthat.push(info.gameWeek[data]);
 					}
 					else{
-						return [`No Games`, `No Games`];
+						returnthat.push('No Games');
 					}
-				})
+				}
+				console.log(returnthat);
+				return returnthat;
+			})
 		}
 		else if(day < 10){
 			return await getAPI(`https://api-web.nhle.com/v1/schedule/${year}-${month + 1}-0${day}`)
-				.then(info => {
-					if(info.gameWeek[0].date === `${year}-${month + 1}-0${day}` && info.gameWeek[0].games[0] != undefined && info.gameWeek[0].games[0] != undefined){
-						const returnThis = [info.gameWeek[0].games[0].awayTeam.abbrev, info.gameWeek[0].games[0].homeTeam.abbrev];
-						return returnThis;
+			.then(info => {
+				for(data in info.gameWeek){
+					if(info.gameWeek[data].numberOfGames !== 0){
+						console.log(info.gameWeek[data]);
+						returnthat.push(info.gameWeek[data]);
 					}
 					else{
-						return [`No Games`, `No Games`];
+						returnthat.push('No Games');
 					}
-				})
+				}
+				console.log(returnthat);
+				return returnthat;
+			})
 		}
 		else if(month < 10){
 			return await getAPI(`https://api-web.nhle.com/v1/schedule/${year}-0${month + 1}-${day}`)
-				.then(info => {
-					if(info.gameWeek[0].date === `${year}-0${month + 1}-${day}` && info.gameWeek[0].games[0]!= undefined && info.gameWeek[0].games[0]!= undefined){
-						const returnThis = [info.gameWeek[0].games[0].awayTeam.abbrev, info.gameWeek[0].games[0].homeTeam.abbrev];
-						return returnThis;
+			.then(info => {
+				for(data in info.gameWeek){
+					if(info.gameWeek[data].numberOfGames !== 0){
+						console.log(info.gameWeek[data]);
+						returnthat.push(info.gameWeek[data]);
 					}
 					else{
-						return [`No Games`, `No Games`];
+						returnthat.push('No Games');
 					}
-				})
+				}
+				console.log(returnthat);
+				return returnthat;
+			})
 		}
 		else{
 			return await getAPI(`https://api-web.nhle.com/v1/schedule/${year}-${month + 1}-${day}`)
-				.then(info => {
-					if(info.gameWeek[0].date === `${year}-${month + 1}-${day}` && info.gameWeek[0].games[0]!= undefined && info.gameWeek[0].games[0] != undefined){
-						const returnThis = [info.gameWeek[0].games[0].awayTeam.abbrev, info.gameWeek[0].games[0].homeTeam.abbrev];
-						return returnThis;
+			.then(info => {
+				for(data in info.gameWeek){
+					if(info.gameWeek[data].numberOfGames !== 0){
+						console.log(info.gameWeek[data]);
+						returnthat.push(info.gameWeek[data]);
 					}
 					else{
-						return [`No Games`, `No Games`];
+						returnthat.push('No Games');
 					}
-				})
+				}
+				console.log(returnthat);
+				return returnthat;
+			})
 		}
 	}
 }
@@ -753,7 +810,7 @@ async function playersStatsNHL(team){
 				for(let x = (currentPage - 1) * recordsPerPage; x < value.length; x++){
 					counter++;
 					if(counter + (currentPage * recordsPerPage) <= (currentPage * recordsPerPage) + recordsPerPage){
-					outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${team}</td><td id = "${value[x].playerId}" onlick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; localStorage.setItem("currentPlayer", document.getElementById("${value[x].playerId}").id); window.location.assign("NHLstatsplayer.html")'>${value[x].Name}</td>`
+					outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${team}</td><td id = "${value[x].playerId}" onlick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; localStorage.setItem("currentPlayer", document.getElementById("${value[x].playerId}").id)'><a href = "NHLstatsplayer.html"'>${value[x].Name}</td>`
 					columns.forEach(info => {
 						outputHTML += `<td>${value[x][info]}</td>`;
 					})

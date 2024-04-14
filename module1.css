@@ -1436,4 +1436,10 @@
     .scheduleLogo{
         z-index: 100;
     }
+    .Matchup{
+        position: relative;
+        display: block;
+        height: 40px;
+        width: auto;
+    }
 }
