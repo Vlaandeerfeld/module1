@@ -22,6 +22,11 @@ localStorage['l10'] = true;
 localStorage['GF'] = true;
 localStorage['GA'] = true;
 localStorage['Goal_Diff'] = true;
+localStorage['GAA'] = true;
+localStorage['SVPer'] = true;
+localStorage['SO'] = true;
+
+
 let currentPage = 1;
 let recordsPerPage = 27;
 
@@ -45,11 +50,16 @@ function sorterMain(table, numColumn){
 	return sorter1;
 }
 
-function sorterPlayers(table){
+function sorterPlayers(table, position){
 	let numColumn = 1;
 	let columns = [];
-	list = ['GP', 'Goals', 'Assists', 'Points', 'PlusMinus', 'PIM', 'PPG', 'SHG', 'GWG', 'OTG', 'Shots', 'ShotPer', 'FOPer'];
-	
+	if(position === "SKATERS"){
+		list = ['GP', 'Goals', 'Assists', 'Points', 'PlusMinus', 'PIM', 'PPG', 'SHG', 'GWG', 'OTG', 'Shots', 'ShotPer', 'FOPer'];
+	}
+	else{
+		list = ['GP', 'Wins', 'Losses', 'OTL', 'GAA', 'SVPer', 'SO', 'Points'];
+	}
+
 	list.forEach(x => {
 		console.log(localStorage[x]);
 		if(localStorage[x] === 'true'){
@@ -105,8 +115,7 @@ async function getAPI(url){
 
 function leagueFilters(){
 	let outputHTML = '';
-    outputHTML += `<option value = 'Forwards' selected>FORWARDS</option>
-					<option value = 'Defensemen'>DEFENSEMEN</option>
+    outputHTML += `<option value = 'Skaters' selected>SKATERS</option>
 					<option value = 'Goalies'>GOALIES</option>
 				`;
 
@@ -144,9 +153,9 @@ async function teamFilters(){
 
 function seasonFilters(){
 	let outputHTML = '';
-    outputHTML += `<option value = 'Pre-Season' selected>PRE-SEASON</option>
-					<option value = 'Regular Season'>REGULAR SEASON</option>
-					<option value = 'Post Season'>POST SEASON</option>
+    outputHTML += `
+				<option value = 'Regular Season'>REGULAR SEASON</option>
+				<option value = 'Post Season'>POST-SEASON</option>
 				`;
 
 	document.getElementById('NHLseasonstats').innerHTML = outputHTML;
@@ -870,22 +879,33 @@ async function teamStatsNHL(){
 		document.getElementById('NHLstatsteamLinesStats').innerHTML = outputHTMLLinesStats;
 }
 
-async function playersStatsNHL(team){
+async function playersStatsNHL(team, gameType, position){
 
 	console.log(localStorage['NHL'].split(','));
 	console.log(team);
 	console.log(localStorage['Goals']);
 	let promise2;
+	let typer;
+	let positioner = position;
 
-	const valuesReturned = sorterPlayers('playersTablesOverview');
+	console.log(gameType);
+	if (gameType === "POST-SEASON"){
+		typer = 3;
+	}
+	else{
+		typer = 2;
+	}
+
+	console.log(typer);
+	const valuesReturned = sorterPlayers('playersTablesOverview', positioner);
 	let columns = valuesReturned[0];
 	let outputHTML = valuesReturned[1];
-	console.log(columns);
+	console.log(position);
 	let counter;
 
 	if(team !== 'ALL'){
 		counter = 1;
-		await getPlayerStatsArray(team)
+		await getPlayerStatsArray(team, typer, position)
 			.then(value => {
 				for(let x = (currentPage - 1) * recordsPerPage; x < value.length; x++){
 					counter++;
@@ -909,7 +929,7 @@ async function playersStatsNHL(team){
 
 	else{
 		const promise1 = localStorage['NHL'].split(',').map(async info => {
-			promise2 = await getPlayerStatsArray(info);
+			promise2 = await getPlayerStatsArray(info, typer);
 			return Promise.resolve(promise2);
 		});
 		counter = 1;
@@ -951,8 +971,8 @@ async function playersStatsNHL(team){
 		document.getElementById("divPage").innerHTML = outputHTMLPages;
 	}
 
-	async function getPlayerStatsArray(team){
-		let playerStats = await getPlayerStats();
+	async function getPlayerStatsArray(team, typer, position){
+		let playerStats = await getPlayerStats(team, typer, position);
 		let playerInfo = await getPlayerInfo();
 	
 		return playerStats.map(info => {
@@ -964,10 +984,12 @@ async function playersStatsNHL(team){
 			}
 		});
 
-		async function getPlayerStats(){
-			return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/now`)
+		async function getPlayerStats(team, typer, position){
+			console.log(position);
+			return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/20232024/${typer}`)
 				.then(value => {
-					console.log(value);
+					console.log(positioner);
+					if(positioner === "SKATERS"){
 					return value.skaters.map(info => {
 						return {
 							team: team,
@@ -987,6 +1009,23 @@ async function playersStatsNHL(team){
 							FOPer: info.faceoffWinPctg,
 						}
 					})
+					}
+					else{
+						return value.goalies.map(info => {
+							return {
+								team: team,
+								playerId: info.playerId,
+								GP: info.gamesPlayed,
+								Wins: info.wins,
+								Losses: info.losses,
+								OTL: info.overtimeLosses,
+								GAA: info.goalsAgainstAverage,
+								SVPer: info.savePercentage,
+								SO: info.shutouts,
+								Points: info.points,
+							}
+						})
+					}
 				})
 		}
 
@@ -1022,9 +1061,24 @@ async function playersStatsNHL(team){
 							nationality: info.birthCountry,
 						}
 					})
+					const goaliesArray = value.goalies.map(info => {
+						return {
+							playerId: info.id,
+							headshot: info.headshot,
+							Name: `${info.firstName.default} ${info.lastName.default}`,
+							sweaterNumber: info.sweaterNumber,
+							position: info.positionCode,
+							shoots: info.shootsCatches,
+							height: info.heightInInches,
+							weight: info.weightInPounds,
+							DOB: info.birthDate,
+							nationality: info.birthCountry,
+						}
+					})
 				return newArray = [
 					...forwardsArray,
 					...defensemenArray,
+					...goaliesArray,
 				];
 			})
 		}
