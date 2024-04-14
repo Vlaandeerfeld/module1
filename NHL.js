@@ -48,7 +48,7 @@ function sorterMain(table, numColumn){
 function sorterPlayers(table){
 	let numColumn = 1;
 	let columns = [];
-	list = ['GP', 'Goals', 'Assists', 'PlayerPoints', 'PlusMinus', 'PIM', 'PPG', 'SHG', 'GWG', 'OTG', 'Shots', 'ShotPer', 'FOPer'];
+	list = ['GP', 'Goals', 'Assists', 'Points', 'PlusMinus', 'PIM', 'PPG', 'SHG', 'GWG', 'OTG', 'Shots', 'ShotPer', 'FOPer'];
 	
 	list.forEach(x => {
 		console.log(localStorage[x]);
@@ -213,7 +213,7 @@ async function teamScheduleOverview(team){
 								if(counter <= 7 - dayone){
 									outputHTML += `<td><div class = content>${counter}<p class = dayNumber>`
 									info.games.forEach(info2 => {
-										outputHTML += `<div class = 'Matchup'><img class = "scheduleLogoAway" src = "https://assets.nhle.com/logos/nhl/svg/${info2.awayTeam.abbrev}_light.svg">vs<img class = "scheduleLogoHome src = "https://assets.nhle.com/logos/nhl/svg/${info2.homeTeam.abbrev}_light.svg"></div></p>`;
+										outputHTML += `<div class = 'Matchup'><img class = "scheduleLogoAway" src = "${info2.awayTeam.darkLogo}">vs<img class = "scheduleLogoHome" src = "${info2.homeTeam.darkLogo}"></div></p>`;
 									})
 									counter++;
 									outputHTML += `</div></td>`;
@@ -260,7 +260,7 @@ async function teamScheduleOverview(team){
 								if(dateofday <= lastdate){
 									outputHTML += `<td><div class = content><p class = dayNumber>`
 									info.games.forEach(info2 => {
-										outputHTML += `<img class = "scheduleLogoAway" src = "https://assets.nhle.com/logos/nhl/svg/${info2.awayTeam.abbrev}_light.svg">${dateofday}<img class = "scheduleLogoHome src = "https://assets.nhle.com/logos/nhl/svg/${info2.homeTeam.abbrev}_light.svg"></p>`;
+										outputHTML += `<div class = 'Matchup'><img class = "scheduleLogoAway" src = "${info2.awayTeam.darkLogo}">vs<img class = "scheduleLogoHome" src = "${info2.homeTeam.darkLogo}"></div></p>`;
 									})
 									dateofday++;
 									outputHTML += `</div></td>`;
@@ -837,7 +837,7 @@ async function playersStatsNHL(team){
 		let teamStatsRoster = await Promise.all(promise1);
 		teamStatsRoster = teamStatsRoster.flat()
 		teamStatsRoster.sort(function(a, b) {
-			return b.PlayerPoints - a.PlayerPoints;
+			return b.Points - a.Points;
 		});
 		console.log(teamStatsRoster);
 
@@ -895,7 +895,7 @@ async function playersStatsNHL(team){
 							GP: info.gamesPlayed,
 							Goals: info.goals,
 							Assists: info.assists,
-							PlayerPoints: info.points,
+							Points: info.points,
 							PlusMinus: info.plusMinus,
 							PIM: info.penaltyMinutes,
 							PPG: info.powerPlayGoals,
