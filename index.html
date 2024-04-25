@@ -7,29 +7,17 @@
         <title>FHM NHL</title>
     </head>
     <body onload = 'uploadTemplate()'>
-        <div class = 'pageBackground' id = 'mainPageBackground'>
-            <div class = 'dropDownImport' id = 'MainDropDown' title = 'import'>
-                <button type = "button" class = 'close' onclick = "document.getElementById('MainDropDown').style.display = 'none'">
-                    Close
-                </button>
-            </div>
-            <div id = 'topLeftMenu'>
-                <a href = 'index.html' class = 'menuTop' id = 'menuButtonHomeMain'>Home</a>
-                <button type = 'button' class = 'menuBottom' id = 'menuButtonImportMain' title = 'Import' onclick = "if (document.getElementById('MainDropDown').style.display == 'block') {document.getElementById('MainDropDown').style.display = 'none'} else {document.getElementById('MainDropDown').style.display = 'block'}">
-                    Import
-                </button>             
-            </div>
-            <div class = 'pageBackgroundLeft' id = 'mainPageBackgroundLeft'>
-            </div>
-            <div class = 'pageBackgroundRight' id = 'mainPageBackgroundRight'>
+        <div class = 'pageSplash' id = 'mainPageSplash'>
+            <div class = 'banner' id = 'mainPageBanner'>
+                <div class = 'pageLogo' id = 'mainPageLogo'>
+                    <img src="logo.jpeg" alt="this">
+                </div>
             </div>
             <div id = 'mainPageWelcome'>
                 <p>Welcome to the Franchise Hockey Manager and NHL comparison website.
                 Franchise Hockey Manager is a series produced by out of the park development studio.
                 This site will display stats from Franchise Hockey Manager, NHL or both to be compared.
                 Select a link below to continue to the appropriate section.</p>
-            </div>
-            <div class = 'pageLogo' id = 'mainPageLogo'>
             </div>
             <div class = 'navBottom' id = 'navBottomMainPage'>
                 <button type = 'button' class = navButton1 id = 'aboutmeHome' title = 'About Me' onclick = "document.location = 'aboutme.html'">

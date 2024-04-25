@@ -1030,6 +1030,10 @@
         width: 25%;
         z-index: 10;
     }
+    .banner{
+        display: flex;
+        flex-wrap: wrap;
+    }
     .pageBackground{
         display: block;
         position: relative;
@@ -1090,10 +1094,15 @@
         z-index: 2;  
     }
     .pageLogo{
+        position: flex;
+        height: 100%;
+        width: 20%;
+    }
+    .pageSplash{
         position: absolute;
-        background-image: url('logo.jpeg');
+        background-image: url('splash.jpg');
         background-size: cover;
-        height: 70%;
+        height: 100%;
         width: 100%;
         left: 0;
         top: 0;
