@@ -7,31 +7,127 @@
         <title>FHM NHL</title>
     </head>
     <body onload = 'uploadTemplate()'>
-        <div class = 'pageSplash' id = 'mainPageSplash'>
+        <div class = 'container' id = 'mainPageContainer'>
             <div class = 'banner' id = 'mainPageBanner'>
-                <div class = 'pageLogo' id = 'mainPageLogo'>
-                    <img src="logo.jpeg" alt="this">
+                <img class = 'pageLogo' id = 'mainPageLogo' src="logo.jpeg" alt="this">
+                <div class = 'teamLogos' id = 'ANA' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "ANA"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'anaheimLogo' src = 'https://assets.nhle.com/logos/nhl/svg/ANA_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'ARI' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "ARI"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'arizonaLogo' src = 'https://assets.nhle.com/logos/nhl/svg/ARI_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'BOS' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "BOS"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'bostonLogo' src = 'https://assets.nhle.com/logos/nhl/svg/BOS_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'BUF' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "BUF"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'buffaloLogo' src = 'https://assets.nhle.com/logos/nhl/svg/BUF_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'CGY' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "CGY"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'calgaryLogo' src = 'https://assets.nhle.com/logos/nhl/svg/CGY_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'CAR' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "CAR"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'carolinaLogo' src = 'https://assets.nhle.com/logos/nhl/svg/CAR_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'CHI' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "CHI"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'chicagoLogo' src = 'https://assets.nhle.com/logos/nhl/svg/CHI_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'COL' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "COL"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'coloradoLogo' src = 'https://assets.nhle.com/logos/nhl/svg/COL_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'CBJ' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "CBJ"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'columbusLogo' src = 'https://assets.nhle.com/logos/nhl/svg/CBJ_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'DAL' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "DAL"); window.location.href = "NHLstatsteam.html";'>
+                <img id = 'dallasLogo' src = 'https://assets.nhle.com/logos/nhl/svg/DAL_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'DET' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "DET"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'detroitLogo' src = 'https://assets.nhle.com/logos/nhl/svg/DET_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'EDM' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "EDM"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'edmontonLogo' src = 'https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'FLA' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "FLA"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'floridaLogo' src = 'https://assets.nhle.com/logos/nhl/svg/FLA_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'LAK' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "LAK"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'losAngelesLogo' src = 'https://assets.nhle.com/logos/nhl/svg/LAK_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'MIN' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "MIN"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'minnisotaLogo' src = 'https://assets.nhle.com/logos/nhl/svg/MIN_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'MTL' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "MTL"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'montrealLogo' src = 'https://assets.nhle.com/logos/nhl/svg/MTL_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'NSH' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "NSH"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'nashvilleLogo' src = 'https://assets.nhle.com/logos/nhl/svg/NSH_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'NJD' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "NJD"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'newJerseyLogo' src = 'https://assets.nhle.com/logos/nhl/svg/NJD_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'NYI' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "NYI"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'newYorkIslandsLogo' src = 'https://assets.nhle.com/logos/nhl/svg/NYI_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'NYR' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "NYR"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'newYorkRangersLogo' src = 'https://assets.nhle.com/logos/nhl/svg/NYR_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'OTT' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "OTT"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'ottawaLogo' src = 'https://assets.nhle.com/logos/nhl/svg/OTT_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'PHI' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "PHI"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'philidelphiaLogo' src = 'https://assets.nhle.com/logos/nhl/svg/PHI_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'PIT' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "PIT"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'pittsburghLogo' src = 'https://assets.nhle.com/logos/nhl/svg/PIT_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'SJS' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "SJS"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'sanJoseLogo' src = 'https://assets.nhle.com/logos/nhl/svg/SJS_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'SEA' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "SEA"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'seattleLogo' src = 'https://assets.nhle.com/logos/nhl/svg/SEA_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'STL' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "STL"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'stLouisLogo' src = 'https://assets.nhle.com/logos/nhl/svg/STL_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'TBL' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "TBL"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'tampaBayLogo' src = 'https://assets.nhle.com/logos/nhl/svg/TBL_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'TOR' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "TOR"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'torontoLogo' src = 'https://assets.nhle.com/logos/nhl/svg/TOR_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'VAN' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "VAN"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'vancouverLogo' src = 'https://assets.nhle.com/logos/nhl/svg/VAN_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'VGK' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "VGK"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'vegasLogo' src = 'https://assets.nhle.com/logos/nhl/svg/VGK_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'WSH' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "WSH"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'washingtonLogo' src = 'https://assets.nhle.com/logos/nhl/svg/WSH_dark.svg' alt="this">
+                </div>
+                <div class = 'teamLogos' id = 'WPG' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "WPG"); window.location.href = "NHLstatsteam.html";'>
+                    <img id = 'winnipegLogo' src = 'https://assets.nhle.com/logos/nhl/svg/WPG_dark.svg' alt="this">
                 </div>
             </div>
-            <div id = 'mainPageWelcome'>
-                <p>Welcome to the Franchise Hockey Manager and NHL comparison website.
-                Franchise Hockey Manager is a series produced by out of the park development studio.
-                This site will display stats from Franchise Hockey Manager, NHL or both to be compared.
-                Select a link below to continue to the appropriate section.</p>
-            </div>
-            <div class = 'navBottom' id = 'navBottomMainPage'>
-                <button type = 'button' class = navButton1 id = 'aboutmeHome' title = 'About Me' onclick = "document.location = 'aboutme.html'">
-                    About Me
-                </button>
-                <button type = 'button' class = navButton4 id = 'NHLstatsHome' title = 'NHL Stats' onclick = "document.location = 'NHLstatsteams.html'">
-                    National Hockey League Stats
-                </button>
-                <button type = 'button' class = navButton3 id = 'FHMNHLstatsHome' title = 'FHMNHL Stats' onclick = "document.location = 'NHLstats.html'">
-                    NHL Standings
-                </button>
-                <button type = 'button' class = navButton2 id = 'FHMstatsHome' title = 'FHM Stats' onclick = "document.location = 'FHMstats.html'">
-                    Franchise Hockey Manager Stats
-                </button>
+            <div class = 'pageSplash' id = 'mainPageSplash'>
+                <div id = 'mainPageWelcome'>
+                    <p>Welcome to the Franchise Hockey Manager and NHL comparison website.
+                    Franchise Hockey Manager is a series produced by out of the park development studio.
+                    This site will display stats from Franchise Hockey Manager, NHL or both to be compared.
+                    Select a link below to continue to the appropriate section.</p>
+                </div>
+                <div class = 'navSide' id = 'navSideMainPage'>
+                    <a class = 'navButton1' href = 'aboutme.html'>
+                        About Me
+                    </a>
+                    <a class = 'navButton2' href = 'NHLstats.html'>
+                        NHL Standings
+                    </a>
+                    <a class = 'navButton3' href = 'NHLstatsteams.html'>
+                        NHL Stats
+                    </a>
+                    <a class = 'navButton4' href = 'FHMstats.html'>
+                        FHM Stats
+                    </a>
+                </div>
             </div>
         </div>
     </body>
