@@ -108,7 +108,8 @@ function sorterTeams(table){
 
 async function getAPI(url){
 
-	const response = await fetch('https://corsproxy.io/?'+ url);
+	const url2 = 'https://corsproxy.io/?' + encodeURIComponent(url);
+	const response = await fetch(url);
 	const result = await response.json()
 	return result;
 }
@@ -190,7 +191,7 @@ async function teamScheduleOverview(team){
 		"Saturday",
 	];
 
-	let outputHTML = `<tbody>
+	let outputHTML = `<table id = 'teamCalender'><tbody>
 						<tr><th onclick = 'if(Number(localStorage["month"]) === 0){localStorage["month"] = 11; localStorage["year"] = Number(localStorage["year"]) - 1; teamScheduleOverview(localStorage["currentTeam"])}else{localStorage["month"] = Number(localStorage["month"]) - 1; teamScheduleOverview(localStorage["currentTeam"])}'><</th><th colspan="5">${months[Number(localStorage["month"])]} ${localStorage["year"]}</th><th onclick = 'if(Number(localStorage["month"]) === 11){localStorage["month"] = 0; localStorage["year"] = Number(localStorage["year"]) + 1; teamScheduleOverview(localStorage["currentTeam"])}else{localStorage["month"] = Number(localStorage["month"]) + 1; teamScheduleOverview(localStorage["currentTeam"])}'>></th></tr>
 						<tr><th>Sunday</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th><th>Saturday</th></tr>
 					`;
@@ -250,10 +251,10 @@ async function teamScheduleOverview(team){
 		else{
 			let check = 0
 			let schedule = [];
-			counter++;
 			dateofday = counter;
+			counter++;
 			for(let y = 0; y < 5; y++){
-			outputHTML += `<tr>`;
+				outputHTML += `<tr>`;
 				if(counter < lastdate){
 					console.log(counter);
 					if (counter === (Number(check)) || Number(check) === 0){
@@ -267,7 +268,7 @@ async function teamScheduleOverview(team){
 							console.log(info);
 							if(info !== 'No Games'){
 								if(dateofday <= lastdate){
-									outputHTML += `<td><div class = content><p class = dayNumber>`
+									outputHTML += `<td><div class = content><p class = dayNumber>${dateofday}</p>`
 									info.games.forEach(info2 => {
 										outputHTML += `<div class = 'Matchup'><img class = "scheduleLogoAway" src = "${info2.awayTeam.darkLogo}">vs<img class = "scheduleLogoHome" src = "${info2.homeTeam.darkLogo}"></div></p>`;
 									})
@@ -286,12 +287,12 @@ async function teamScheduleOverview(team){
 				else{
 					continue;
 				}
-			outputHTML += `</tr>`;
-			counter = counter + 7;
+				outputHTML += `</tr>`;
+				counter = counter + 7;
 			}
 		}
 	}
-	outputHTML += `</tbody>`;
+	outputHTML += `</table></tbody>`;
 
 	console.log(outputHTML);
 
@@ -910,7 +911,7 @@ async function playersStatsNHL(team, gameType, position){
 				for(let x = (currentPage - 1) * recordsPerPage; x < value.length; x++){
 					counter++;
 					if(counter + (currentPage * recordsPerPage) <= (currentPage * recordsPerPage) + recordsPerPage){
-					outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${team}</td><td id = "${value[x].playerId}" onlick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; localStorage.setItem("currentPlayer", document.getElementById("${value[x].playerId}").id)'><a href = "NHLstatsplayer.html"'>${value[x].Name}</td>`
+					outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html";'>${team}</td><td id = "${value[x].playerId}" onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; localStorage.setItem("currentPlayer", document.getElementById("${value[x].playerId}").id); window.location.href = "NHLstatsplayer.html"'>${value[x].Name}</td>`
 					columns.forEach(info => {
 						outputHTML += `<td>${value[x][info]}</td>`;
 					})
@@ -964,8 +965,8 @@ async function playersStatsNHL(team, gameType, position){
 
 	function displayPages(){
 		let outputHTMLPages = `
-					<a href="javascript:prevPage()" id="btn_prev">Prev</a>
-					<a href="javascript:nextPage()" id="btn_next">Next</a>
+					<div onclick='prevPage()' id="btn_prev">Prev</div>
+					<div onclick ='nextPage()' id="btn_next">Next</div>
 					page: <span id="page">${currentPage}</span>
 				`
 		document.getElementById("divPage").innerHTML = outputHTMLPages;
@@ -1145,15 +1146,22 @@ async function teamStatsTables(team){
 	}
 }
 
-async function searchPlayers(lastName){
+async function searchPlayers(lastName, gameType, position){
 	let promise2;
 
-	const valuesReturned = sorterPlayers('playersTablesOverview');
+	const valuesReturned = sorterPlayers('playersTablesOverview', position);
 	let columns = valuesReturned[0];
 	let outputHTML = valuesReturned[1];
+
+	if (gameType === "POST-SEASON"){
+		typer = 3;
+	}
+	else{
+		typer = 2;
+	}
 	
 	const promise1 = localStorage['NHL'].split(',').map(async info => {
-		promise2 = await getPlayerStatsArray(info);
+		promise2 = await getPlayerStatsArray(info, typer, position);
 		return Promise.resolve(promise2);
 	});
 
@@ -1178,8 +1186,8 @@ async function searchPlayers(lastName){
 	outputHTML += `</tbody>`;
 	document.getElementById('playersTablesOverview').innerHTML = outputHTML;
 
-	async function getPlayerStatsArray(team){
-		let playerStats = await getPlayerStats();
+	async function getPlayerStatsArray(team, typer, position){
+		let playerStats = await getPlayerStats(team, typer, position);
 		let playerInfo = await getPlayerInfo();
 	
 		return playerStats.map(info => {
@@ -1191,10 +1199,11 @@ async function searchPlayers(lastName){
 			}
 		});
 
-		async function getPlayerStats(){
-			return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/now`)
+		async function getPlayerStats(team, typer, position){
+			console.log(position);
+			return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/20232024/${typer}`)
 				.then(value => {
-					console.log(value);
+					if(position === "SKATERS"){
 					return value.skaters.map(info => {
 						return {
 							team: team,
@@ -1202,7 +1211,7 @@ async function searchPlayers(lastName){
 							GP: info.gamesPlayed,
 							Goals: info.goals,
 							Assists: info.assists,
-							PlayerPoints: info.points,
+							Points: info.points,
 							PlusMinus: info.plusMinus,
 							PIM: info.penaltyMinutes,
 							PPG: info.powerPlayGoals,
@@ -1214,6 +1223,23 @@ async function searchPlayers(lastName){
 							FOPer: info.faceoffWinPctg,
 						}
 					})
+					}
+					else{
+						return value.goalies.map(info => {
+							return {
+								team: team,
+								playerId: info.playerId,
+								GP: info.gamesPlayed,
+								Wins: info.wins,
+								Losses: info.losses,
+								OTL: info.overtimeLosses,
+								GAA: info.goalsAgainstAverage,
+								SVPer: info.savePercentage,
+								SO: info.shutouts,
+								Points: info.points,
+							}
+						})
+					}
 				})
 		}
 
@@ -1249,9 +1275,24 @@ async function searchPlayers(lastName){
 							nationality: info.birthCountry,
 						}
 					})
+					const goaliesArray = value.goalies.map(info => {
+						return {
+							playerId: info.id,
+							headshot: info.headshot,
+							Name: `${info.firstName.default} ${info.lastName.default}`,
+							sweaterNumber: info.sweaterNumber,
+							position: info.positionCode,
+							shoots: info.shootsCatches,
+							height: info.heightInInches,
+							weight: info.weightInPounds,
+							DOB: info.birthDate,
+							nationality: info.birthCountry,
+						}
+					})
 				return newArray = [
 					...forwardsArray,
 					...defensemenArray,
+					...goaliesArray,
 				];
 			})
 		}
@@ -1326,7 +1367,7 @@ function advancedFilterStatsPlayers(){
 			<input type="checkbox" id="ShotPer" onclick='if (ShotPer.checked == true){localStorage["ShotPer"] = true}else{localStorage["ShotPer"] = false}' checked><label for="ShotPer" class="chkbox">Shot %</label></input>
 			<input type="checkbox" id="FOPer" onclick='if (FOPer.checked == true){localStorage["FOPer"] = true}else{localStorage["FOPer"] = false}' checked><label for="FOPer" class="chkbox">FO %</label></input>
 			<input type="text" id="PlayersStatsSearch" class="searchBar"><label for="PlayersStatsSearch" class="searchLabel"></label></input>
-			<button type="button id="PlayersStatsSearchButton" class="searchButton" onclick='searchPlayers(document.getElementById("PlayersStatsSearch").value)'><label for="PlayersStatsSearchButton" class="searchButtonLabel">Search</label></input>
+			<button type="button id="PlayersStatsSearchButton" class="searchButton" onclick='searchPlayers(document.getElementById("PlayersStatsSearch").value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)'><label for="PlayersStatsSearchButton" class="searchButtonLabel">Search</label></input>
 			`
 	document.getElementById('NHLStatsPlayersDropDown').innerHTML = outputHTML;
 }
@@ -1455,14 +1496,14 @@ function prevPage(){
     if (currentPage > 1) {
         currentPage--;
 		document.getElementById("page").innerHTML = currentPage;
-        playersStatsNHL("ALL");
+        playersStatsNHL("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text);
     }
 }
 
 function nextPage(){
     currentPage++;
 	document.getElementById("page").innerHTML = currentPage;
-    playersStatsNHL("ALL");
+    playersStatsNHL("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text);
 }
 
 function getCurrentPage(){

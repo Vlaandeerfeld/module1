@@ -111,38 +111,35 @@
         text-align: center;    
     }
     #outermostLayer{
-        position: relative;
         height: auto;
         min-height: 100vh;
         background-color: aqua;
         width: 100vw;
-        display: block;
+        display: flex;
         z-index: 1;
+        flex-direction: row;
         overflow-x: auto;
     }
     .statsTeamRoster{
-        position: relative;
+        display: flex;
         margin-top: 2%;
         margin-bottom: 2%;
         height: 33%;
-        width: 33.33%;
-        float: left;
+        width: 10%;
     }
     .statsTeamRosterStats{
-        position: relative;
+        display: flex;
         margin-top: 2%;
         margin-bottom: 2%;
         Height: 67%;
-        width: 33.33%;
-        float: left;
+        width: 20%;
     }
     .statsTeamLinesStats{
-        position: relative;
+        display: flex;
         margin-top: 2%;
         margin-bottom: 2%;
         Height: 67%;
         width: 33.33%;
-        float: left;
     }
     table{
         display: table;
@@ -245,13 +242,10 @@
     }
     .teamLogo{
         text-align: center;
-        display: block;
-        position: relative;
+        display: flex;
         background-color: whitesmoke;
         height: 20%;
         width: 100%;
-        left: 0%;
-        top: 0%;
     }
     .playerStats{
         position: absolute;
@@ -1051,37 +1045,6 @@
         width: 2.6%;
         z-index: 1;
     }
-    .pageBackground{
-        display: block;
-        position: relative;
-        height: 100vh;
-        width: 100%;
-        top: 0;
-        left: 0;
-        background-color: #011327;
-    }
-    .pageBackgroundLeft{
-        display: block;
-        position: absolute;
-        height: 30%;
-        width: 60%;
-        top: 70%;
-        left: 0;
-        background-image: linear-gradient(to right, #f2a138, #ff7c18);
-        z-index: 1;
-        border-top-left-radius: 200px;
-    }
-    .pageBackgroundRight{
-        display: block;
-        position: absolute;
-        height: 45%;
-        width: 50%;
-        top: 55%;
-        left: 50%;
-        background-image: linear-gradient(to right, #ff7c18, #ff2c06);
-        z-index: 2;
-        border-top-left-radius: 200px;
-    }
     #mainPageWelcome{
         text-decoration: none;
         display: flex;
@@ -1097,17 +1060,17 @@
     }
     #aboutMeMainPage{
         text-decoration: none;
-        position: relative;
+        display: flex;
         height: auto;
         width: 40%;
-        top: 5%;
-        left: 30%;
         background-color: #011327;
         color: whitesmoke;
         text-align: center;
-        padding: 1%;
-        border-radius: 25px; 
-        z-index: 2;  
+        margin-left: 30%;
+        margin-bottom: 30%;
+        border-radius: 25px;
+        z-index: 2;
+        flex-direction: column;
     }
     .pageLogo{
         display: flex;
@@ -1124,51 +1087,85 @@
         background-size: cover;
     }
     #canvas{
-        position: relative;
+        display: flex;
         height: 100vh;
-        width: 100%;
-        z-index: 1;
-        background-color: black;
+        width: 100vw;
         align-items: start;
+        z-index: 1;
+        flex-direction: column;
+        background-color: #011327;
     }
     #topFilter{
-        display: block;
-        position: relative;
-        right: 0px;
-        float: right;
-        height: 10%;
+        display: flex;
+        min-height: 10%;
         width: 100%;
     }
     .filters{
-        display: block;
-        position: relative;
-        float: left;;
+        display: flex;
         height: 100%;
         width: 25%;
         margin: 0px;
         padding: 0px;
-        text-align: center;    
+        text-align: center; 
+        background-color: #ffa231;
+        justify-content: center;
+        align-items: center;
+    }
+    #rowContainer{
+        flex-direction: row;
+        display: flex;
+        margin-top: 2.5%;
+        height: 30%;
+        width: 100%;
+        justify-content: space-between;
+    }
+    #teamoutermostLayer{
+        background-color: #011327;
+        display: flex;
+        z-index: 1;
+        width: 100%;
+        flex-direction: column;
+        padding-bottom: 5%;
     }
     #outermostLayer{
-        position: relative;
-        height: auto;
-        min-height: 100vh;
-        background-color: aqua;
-        width: 100%;
-        display: block;
-        float: left;
+        background-color: #011327;
+        display: flex;
         z-index: 1;
+        width: 100%;
+        flex-direction: column;
+    }
+    #West{
+        margin-right: 2.5%;
+    }
+    #East{
+        margin-left: 2.5%;
+    }
+    #teamStandingsOverview{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 2.5%;
+        justify-content: space-around;
+        height: 40%;
+        width: 95%;
     }
     #teamScheduleOverview{
-        position: relative;
+        display: flex;
+        width: 95%;
+        height: 80%;
+        margin-left: 2.5%;
+        align-items: start;
+        text-align: start;
+        padding-bottom: 2.5%;
+    }
+    #teamCalendar{
         display: table;
-        height: 70%;
-        width: 70%;
-        left: 15%;
-        top: 15%;
+        width: 100%;
+        height: 90%;
     }
     .content{
-        aspect-ratio: 1 / 1 ;
+        aspect-ratio: 1 / 1;
+        min-width: 250px;
     }
     .mainTableContent{
         display: table;
@@ -1177,32 +1174,34 @@
         float: left;
     }
     .statsTeamRoster{
-        position: relative;
-        margin-left: 16.5%;
-        margin-top: 2%;
-        margin-bottom: 2%;
-        height: 33%;
+        display: table;
+        margin-left: 10%;
+        height: 100%;
         width: 33.33%;
-        float: left;
     }
     .statsTeamRosterStats{
-        position: relative;
-        margin-left: 16.5%;
-        margin-right: 33.33%;
-        margin-top: 2%;
-        margin-bottom: 2%;
-        height: 67%;
-        width: 33.33%;
-        float: left;
+        display: table;
+        margin-top: 2.5%;
+        margin-left: 10%;
+        height: 100%;
+        width: 80%;
     }
     .statsTeamLinesStats{
-        position: relative;
-        margin-right: 16.5%;
-        margin-top: 2%;
-        margin-bottom: 2%;
-        Height: 67%;
+        display: table;
+        margin-right: 10%;
+        height: 100%;
         width: 33.33%;
-        float: left;
+    }
+    #playersTablesOverview{
+        width: 80%;
+        margin-left: 10%;
+        margin-top: 2.5%;
+    }
+    #teamTablesOverview{
+        width: 80%;
+        margin-left: 10%;
+        margin-top: 2.5%;
+        padding-bottom: 2.5%;
     }
     table{
         display: table;
@@ -1212,16 +1211,15 @@
         width: 100vw;
         height: auto;
     }
-
     td{
         border: 1px solid;
         text-align: center;
-        background-color: grey;
+        background-color: #0551a8;
     }
     th{
         border: 1px solid;
         text-align: center !important;
-        background-color: darkgrey;
+        background-color: #043b7a;
     }
     th:hover{
         border: 1px solid;
@@ -1260,6 +1258,7 @@
         display: flex;
         height: 100%;
         width: 25%;
+        background-color: #ffa231;
         color: black;
         text-decoration: none;
         font-size: xx-large;
@@ -1270,6 +1269,7 @@
         display: flex;
         height: 100%;
         width: 25%;
+        background-color: #ffa231;
         color: black;
         text-decoration: none;
         font-size: xx-large;
@@ -1280,6 +1280,7 @@
         display: flex;
         height: 100%;
         width: 25%;
+        background-color: #ffa231;
         color: black;
         text-decoration: none;
         font-size: xx-large;
@@ -1290,6 +1291,7 @@
         display: flex;
         height: 100%;
         width: 25%;
+        background-color: #ffa231;
         color: black;
         text-decoration: none;
         font-size: xx-large;
@@ -1301,8 +1303,20 @@
         display: flex;
         bottom: 0%;
         width: 100%;
-        height: 15%;
+        height: 5%;
+        min-height: 5%;
         z-index: 2;
+        padding-top: auto;
+        margin-top: auto;
+    }
+    #divPage{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        margin-left: 10%;
+        text-decoration: none;
+        width: 10%;
+        cursor: pointer;
     }
     .navSide{
         display: flex;
@@ -1327,7 +1341,7 @@
         text-align: center;
         display: block;
         position: relative;
-        background-color: whitesmoke;
+        background-color: #ffa231;
         height: 20%;
         width: 100%;
         left: 0%;
@@ -1341,17 +1355,15 @@
     }
     .teamLogo{
         text-align: center;
-        display: block;
-        position: relative;
-        background-color: whitesmoke;
+        display: flex;
+        background-color: #ffa231;
         height: 20%;
         width: 100%;
-        left: 0%;
-        top: 0%;
+        justify-content: center;
     }
     .playerStats{
         position: absolute;
-        background-color:whitesmoke;
+        background-color:#ffa231;
         height: 40%;
         width: 60%;
         left: 20%;
@@ -1359,7 +1371,7 @@
     }
     .playersStats{
         position: absolute;
-        background-color: whitesmoke;
+        background-color: #ffa231;
         height: auto;
         width: 100%;
         left: 0px;
@@ -1367,7 +1379,7 @@
     }
     .teamStats{
         position: absolute;
-        background-color:whitesmoke;
+        background-color:#ffa231;
         height: 40%;
         width: 60%;
         left: 20%;
@@ -1375,7 +1387,7 @@
     }
     .teamsStats{
         position: absolute;
-        background-color: whitesmoke;
+        background-color: #ffa231;
         height: auto;
         width: 100%;
         left: 0px;
