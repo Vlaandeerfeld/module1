@@ -1,3 +1,111 @@
+localStorage["GP"] = true; 
+localStorage["Goals"] = true; 
+localStorage["Assists"] = true; 
+localStorage["Points"] = true; 
+localStorage['PlusMinus'] = true;
+localStorage['PIM'] = true;
+localStorage['PPG'] = true; 
+localStorage['SHG'] = true;
+localStorage['GWG'] = true;
+localStorage['OTG'] = true; 
+localStorage['Shots'] = true;
+localStorage['ShotPer'] = true;
+localStorage['FOPer'] = true;
+localStorage['GP_RS'] = true;
+localStorage['Wins'] = true;
+localStorage['Losses'] = true;
+localStorage['Ties'] = false;
+localStorage['OTL'] = true;
+localStorage['Points'] = true;
+localStorage['PCT'] = true;
+localStorage['l10'] = true;
+localStorage['GF'] = true;
+localStorage['GA'] = true;
+localStorage['Goal_Diff'] = true;
+localStorage['GAA'] = true;
+localStorage['SVPer'] = true;
+localStorage['SO'] = true;
+
+
+let currentPage = 1;
+let recordsPerPage = 27;
+
+
+let date = new Date();
+localStorage['year'] = date.getFullYear();
+localStorage['month'] = date.getMonth();
+
+function sorterMain(table, numColumn){
+
+	let sorter1 = `<tr>`;
+	list1 = ['Team', 'GP', 'Wins', 'Losses', 'Ties', 'OTL', 'Points', 'PCT', 'last 10'];
+		
+	sorter1 += `<th onclick = 'if(localStorage["${table}${0}"] === "DESC"){sortTable("${table}",${0}); localStorage["${table}${0}"] = "ASC";} else{sortTableASC("${table}",${0}); localStorage["${table}${0}"] = "DESC"}'>${list1[0]}</th>`;
+
+	for (let x = 1; x <= numColumn; x++){
+		sorter1 += `<th onclick = 'if(localStorage["${table}${x}"] === "DESC"){sortTableNum("${table}",${x}); localStorage["${table}${x}"] = "ASC";} else{sortTableNumASC("${table}",${x}); localStorage["${table}${x}"] = "DESC"}'>${list1[x]}</th>`;
+	}
+	sorter1 += `</tr>`;
+
+	return sorter1;
+}
+
+function sorterPlayers(table, position){
+	let numColumn = 1;
+	let columns = [];
+	if(position === "SKATERS"){
+		list = ['GP', 'Goals', 'Assists', 'Points', 'PlusMinus', 'PIM', 'PPG', 'SHG', 'GWG', 'OTG', 'Shots', 'ShotPer', 'FOPer'];
+	}
+	else{
+		list = ['GP', 'Wins', 'Losses', 'OTL', 'GAA', 'SVPer', 'SO', 'Points'];
+	}
+
+	list.forEach(x => {
+		console.log(localStorage[x]);
+		if(localStorage[x] === 'true'){
+			numColumn += 1;
+			columns.push(x);
+		};
+	});
+	
+	let sorter1 = `<tr>`;
+	sorter1 += `<th onclick = 'if(localStorage["${table}${0}"] === "DESC"){sortTable("${table}",${0}); localStorage["${table}${0}"] = "ASC";} else{sortTableASC("${table}",${0}); localStorage["${table}${0}"] = "DESC"}'>Team</th>
+				<th onclick = 'if(localStorage["${table}${1}"] === "DESC"){sortTable("${table}",${1}); localStorage["${table}${1}"] = "ASC";} else{sortTableASC("${table}",${1}); localStorage["${table}${1}"] = "DESC"}'>Name</th>
+				`;
+
+	for (let x = 2; x <= numColumn; x++){
+		sorter1 += `<th onclick = 'if(localStorage["${table}${x}"] === "DESC"){sortTableNum("${table}",${x}); localStorage["${table}${x}"] = "ASC";} else{sortTableNumASC("${table}",${x}); localStorage["${table}${x}"] = "DESC"}'>${columns[x - 2]}</th>`;
+	}
+	sorter1 += `</tr>`;
+
+	console.log(columns);
+	return [columns, sorter1];
+}
+
+function sorterTeams(table){
+	let numColumn = 0;
+	let columns = [];
+	list1 = ['GP_RS', 'Wins', 'Losses', 'Ties', 'OTL', 'Points', 'PCT', 'l10', 'GF', 'GA', 'Goal_Diff'];
+		
+	list1.forEach(x => {
+		console.log(localStorage[x]);
+		if(localStorage[x] === 'true'){
+			numColumn += 1;
+			columns.push(x);
+		};
+	});
+
+	let sorter1 = `<tr>`;
+	sorter1 += `<th onclick = 'if(localStorage["${table}${0}"] === "DESC"){sortTable("${table}",${0}); localStorage["${table}${0}"] = "ASC";} else{sortTableASC("${table}",${0}); localStorage["${table}${0}"] = "DESC"}'>Team</th>`;
+
+	for (let x = 1; x <= numColumn; x++){
+		sorter1 += `<th onclick = 'if(localStorage["${table}${x}"] === "DESC"){sortTableNum("${table}",${x}); localStorage["${table}${x}"] = "ASC";} else{sortTableNumASC("${table}",${x}); localStorage["${table}${x}"] = "DESC"}'>${columns[x - 1]}</th>`;
+	}
+	sorter1 += `</tr>`;
+
+	return [columns, sorter1];
+}
+
 async function upload(){
 
 	const input = await document.getElementById('CSVfile');
@@ -141,8 +249,9 @@ function teamTablesOverview(league, season, team){
 	let data = JSON.parse(localStorage[league]);
 	league = league.toString();
     console.log(league);
-	let outputHTML = '';
-	outputHTML += `<tbody><tr><th onclick = 'sortTable("teamTablesOverview", 0)'>Team</th><th onclick = 'sortTableNum("teamTablesOverview", 1)'>GP</th><th onclick = 'sortTableNum("teamTablesOverview", 2)'>Wins</th><th onclick = 'sortTableNum("teamTablesOverview", 3)'>Losses</th><th onclick = 'sortTableNum("teamTablesOverview", 4)'>Ties</th><th onclick = 'sortTableNum("teamTablesOverview", 5)'>OTL</th><th onclick = 'sortTableNum("teamTablesOverview", 6)'>Points</th><th onclick = 'sortTableNum("teamTablesOverview", 7)'>PCT</th><th onclick = 'sortTableNum("teamTablesOverview", 8)'>G</th></tr>`;
+	let outputHTML =``;
+	outputHTML += '<tbody>';
+	outputHTML += sorterMain('teamTablesOverview', 8);	
 	data.forEach(value => {
 		if (team != 'ALL'){
 			if (value.Season == season && value.Abbr == team){
@@ -460,4 +569,153 @@ function sortTable(tableToSort, column){
 		switching = true;
 		}
 	}
+}
+function advancedFilterStatsPlayers(){
+	outputHTML = `
+			<input type="checkbox" id="GP" onclick='if (GP.checked == true){localStorage["GP"] = true}else{localStorage["GP"] = false}' checked><label for="GP" class="chkbox">GP</label></input>
+			<input type="checkbox" id="Goals" onclick='if(Goals.checked === true){localStorage["Goals"] = true}else{localStorage["Goals"] = false}' checked><label for="Goals" class="chkbox">Goals</label></input>
+			<input type="checkbox" id="Assists" onclick='if (Assists.checked == true){localStorage["Assists"] = true}else{localStorage["Assists"] = false}' checked><label for="Assists" class="chkbox">Assists</label></input>
+			<input type="checkbox" id="Points" onclick='if (Points.checked == true){localStorage["Points"] = true}else{localStorage["Points"] = false}' checked><label for="Points" class="chkbox">Points</label></input>
+			<input type="checkbox" id="PlusMinus" onclick='if (PlusMinus.checked == true){localStorage["PlusMinus"] = true}else{localStorage["PlusMinus"] = false}' checked><label for="PlusMinus" class="chkbox">PlusMinus</label></input>
+			<input type="checkbox" id="PIM" onclick='if (PIM.checked == true){localStorage["PIM"] = true}else{localStorage["PIM"] = false}' checked><label for="PIM" class="chkbox">PIM</label></input>
+			<input type="checkbox" id="PPG" onclick='if (PPG.checked == true){localStorage["PPG"] = true}else{localStorage["PPG"] = false}' checked><label for="PPG" class="chkbox">PPG</label></input>
+			<input type="checkbox" id="SHG" onclick='if (SHG.checked == true){localStorage["SHG"] = true}else{localStorage["SHG"] = false}' checked><label for="SHG" class="chkbox">SHG</label></input>
+			<input type="checkbox" id="GWG" onclick='if (GWG.checked == true){localStorage["GWG"] = true}else{localStorage["GWG"] = false}' checked><label for="GWG" class="chkbox">GWG</label></input>
+			<input type="checkbox" id="OTG" onclick='if (OTG.checked == true){localStorage["OTG"] = true}else{localStorage["OTG"] = false}' checked><label for="OTG" class="chkbox">OTG</label></input>
+			<input type="checkbox" id="Shots" onclick='if (Shots.checked == true){$localStorage["Shots"] = true}else{localStorage["Shots"] = false}' checked><label for="Shots" class="chkbox">Shots</label></input>
+			<input type="checkbox" id="ShotPer" onclick='if (ShotPer.checked == true){localStorage["ShotPer"] = true}else{localStorage["ShotPer"] = false}' checked><label for="ShotPer" class="chkbox">Shot %</label></input>
+			<input type="checkbox" id="FOPer" onclick='if (FOPer.checked == true){localStorage["FOPer"] = true}else{localStorage["FOPer"] = false}' checked><label for="FOPer" class="chkbox">FO %</label></input>
+			<input type="text" id="PlayersStatsSearch" class="searchBar"><label for="PlayersStatsSearch" class="searchLabel"></label></input>
+			<button type="button id="PlayersStatsSearchButton" class="searchButton" onclick='searchPlayers(document.getElementById("PlayersStatsSearch").value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)'><label for="PlayersStatsSearchButton" class="searchButtonLabel">Search</label></input>
+			`
+	document.getElementById('NHLStatsPlayersDropDown').innerHTML = outputHTML;
+}
+function advancedFilterStatsTeams(){
+	outputHTML = `
+			<input type="checkbox" id="GP_RS" onclick='if (GP_RS.checked == true){localStorage["GP_RS"] = true}else{localStorage["GP_RS"] = false}' checked><label for="GP_RS" class="chkbox">GP RS</label></input>
+			<input type="checkbox" id="Wins" onclick='if(Wins.checked === true){localStorage["Wins"] = true}else{localStorage["Wins"] = false}' checked><label for="Wins" class="chkbox">Wins</label></input>
+			<input type="checkbox" id="Losses" onclick='if (Losses.checked == true){localStorage["Losses"] = true}else{localStorage["Losses"] = false}' checked><label for="Losses" class="chkbox">Losses</label></input>
+			<input type="checkbox" id="Ties" onclick='if (Ties.checked == true){localStorage["Ties"] = true}else{localStorage["Ties"] = false}'><label for="Ties" class="chkbox">Ties</label></input>
+			<input type="checkbox" id="OTL" onclick='if (OTL.checked == true){localStorage["OTL"] = true}else{localStorage["OTL"] = false}' checked><label for="OTL" class="chkbox">OTL</label></input>
+			<input type="checkbox" id="Points" onclick='if (Points.checked == true){localStorage["Points"] = true}else{localStorage["Points"] = false}' checked><label for="Points" class="chkbox">Points</label></input>
+			<input type="checkbox" id="PCT" onclick='if (PCT.checked == true){localStorage["PCT"] = true}else{localStorage["PCT"] = false}' checked><label for="PCT" class="chkbox">PCT</label></input>
+			<input type="checkbox" id="l10" onclick='if (l10.checked == true){localStorage["l10"] = true}else{localStorage["l10"] = false}' checked><label for="l10" class="chkbox">l10</label></input>
+			<input type="checkbox" id="GF" onclick='if (GF.checked == true){localStorage["GF"] = true}else{localStorage["GF"] = false}' checked><label for="GF" class="chkbox">GF</label></input>
+			<input type="checkbox" id="GA" onclick='if (GA.checked == true){localStorage["GA"] = true}else{localStorage["GA"] = false}' checked><label for="GA" class="chkbox">GA</label></input>
+			<input type="checkbox" id="Goal_Diff" onclick='if (Goal_Diff.checked == true){$localStorage["Goal_Diff"] = true}else{localStorage["Goal_Diff"] = false}' checked><label for="Goal_Diff" class="chkbox">Goal Diff</label></input>
+			<input type="text" id="TeamsStatsSearch" class="searchBar"><label for="TeamsStatsSearch" class="searchLabel"></label></input>
+			<button type="button id="TeamsStatsSearchButton" class="searchButton" onclick='searchTeam(document.getElementById("TeamsStatsSearch").value)'><label for="TeamsStatsSearchButton" class="searchButtonLabel">Search</label></input>
+			`
+	document.getElementById('NHLStatsTeamsDropDown').innerHTML = outputHTML;
+}
+function sortTableNum(tableToSort, column){
+
+	let table, rows, switching, i, x, y, shouldSwitch;
+	table = document.getElementById(tableToSort);
+	table = table.firstChild;
+	switching = true;
+	while (switching) {
+	  switching = false;
+	  rows = table.rows;
+	  for (i = 1; i < (rows.length - 1); i++) {
+		shouldSwitch = false;
+		x = rows[i].getElementsByTagName('td')[column];
+		y = rows[i + 1].getElementsByTagName('td')[column];
+		if (x.innerHTML - y.innerHTML < 0) {
+		  shouldSwitch = true;
+		  break;
+		}
+	  }
+	  if (shouldSwitch) {
+		rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+		switching = true;
+		}
+	}
+}
+function sortTableNumASC(tableToSort, column){
+
+	let table, rows, switching, i, x, y, shouldSwitch;
+	table = document.getElementById(tableToSort);
+	table = table.firstChild;
+	switching = true;
+	while (switching) {
+	  switching = false;
+	  rows = table.rows;
+	  for (i = 1; i < (rows.length - 1); i++) {
+		shouldSwitch = false;
+		x = rows[i].getElementsByTagName('td')[column];
+		y = rows[i + 1].getElementsByTagName('td')[column];
+		if (x.innerHTML - y.innerHTML > 0) {
+		  shouldSwitch = true;
+		  break;
+		}
+	  }
+	  if (shouldSwitch) {
+		rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+		switching = true;
+		}
+	}
+}
+function sortTable(tableToSort, column){
+
+	let table, rows, switching, i, x, y, shouldSwitch;
+	table = document.getElementById(tableToSort);
+	table = table.firstChild;
+	switching = true;
+	while (switching) {
+	  switching = false;
+	  rows = table.rows;
+	  for (i = 1; i < (rows.length - 1); i++) {
+		shouldSwitch = false;
+		x = rows[i].getElementsByTagName('td')[column];
+		y = rows[i + 1].getElementsByTagName('td')[column];
+		if (x.innerHTML > y.innerHTML) {
+		  shouldSwitch = true;
+		  break;
+		}
+	  }
+	  if (shouldSwitch) {
+		rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+		switching = true;
+		}
+	}
+}
+function sortTableASC(tableToSort, column){
+
+	let table, rows, switching, i, x, y, shouldSwitch;
+	table = document.getElementById(tableToSort);
+	table = table.firstChild;
+	switching = true;
+	while (switching) {
+	  switching = false;
+	  rows = table.rows;
+	  for (i = 1; i < (rows.length - 1); i++) {
+		shouldSwitch = false;
+		x = rows[i].getElementsByTagName('td')[column];
+		y = rows[i + 1].getElementsByTagName('td')[column];
+		if (x.innerHTML < y.innerHTML) {
+		  shouldSwitch = true;
+		  break;
+		}
+	  }
+	  if (shouldSwitch) {
+		rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+		switching = true;
+		}
+	}
+}
+function prevPage(){
+    if (currentPage > 1) {
+        currentPage--;
+		document.getElementById("page").innerHTML = currentPage;
+        playersStatsNHL("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text);
+    }
+}
+function nextPage(){
+    currentPage++;
+	document.getElementById("page").innerHTML = currentPage;
+    playersStatsNHL("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text);
+}
+function getCurrentPage(){
+	document.getElementById("page").innerHTML = currentPage;
 }

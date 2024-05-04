@@ -761,7 +761,7 @@ async function teamStatsNHL(){
 
 	let url = teamInfo.teamLogo;
 
-	combinedArray.sort(function(a, b){return b-a}).reverse().forEach(value => {
+	combinedArray.sort(function(a, b){return b.points-a.points}).forEach(value => {
 
 		if(value.position == 'L'){
 			if(LWCount == 1){
@@ -911,7 +911,7 @@ async function playersStatsNHL(team, gameType, position){
 				for(let x = (currentPage - 1) * recordsPerPage; x < value.length; x++){
 					counter++;
 					if(counter + (currentPage * recordsPerPage) <= (currentPage * recordsPerPage) + recordsPerPage){
-					outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html";'>${team}</td><td id = "${value[x].playerId}" onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; localStorage.setItem("currentPlayer", document.getElementById("${value[x].playerId}").id); window.location.href = "NHLstatsplayer.html"'>${value[x].Name}</td>`
+					outputHTML += `<tr><td id = ${value.Abbr} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value.Abbr}").innerHTML); window.location.href = "NHLstatsteam.html";'>${team}</td><td id = "${value[x].playerId}" onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; localStorage.setItem("currentPlayer", document.getElementById("${value[x].playerId}").id); window.location.href = "NHLstatsplayer.html"'>${value[x].Name}</td>`
 					columns.forEach(info => {
 						outputHTML += `<td>${value[x][info]}</td>`;
 					})
@@ -945,7 +945,7 @@ async function playersStatsNHL(team, gameType, position){
 		for(let x = (currentPage - 1) * recordsPerPage; x < teamStatsRoster.length; x++){
 			counter++;
 			if(counter + (currentPage * recordsPerPage) <= (currentPage * recordsPerPage) + recordsPerPage){
-				outputHTML += `<tr><td id = '${teamStatsRoster[x].Abbr}' onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${teamStatsRoster[x].Abbr}").innerHTML); window.location.href = "NHLstatsteam.html"'>${teamStatsRoster[x].team}</td><td id = "${teamStatsRoster[x].playerId}" onlick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${teamStatsRoster[x].Abbr}").innerHTML); localStorage.setItem("currentPlayer", document.getElementById("${teamStatsRoster[x].playerId}").id); window.location.href = "NHLstatsplayer.html"'>${teamStatsRoster[x].Name}</td>`
+				outputHTML += `<tr><td id = '${teamStatsRoster[x].team}' onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${teamStatsRoster[x].team}").innerHTML); window.location.href = "NHLstatsteam.html"'>${teamStatsRoster[x].team}</td><td id = "${teamStatsRoster[x].playerId}" onlick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${teamStatsRoster[x].Abbr}").innerHTML); localStorage.setItem("currentPlayer", document.getElementById("${teamStatsRoster[x].playerId}").id); window.location.href = "NHLstatsplayer.html"'>${teamStatsRoster[x].Name}</td>`
 				columns.forEach(info => {
 					outputHTML += `<td>${teamStatsRoster[x][info]}</td>`;
 				})
