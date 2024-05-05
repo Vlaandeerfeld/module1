@@ -8,89 +8,150 @@
     }
     .dropDownImport{
         display: none;
-        background-color: whitesmoke;
-        position: absolute;
-        top: 30%;
-        left: 40%;
-        height: 20%;
-        width: 20%;
+        background-color: #ffa231; 
+        color: #011327;       
+        position: fixed;
+        left: 25%;
+        bottom: 5%;
+        height: auto;
+        width: 25%;
         z-index: 10;
-    }    
-    .pageBackground{
-        display: block;
-        position: relative;
-        height: 100vh;
-        width: 100%;
-        top: 0;
-        left: 0;
+    }
+    .searchButton{
         background-color: #011327;
+        color: #ffa231;
+        justify-content: center;
+        align-items: center;
     }
-    .pageBackgroundLeft{
-        display: block;
-        position: absolute;
-        height: 30%;
-        width: 60%;
-        top: 70%;
-        left: 0;
-        background-image: linear-gradient(to right, #f2a138, #ff7c18);
+    .container{
+        display: flex;
+        height: 100vh;
+        width: 100vw;
+        flex-direction: row-reverse;
+        flex-wrap: wrap;
+    }
+    .banner{
+        display: flex;
+        width: 30%;
+        height: 100%;
+        background-color: #011327;
+        justify-content: start;
+        flex-direction: column;
+    }
+    .logos{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        height: 90%;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .teamLogos{
+        display: flex;
+        flex-wrap: wrap;
+        height: 38px;
+        width: 58px;
         z-index: 1;
-        border-top-left-radius: 200px;
-    }
-    .pageBackgroundRight{
-        display: block;
-        position: absolute;
-        height: 45%;
-        width: 50%;
-        top: 55%;
-        left: 50%;
-        background-image: linear-gradient(to right, #ff7c18, #ff2c06);
-        z-index: 2;
-        border-top-left-radius: 200px;
+        flex-direction: column;
     }
     #mainPageWelcome{
-        position: relative;
-        height: auto;
+        text-decoration: none;
+        display: flex;
+        height: 20;
         width: 90%;
-        top: 5%;
-        left: 5%;
         background-color: #011327;
         color: whitesmoke;
         text-align: center;
-        padding: 1%;
+        margin-left: 5%;
+        margin-top: 5%;
         border-radius: 25px;
         z-index: 1;
     }
     #aboutMeMainPage{
-        position: relative;
+        text-decoration: none;
+        display: flex;
         height: auto;
-        width: 90%;
-        top: 5%;
-        left: 5%;
+        width: 40%;
         background-color: #011327;
         color: whitesmoke;
         text-align: center;
-        padding: 1%;
-        border-radius: 25px; 
-        z-index: 2;  
+        margin-left: 30%;
+        margin-bottom: 30%;
+        border-radius: 25px;
+        z-index: 2;
+        flex-direction: column;
     }
     .pageLogo{
-        position: absolute;
-        background-image: url('logomobile.jpeg');
-        background-size: cover;
-        height: 70%;
+        display: flex;
+        height: 10%;
         width: 100%;
-        left: 0;
-        top: 0;
+        z-index: 10;
+    }
+    .pageSplash{
+        display: flex;
+        width: 70vw;
+        height: 100vh;
+        align-items: center;
+        background-image: url('splash.jpg');
+        background-size: cover;
+        align-items: start;
+        justify-content: start;
+        flex-direction: column;
     }
     #canvas{
-        position: relative;
+        display: flex;
         height: 100vh;
-        width: 100%;
-        background-color: black;
-        overflow: auto;
-        z-index: 1;
-        display: block;
+        width: 100vw;
         align-items: start;
+        z-index: 1;
+        flex-direction: column;
+        background-color: #011327;
+    }
+    .navSide{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: space-evenly;
+        z-index: 2;
+    }
+    .navButton1{
+        display: flex;
+        width: 100%;
+        color: black;
+        text-decoration: none;
+        font-size: xx-large;
+        justify-content: center;
+        align-items: center;
+    }
+    .navButton2{
+        display: flex;
+        width: 100%;
+        color: black;
+        text-decoration: none;
+        font-size: xx-large;
+        justify-content: center;
+        align-items: center;
+    }
+    .navButton3{
+        display: flex;
+        width: 100%;
+        color: black;
+        text-decoration: none;
+        font-size: xx-large;
+        justify-content: center;
+        align-items: center;
+    }
+    .navButton4{
+        display: flex;
+        width: 100%;
+        color: black;
+        text-decoration: none;
+        font-size: xx-large;
+        justify-content: center;
+        align-items: center;
     }
     #topFilter{
         display: block;
@@ -168,34 +229,6 @@
         width: 5%;
         height: 5;
         overflow: hidden;
-    }
-    .navButton1{
-        width: 25%;
-        height: 100%;
-        display: block;
-        float: left;
-        background-color: #ffa231;
-    }
-    .navButton2{
-        width: 25%;
-        height: 100%;
-        display: block;
-        float: left;
-        background-color: #fe4904;
-    }
-    .navButton3{
-        width: 25%;
-        height: 100%;
-        display: block;
-        float: left;
-        background-color: #fe2d02;
-    }
-    .navButton4{
-        width: 25%;
-        height: 100%;
-        display: block;
-        float: left;
-        background-color: #e42204;
     }
     .navBottom{
         position: sticky;
