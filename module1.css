@@ -1078,6 +1078,15 @@
         background-color: #011327;
         justify-content: space-around;
     }
+    .logos{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        height: 100%;
+        width: 90%;
+        align-items: center;
+        justify-content: space-between;
+    }
     .teamLogos{
         display: flex;
         flex-wrap: wrap;
