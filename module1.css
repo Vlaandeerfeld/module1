@@ -58,7 +58,7 @@
     #mainPageWelcome{
         text-decoration: none;
         display: flex;
-        height: 20%;
+        height: auto;
         width: 90%;
         background-color: #011327;
         color: whitesmoke;
