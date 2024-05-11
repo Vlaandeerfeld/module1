@@ -6,7 +6,7 @@
         <script src="NHL.js"></script>
         <title>NHL stats teams</title>
     </head>
-    <body onload = 'advancedFilterStatsTeams(); teamFilters(); leagueFilters(); seasonFilters(); teamStatsTables("ALL");'>
+    <body onload = 'advancedFilterStatsTeams("Regular Season"); teamFilters(); seasonFilters(); teamStatsTables("ALL", "Regular Season");'>
         <div id = 'canvas'>
             <div class = 'dropDownImport' id = 'NHLStatsTeamsDropDown' title = 'Import'>
                 <button type = "button" class = 'close' onclick = "document.getElementById('NHLStatsTeamsDropDown').style.display = 'none'">
@@ -15,12 +15,13 @@
             </div>
             <div id = 'topFilter'>
                 <select class = 'filters' id = 'NHLleaguesstats' name = 'NHLLeaguesTeams'>
+                    <option value = 'NHL' selected>NHL</option>
                 </select>
                 <select class = 'filters' id = 'NHLteamsstats' name = 'NHLTeamsTeams'>
                 </select>
-                <select class = 'filters' id = 'NHLseasonstats' name = 'NHLSeasonTeams'>
+                <select class = 'filters' id = 'NHLseasonstats' name = 'NHLSeasonTeams' onchange='teamStatsTables(document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text); advancedFilterStatsTeams(document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text)'>
                 </select>
-                <button class = 'filters' type = 'button' onclick='teamStatsTables(document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text);'>Get Stats</button>
+                <button class = 'filters' type = 'button' onclick='teamStatsTables(document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text);'>Get Stats</button>
             </div>
             <div id = 'outermostLayer'>
                 <table id = 'teamTablesOverview'>

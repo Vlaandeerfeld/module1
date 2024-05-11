@@ -9,7 +9,6 @@
     <body onload = 'uploadTemplate()'>
         <div class = 'container' id = 'mainPageContainer'>
             <div class = 'banner' id = 'mainPageBanner'>
-                <img class = 'pageLogo' id = 'mainPageLogo' src="logo.jpeg" alt="this">
                 <div class = 'logos'>
                     <div class = 'teamLogos' id = 'ANA' onclick = 'localStorage.setItem("currentLeague", "NHL"); localStorage.setItem("currentTeam", "ANA"); window.location.href = "NHLstatsteam.html";'>
                         <img id = 'anaheimLogo' src = 'https://assets.nhle.com/logos/nhl/svg/ANA_dark.svg' alt="this">
@@ -111,10 +110,12 @@
             </div>
             <div class = 'pageSplash' id = 'mainPageSplash'>
                 <div id = 'mainPageWelcome'>
-                    <p>Welcome to the Franchise Hockey Manager and NHL comparison website.
+                    <h3>
+                    <img src = 'logo-removebg.png'>    
+                    Welcome to the Franchise Hockey Manager and NHL comparison website.
                     Franchise Hockey Manager is a series produced by out of the park development studio.
                     This site will display stats from Franchise Hockey Manager, NHL or both to be compared.
-                    Select a link below to continue to the appropriate section.</p>
+                    Select a link below to continue to the appropriate section.</h3>
                 </div>
                 <div class = 'navSide' id = 'navSideMainPage'>
                     <a class = 'navButton1' href = 'aboutme.html'>

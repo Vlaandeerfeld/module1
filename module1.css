@@ -1,3 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.bold{
+    font-weight: 700;
+}
+
 /* Mobile */
 
 @media (orientation: portrait) and (max-width: 41em){
@@ -1161,7 +1174,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         height: 100%;
-        width: 90%;
+        width: 100%;
         align-items: center;
         justify-content: space-between;
     }
@@ -1177,13 +1190,15 @@
         display: flex;
         height: auto;
         width: 40%;
-        background-color: #011327;
         color: whitesmoke;
-        text-align: center;
-        margin-left: 30%;
-        margin-bottom: 30%;
         border-radius: 25px;
         z-index: 1;
+    }
+    #mainPageWelcome h3{
+        line-height: 1.6em;
+    }
+    #mainPageWelcome img{
+        width: 100%;
     }
     #aboutMeMainPage{
         text-decoration: none;
@@ -1208,10 +1223,21 @@
         display: flex;
         width: 100vw;
         height: 93vh;
-        justify-content: space-evenly;
+        justify-content: space-between;
         align-items: center;
         background-image: url('splash.jpg');
         background-size: cover;
+        padding: 0% 5%;
+    }
+    .pageSplash::before{
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: #01132753;
+        height: 100%;
+        width: 100%;
+        z-index: 1;
     }
     #canvas{
         display: flex;
@@ -1364,35 +1390,31 @@
     }
     .navButton1{
         display: flex;
-        width: 50%;
-        color: black;
+        color: white;
         text-decoration: none;
-        font-size: xx-large;
-        text-align: center;
+        font-size: 1.3em;
+        margin: 0.6em 0;
     }
     .navButton2{
         display: flex;
-        width: 50%;
-        color: black;
+        color: white;
         text-decoration: none;
-        font-size: xx-large;
-        text-align: center;
+        font-size: 1.3em;
+        margin: 0.6em 0;
     }
     .navButton3{
         display: flex;
-        width: 50%;
-        color: black;
+        color: white;
         text-decoration: none;
-        font-size: xx-large;
-        text-align: center;
+        font-size: 1.3em;
+        margin: 0.6em 0;
     }
     .navButton4{
         display: flex;
-        width: 50%;
-        color: black;
+        color: white;
         text-decoration: none;
-        font-size: xx-large;
-        text-align: center;
+        font-size: 1.3em;
+        margin: 0.6em 0;
     }
     .navBottomButton1{
         display: flex;
@@ -1461,13 +1483,13 @@
     }
     .navSide{
         display: flex;
+        position: relative;
         flex-direction: column;
         width: 20%;
         height: 97%;
-        align-items: flex-end;
-        justify-content: space-evenly;
+        align-items: flex-start;
+        justify-content: center;
         z-index: 2;
-        margin-right: 10%;
     }
     #navBottomAboutMe{
         position: sticky;
