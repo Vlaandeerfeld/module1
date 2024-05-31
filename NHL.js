@@ -1246,8 +1246,31 @@ async function searchPlayers(lastName, gameType, position){
 
 	console.log(await Promise.all(promise1));
 	const teamStatsRoster = await Promise.all(promise1);
-			teamStatsRoster.map(value2 => {
+
+	if(lastName === 'ALL'){
+		teamStatsRoster.map(value2 => {
+			value2.map(value1 => {
+				console.log(value1.Name);
+				outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = "${value1.team}"; window.location.href = "NHLstatsteam.html"'>${value1.team}</td><td>${value1.Name}</td>`
+				columns.forEach(info => {
+					outputHTML += `<td>${value1[info]}</td>`;
+				})
+				outputHTML += `</tr>`;				
+			});		
+		});
+		
+		console.log(outputHTML);
+		outputHTML += `</tbody>`;
+		document.getElementById('playersTablesOverview').innerHTML = outputHTML;
+	}
+	else{
+		teamStatsRoster.map(value2 => {
 				value2.map(value1 => {
+					console.log(value1);
+					if(value1.Name == undefined){
+						console.log('Error');
+					}
+					else{
 					let nameArray = value1.Name.split(' ');
 					console.log(nameArray[1]);
 					console.log(lastName);
@@ -1258,12 +1281,14 @@ async function searchPlayers(lastName, gameType, position){
 						})
 						outputHTML += `</tr>`;				
 					};
+				};
 				});		
 			});
 			
-	console.log(outputHTML);
-	outputHTML += `</tbody>`;
-	document.getElementById('playersTablesOverview').innerHTML = outputHTML;
+		console.log(outputHTML);
+		outputHTML += `</tbody>`;
+		document.getElementById('playersTablesOverview').innerHTML = outputHTML;
+	};
 
 	async function getPlayerStatsArray(team, typer, position){
 		let playerStats = await getPlayerStats(team, typer, position);
@@ -1561,7 +1586,7 @@ function advancedFilterStatsTeams(gameType){
 				<input type="checkbox" id="GA" onclick='if (GA.checked == true){localStorage["GA"] = true}else{localStorage["GA"] = false}' checked><label for="GA" class="chkbox">GA</label></input>
 				<input type="checkbox" id="Goal_Diff" onclick='if (Goal_Diff.checked == true){$localStorage["Goal_Diff"] = true}else{localStorage["Goal_Diff"] = false}' checked><label for="Goal_Diff" class="chkbox">Goal Diff</label></input>
 				<input type="text" id="TeamsStatsSearch" class="searchBar"><label for="TeamsStatsSearch" class="searchLabel"></label></input>
-				<button type="button id="TeamsStatsSearchButton" class="searchButton" onclick='searchTeam(document.getElementById("TeamsStatsSearch").value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text)'><label for="TeamsStatsSearchButton" class="searchButtonLabel">Search</label></input>
+				<button type="button id="TeamsStatsSearchButton" class="searchButton" onclick='if(document.getElementById("TeamsStatsSearch").value == ""){searchTeam("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text)}else{searchTeam(document.getElementById("TeamsStatsSearch").value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text)}'><label for="TeamsStatsSearchButton" class="searchButtonLabel">Search</label></input>
 				`
 	}
 	else{
