@@ -164,7 +164,7 @@ async function teamFilters(){
 	outputHTML += `<option value = 'ALL' selected>ALL</option>`;
 
 	console.log(sortedTeamArray);
-	sortedTeamArray.forEach(value => {
+	sortedTeamArray.sort(function(a, b){return a.Abbr.localeCompare(b.Abbr)}).forEach(value => {
 		outputHTML += `<option value = '${value.fullTeamName}'>${value.Abbr}</option>`;
 	})
 
@@ -458,20 +458,20 @@ async function standingsNHL(){
 		if(value.clinchIndicator != undefined){
 			outputHTMLWest += `
 							<tr>
-								<td>${value.teamName.default}</td><td>${value.divisionName}</td><td>${value.gamesPlayed}</td><td>${value.points}</td><td>${value.regulationPlusOtWins}</td><td>${value.clinchIndicator}</td>
+								<td id = ${value.teamAbbrev.default} onclick = 'localStorage.setItem("currentTeam", document.getElementById("${value.teamAbbrev.default}").id); window.location.href = "NHLstatsteam.html"'>${value.teamName.default}</td><td>${value.divisionName}</td><td>${value.gamesPlayed}</td><td>${value.points}</td><td>${value.regulationPlusOtWins}</td><td>${value.clinchIndicator}</td>
 							</tr>
 							`;
 		}
 		else{
 			outputHTMLWest += `
 							<tr>		
-								<td>${value.teamName.default}</td><td>${value.divisionName}</td><td>${value.gamesPlayed}</td><td>${value.points}</td><td>${value.regulationPlusOtWins}</td><td>${value.conferenceSequence}</td>
+								<td id = ${value.teamAbbrev.default} onclick = 'localStorage.setItem("currentTeam", document.getElementById("${value.teamAbbrev.default}").id); window.location.href = "NHLstatsteam.html"'>${value.teamName.default}</td><td>${value.divisionName}</td><td>${value.gamesPlayed}</td><td>${value.points}</td><td>${value.regulationPlusOtWins}</td><td>${value.conferenceSequence}</td>
 							</tr>
 							`;
 		}
 	})
 	outputHTMLWest += `
-							</tbody>
+						</tbody>
 						</table>
 					`;
 	document.getElementById('teamStandingsOverview').innerHTML += outputHTMLWest;
@@ -490,14 +490,14 @@ async function standingsNHL(){
 		if(value.clinchIndicator != undefined){
 			outputHTMLEast += `
 							<tr>		
-								<td>${value.teamName.default}</td><td>${value.divisionName}</td><td>${value.gamesPlayed}</td><td>${value.points}</td><td>${value.regulationPlusOtWins}</td><td>${value.clinchIndicator}</td>
+								<td id = ${value.teamAbbrev.default} onclick = 'localStorage.setItem("currentTeam", document.getElementById("${value.teamAbbrev.default}").id); window.location.href = "NHLstatsteam.html"'>${value.teamName.default}</td><td>${value.divisionName}</td><td>${value.gamesPlayed}</td><td>${value.points}</td><td>${value.regulationPlusOtWins}</td><td>${value.clinchIndicator}</td>
 							</tr>
 							`
 		}
 		else{
 			outputHTMLEast += `
 							<tr>		
-								<td>${value.teamName.default}</td><td>${value.divisionName}</td><td>${value.gamesPlayed}</td><td>${value.points}</td><td>${value.regulationPlusOtWins}</td><td>${value.conferenceSequence}</td>
+								<td id = ${value.teamAbbrev.default} onclick = 'localStorage.setItem("currentTeam", document.getElementById("${value.teamAbbrev.default}").id); window.location.href = "NHLstatsteam.html"'>${value.teamName.default}</td><td>${value.divisionName}</td><td>${value.gamesPlayed}</td><td>${value.points}</td><td>${value.regulationPlusOtWins}</td><td>${value.conferenceSequence}</td>
 							</tr>
 			`
 		}
@@ -608,7 +608,7 @@ async function playerStatsNHL(){
 	let outputHTMLPlayerPortrait = '';
 	outputHTMLPlayer += `<tbody>`;
 
-	outputHTMLPlayerName += `${player}`;
+	outputHTMLPlayerName += `${arrayPlayerStats.Name}`;
 
 	document.getElementById('NHLPlayerName').style.fontSize = '100px';
 
@@ -666,6 +666,7 @@ async function teamStatsNHL(){
 					return {
 						playerId: info.playerId,
 						points: info.points,
+						GP: info.gamesPlayed,
 					}
 					
 				})
@@ -673,6 +674,7 @@ async function teamStatsNHL(){
 					return {
 						playerId: info.playerId,
 						points: info.points,
+						GP: info.gamesPlayed,
 					}
 				})
 			return newArray = [
@@ -737,9 +739,10 @@ async function teamStatsNHL(){
 		})
 	}
 
-	const combinedArray = teamStats.map(info => ({
+	console.log(teamStats);
+	const combinedArray = teamRoster.map(info => ({
 		...info,
-		...teamRoster.find((element) => {
+		...teamStats.find((element) => {
 			return element.playerId === info.playerId
 		}),
 	}))
@@ -768,6 +771,10 @@ async function teamStatsNHL(){
 	let LDCount = 1;
 	let RDCount = 1;
 	let outputHTMLLinesStats = '';
+	let overFlowPoints = [];
+	let overFlowNameOffense = [];
+	let overFlowNameDefense = [];
+	let totalPoints;
 
 	outputHTMLRoster += `
 			<tbody>
@@ -782,92 +789,145 @@ async function teamStatsNHL(){
 
 	let url = teamInfo.teamLogo;
 
-	combinedArray.sort(function(a, b){return b.points-a.points}).forEach(value => {
+	combinedArray.sort(function(a, b){return b.points - a.points || b.GP - a.GP}).forEach(value => {
 
-		if(value.position == 'L'){
-			if(LWCount == 1){
+		console.log(value);
+
+		if(value.position === 'L' && value.points !== undefined){
+			if(LWCount === 1){
 				F1Points += value.points;
 			}
-			if(LWCount == 2){
+			if(LWCount === 2){
 				F2Points += value.points;
 			}
-			if(LWCount == 3){
+			if(LWCount === 3){
 				F3Points += value.points;
 			}
-			if(LWCount == 4){
+			if(LWCount === 4){
 				F4Points += value.points;
+			}
+			if(LWCount > 4){
+				overFlowNameOffense.push(value.name)
+				overFlowPoints.push(value.points)
 			}
 			LWCount += 1;
 			LW.push(value.name);
 		}
-		else if(value.position =='C'){
-			if(CCount == 1){
+		else if(value.position === 'C' && value.points !== undefined){
+			if(CCount === 1){
 				F1Points += value.points;
 			}
-			if(CCount == 2){
+			if(CCount === 2){
 				F2Points += value.points;
 			}
-			if(CCount == 3){
+			if(CCount === 3){
 				F3Points += value.points;
 			}
-			if(CCount == 4){
+			if(CCount === 4){
 				F4Points += value.points;
+			}
+			if(CCount > 4){
+				overFlowNameOffense.push(value.name)
+				overFlowPoints.push(value.points)
 			}
 			CCount += 1;
 			C.push(value.name);
 		}
-		else if(value.position =='R'){
-			if(RWCount == 1){
+		else if(value.position === 'R' && value.points !== undefined){
+			if(RWCount === 1){
 				F1Points += value.points;
 			}
-			if(RWCount == 2){
+			if(RWCount === 2){
 				F2Points += value.points;
 			}
-			if(RWCount == 3){
+			if(RWCount === 3){
 				F3Points += value.points;
 			}
-			if(RWCount == 4){
+			if(RWCount === 4){
 				F4Points += value.points;
+			}
+			if(RWCount > 4){
+				overFlowNameOffense.push(value.name)
+				overFlowPoints.push(value.points)
 			}
 			RWCount += 1;
 			RW.push(value.name);
 		}
-		else if(value.position =='D' && value.hand == 'R'){
-			if(LDCount == 1){
+		else if(value.position === 'D' && value.hand == 'R' && value.points !== undefined){
+			if(LDCount === 1){
 				D1Points += value.points;
 			}
-			if(LDCount == 2){
+			if(LDCount === 2){
 				D2Points += value.points;
 			}
-			if(LDCount == 3){
+			if(LDCount === 3){
 				D3Points += value.points;
+			}
+			if(LDCount > 4){
+				overFlowNameDefense.push(value.name)
+				overFlowPoints.push(value.points)
 			}
 			LDCount += 1;
 			LD.push(value.name);
 		}
-		else if(value.position =='D' && value.hand == 'L'){
-			if(RDCount == 1){
+		else if(value.position === 'D' && value.hand === 'L' && value.points !== undefined){
+			if(RDCount === 1){
 				D1Points += value.points;
 			}
-			if(RDCount == 2){
+			if(RDCount === 2){
 				D2Points += value.points;
 			}
-			if(RDCount == 3){
+			if(RDCount === 3){
 				D3Points += value.points;
+			}
+			if(LDCount > 4){
+				overFlowNameDefense.push(value.name)
+				overFlowPoints.push(value.points)
 			}
 			RDCount += 1;
 			RD.push(value.name);
 		}
-		else if(value.position == 'G'){
+		else if(value.position === 'G'){
 			G.push(value.name);
 		}
 
+		if(value.points !== undefined){
 			outputHTMLRosterStats += `
 				<tr><td id = '${value.playerId}' onclick = 'localStorage.setItem("currentPlayer", document.getElementById("${value.playerId}").id); window.location.href = "NHLstatsplayer.html"'>${value.name}</td><td>${value.DOB}</td><td>${2023 - value.DOB.slice(0,4)}</td><td>${Math.floor(value.height / 12)}'${value.height % 12}"</td><td>${value.weight}</td></tr>
 			`;
+		}
+	})
+
+		F1Points = F1Points || 0
+		F2Points = F2Points || 0
+		F3Points = F3Points || 0
+		F4Points = F4Points || 0
+		D1Points = D1Points || 0
+		D2Points = D2Points || 0
+		D3Points = D3Points || 0
+
+		overFlowPoints.forEach(value => {
+			console.log(value);
+			totalPoints += value;
 		})
 
 		totalPoints = F1Points + F2Points + F3Points + F4Points + D1Points + D2Points + D3Points;
+
+		overFlowNameOffense.forEach(value => {
+			console.log(value);
+			if(LWCount <= 4){
+				LW.push(value);
+				LWCount += 1;
+			}
+			else if(CCount <= 4){
+				C.push(value);
+				CCount += 1;
+			}
+			else if (RWCount <= 4){
+				RW.push(value);
+				RWCount += 1;
+			}
+		})
 
 		outputHTMLLinesStats += `
 				<tr><th>Offense</th><th>Points</th><th>Team%</th></tr>
@@ -904,7 +964,7 @@ async function teamStatsNHL(){
 async function playersStatsNHL(team, gameType, position){
 
 	console.log(localStorage['NHL'].split(','));
-	console.log(team);
+	console.log(currentPage);
 	console.log(localStorage['Goals']);
 	let promise2;
 	let typer;
@@ -969,7 +1029,7 @@ async function playersStatsNHL(team, gameType, position){
 			if(teamStatsRoster[x].Name != undefined){
 			counter++;
 			if(counter + (currentPage * recordsPerPage) <= (currentPage * recordsPerPage) + recordsPerPage){
-				outputHTML += `<tr><td id = '${teamStatsRoster[x].team}' onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${teamStatsRoster[x].team}").innerHTML); window.location.href = "NHLstatsteam.html"'>${teamStatsRoster[x].team}</td><td id = "${teamStatsRoster[x].playerId}" onlick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${teamStatsRoster[x].Abbr}").innerHTML); localStorage.setItem("currentPlayer", document.getElementById("${teamStatsRoster[x].playerId}").id); window.location.href = "NHLstatsplayer.html"'>${teamStatsRoster[x].Name}</td>`
+				outputHTML += `<tr><td id = '${teamStatsRoster[x].team}' onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${teamStatsRoster[x].team}").innerHTML); window.location.href = "NHLstatsteam.html"'>${teamStatsRoster[x].team}</td><td id = "${teamStatsRoster[x].playerId}" onclick = 'localStorage.setItem("currentTeam", document.getElementById("${teamStatsRoster[x].team}").innerHTML); localStorage.setItem("currentPlayer", ${teamStatsRoster[x].playerId}); window.location.href = "NHLstatsplayer.html"'>${teamStatsRoster[x].Name}</td>`
 				columns.forEach(info => {
 					outputHTML += `<td>${teamStatsRoster[x][info]}</td>`;
 				})
@@ -1231,6 +1291,7 @@ async function teamStatsTables(team, gameType){
 
 async function searchPlayers(lastName, gameType, position){
 	let promise2;
+	console.log(lastName);
 
 	const valuesReturned = sorterPlayers('playersTablesOverview', position);
 	let columns = valuesReturned[0];
@@ -1252,20 +1313,8 @@ async function searchPlayers(lastName, gameType, position){
 	const teamStatsRoster = await Promise.all(promise1);
 
 	if(lastName === 'ALL'){
-		teamStatsRoster.map(value2 => {
-			value2.map(value1 => {
-				console.log(value1.Name);
-				outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = "${value1.team}"; window.location.href = "NHLstatsteam.html"'>${value1.team}</td><td>${value1.Name}</td>`
-				columns.forEach(info => {
-					outputHTML += `<td>${value1[info]}</td>`;
-				})
-				outputHTML += `</tr>`;				
-			});		
-		});
-		
-		console.log(outputHTML);
-		outputHTML += `</tbody>`;
-		document.getElementById('playersTablesOverview').innerHTML = outputHTML;
+		currentPage = 1;
+		playersStatsNHL('ALL', gameType, position);
 	}
 	else{
 		teamStatsRoster.map(value2 => {
@@ -1279,7 +1328,7 @@ async function searchPlayers(lastName, gameType, position){
 					console.log(nameArray[1]);
 					console.log(lastName);
 					if(lastName === nameArray[1]){
-						outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = "${value1.team}"; window.location.href = "NHLstatsteam.html"'>${value1.team}</td><td>${value1.Name}</td>`
+						outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = "${value1.team}"; window.location.href = "NHLstatsteam.html"'>${value1.team}</td><td onclick = 'localStorage["currentPlayer"] = "${value1.playerId}"; localStorage["currentTeam"] = "${value1.team}"; window.location.href = "NHLstatsplayer.html"'>${value1.Name}</td>`
 						columns.forEach(info => {
 							outputHTML += `<td>${value1[info]}</td>`;
 						})

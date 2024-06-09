@@ -18,13 +18,13 @@
                 </div>
             </div>
             <div id = 'topFilter'>
-                <select class = 'filters' id = 'FHMleaguesstats' name = 'FHMLeaguesStats' onchange = 'teamFilters(this.options[selectedIndex].text); seasonFilters(this.options[selectedIndex].text);'>
+                <select class = 'filters' id = 'FHMleaguesstats' name = 'FHMLeaguesStats' onchange = 'teamFilters(this.options[selectedIndex].text); seasonFilters(this.options[selectedIndex].text); playerTablesFHM(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text, document.getElementById("FHMseasonstats").options[document.getElementById("FHMseasonstats").options.selectedIndex].text, document.getElementById("FHMteamsstats").options[document.getElementById("FHMteamsstats").options.selectedIndex].text)'>
                 </select>
                 <select class = 'filters' id = 'FHMteamsstats' name = 'FHMTeamsStats'>
                 </select>
                 <select class = 'filters' id = 'FHMseasonstats' name = 'FHMSeasonStats'>
                 </select>
-                <button class = 'filters' type = 'button' onclick='playerTablesFHM(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text, document.getElementById("FHMseasonstats").options[document.getElementById("FHMseasonstats").options.selectedIndex].text, document.getElementById("FHMteamsstats").options[document.getElementById("FHMteamsstats").options.selectedIndex].text);'>Filter</button>
+                <button class = 'filters' type = 'button' onclick='playerTablesFHM(document.getElementById("FHMleaguesstats").options[document.getElementById("FHMleaguesstats").options.selectedIndex].text, document.getElementById("FHMseasonstats").options[document.getElementById("FHMseasonstats").options.selectedIndex].text, document.getElementById("FHMteamsstats").options[document.getElementById("FHMteamsstats").options.selectedIndex].text)'>Filter</button>
             </div>
             <div id = 'outermostLayer'>
                 <table id = 'teamTablesOverview'>

@@ -20,11 +20,11 @@
                 </div>   
             </div>
             <div id = 'topFilter'>
-                <select class = 'filters' id = 'NHLleaguesstats' name = 'NHLLeaguesPlayers'>
+                <select class = 'filters' id = 'NHLleaguesstats' name = 'NHLLeaguesPlayers' onclick='playersStatsNHL(document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text); currentPage = 1'>
                 </select>
-                <select class = 'filters' id = 'NHLteamsstats' name = 'NHLTeamsPlayers'>
+                <select class = 'filters' id = 'NHLteamsstats' name = 'NHLTeamsPlayers' onclick='playersStatsNHL(document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text); currentPage = 1'>
                 </select>
-                <select class = 'filters' id = 'NHLseasonstats' name = 'NHLSeasonPlayers'>
+                <select class = 'filters' id = 'NHLseasonstats' name = 'NHLSeasonPlayers' onclick='playersStatsNHL(document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text); currentPage = 1'>
                 </select>
                 <button class = 'filters' type = 'button' onclick='playersStatsNHL(document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text); currentPage = 1'>Get Stats</button>
             </div>
@@ -35,16 +35,16 @@
                 </div>
             </div>
             <div class = 'navBottom'>
-                <button type = 'button' class = 'navBottomButton1' id = 'navButtonHomeNHLstatsplayers' title = 'Home' onclick = "document.location = 'index.html'">
+                <button type = 'button' class = 'navBottomButton' id = 'navButtonHomeNHLstatsplayers' title = 'Home' onclick = "document.location = 'index.html'">
                     Home
                 </button>
-                <button type = 'button' class = 'navBottomButton2' id = 'navButtonImportNHLstatsplayers' title = 'Import' onclick = "if (document.getElementById('NHLStatsPlayersDropDown').style.display == 'block') {document.getElementById('NHLStatsPlayersDropDown').style.display = 'none'} else {document.getElementById('NHLStatsPlayersDropDown').style.display = 'block'}">
+                <button type = 'button' class = 'navBottomButton' id = 'navButtonImportNHLstatsplayers' title = 'Import' onclick = "if (document.getElementById('NHLStatsPlayersDropDown').style.display == 'block') {document.getElementById('NHLStatsPlayersDropDown').style.display = 'none'} else {document.getElementById('NHLStatsPlayersDropDown').style.display = 'block'}">
                     Filter
                 </button>                
-                <button type = 'button' class = 'navBottomButton3' id = navButtonMainNHLstatsplayers title = 'Main' onclick = "document.location = 'NHLstats.html'">
-                    Main
+                <button type = 'button' class = 'navBottomButton' id = navButtonMainNHLstatsplayers title = 'Main' onclick = "document.location = 'NHLstats.html'">
+                    Standings
                 </button>
-                <button type = 'button' class = 'navBottomButton4' id = navButtonTeamStatsNHLstatsPlayers title = 'Team Stats' onclick = "document.location = 'NHLstatsteams.html'">
+                <button type = 'button' class = 'navBottomButton' id = navButtonTeamStatsNHLstatsPlayers title = 'Team Stats' onclick = "document.location = 'NHLstatsteams.html'">
                     Team Stats
                 </button>
             </div>
