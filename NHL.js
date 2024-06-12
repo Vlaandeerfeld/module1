@@ -1573,8 +1573,10 @@ async function searchTeam(team, gameType){
 	}
 }
 
-function advancedFilterStatsPlayers(){
-	outputHTML = `
+function advancedFilterStatsPlayers(position){
+
+	if(position === 'SKATERS'){
+		outputHTML = `
 			<input type="checkbox" id="GP" onclick='if (GP.checked == true){localStorage["GP"] = true}else{localStorage["GP"] = false}' checked><label for="GP" class="chkbox">GP</label></input>
 			<input type="checkbox" id="Goals" onclick='if(Goals.checked === true){localStorage["Goals"] = true}else{localStorage["Goals"] = false}' checked><label for="Goals" class="chkbox">Goals</label></input>
 			<input type="checkbox" id="Assists" onclick='if (Assists.checked == true){localStorage["Assists"] = true}else{localStorage["Assists"] = false}' checked><label for="Assists" class="chkbox">Assists</label></input>
@@ -1591,6 +1593,21 @@ function advancedFilterStatsPlayers(){
 			<input type="text" id="PlayersStatsSearch" class="searchBar"><label for="PlayersStatsSearch" class="searchLabel"></label></input>
 			<button type="button id="PlayersStatsSearchButton" class="searchButton" onclick='if(document.getElementById("PlayersStatsSearch").value === ""){searchPlayers("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)}else{searchPlayers(document.getElementById("PlayersStatsSearch").value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)}'><label for="PlayersStatsSearchButton" class="searchButtonLabel">Search</label></input>
 			`
+	}
+	else{
+		outputHTML = `
+			<input type="checkbox" id="GP" onclick='if (GP.checked == true){localStorage["GP"] = true}else{localStorage["GP"] = false}' checked><label for="GP" class="chkbox">GP</label></input>
+			<input type="checkbox" id="Wins" onclick='if (Wins.checked == true){localStorage["Wins"] = true}else{localStorage["Wins"] = false}' checked><label for="Wins" class="chkbox">Wins</label></input>
+			<input type="checkbox" id="Losses" onclick='if (Losses.checked == true){localStorage["Losses"] = true}else{localStorage["Losses"] = false}' checked><label for="Losses" class="chkbox">Losses</label></input>
+			<input type="checkbox" id="OTL" onclick='if (OTL.checked == true){localStorage["OTL"] = true}else{localStorage["OTL"] = false}' checked><label for="OTL" class="chkbox">OTL</label></input>
+			<input type="checkbox" id="GAA" onclick='if (GAA.checked == true){localStorage["GAA"] = true}else{localStorage["GAA"] = false}' checked><label for="GAA" class="chkbox">GAA</label></input>
+			<input type="checkbox" id="SVPer" onclick='if (SVPer.checked == true){localStorage["SVPer"] = true}else{localStorage["SVPer"] = false}' checked><label for="SVPer" class="chkbox">SVPer</label></input>
+			<input type="checkbox" id="SO" onclick='if (SO.checked == true){$localStorage["SO"] = true}else{localStorage["SO"] = false}' checked><label for="SO" class="chkbox">SO</label></input>
+			<input type="checkbox" id="Points" onclick='if (Points.checked == true){localStorage["Points"] = true}else{localStorage["Points"] = false}' checked><label for="Points" class="chkbox">Points</label></input>
+			<input type="text" id="PlayersStatsSearch" class="searchBar"><label for="PlayersStatsSearch" class="searchLabel"></label></input>
+			<button type="button id="PlayersStatsSearchButton" class="searchButton" onclick='if(document.getElementById("PlayersStatsSearch").value === ""){searchPlayers("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)}else{searchPlayers(document.getElementById("PlayersStatsSearch").value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)}'><label for="PlayersStatsSearchButton" class="searchButtonLabel">Search</label></input>
+			`
+	}
 	document.getElementById('NHLStatsPlayersDropDown').innerHTML = outputHTML;
 }
 
