@@ -248,6 +248,7 @@ function seasonFilters(league){
 function teamTablesOverview(league, season, team){
 	let data = JSON.parse(localStorage[league]);
 	league = league.toString();
+	console.log(data);
     console.log(league);
 	let outputHTML =``;
 	outputHTML += '<tbody>';

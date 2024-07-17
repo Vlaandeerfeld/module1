@@ -11,6 +11,16 @@
     font-weight: 700;
 }
 
+.relationalRed{
+    color: red;
+}
+.relationalGreen{
+    color: rgb(0, 255, 0);
+    width: auto;
+}
+.fs{
+    width: auto;
+}
 /* Mobile */
 
 @media (orientation: portrait) and (max-width: 41em){
@@ -1609,16 +1619,17 @@
         padding-bottom: 2.5%;
     }
     table{
-        display: table;
+        display: flex;
         margin: 0px;
         padding: 0px;
         border-spacing: 0px;
         width: 100vw;
         height: auto;
+        flex-direction: row;
     }
     td{
-        border: 1px solid;
         text-align: center;
+        border: 1px solid;
         background-color: #0551a8;
         color: #ffa231;
         border-color: #043b7a;

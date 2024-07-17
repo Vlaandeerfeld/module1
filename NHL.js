@@ -34,14 +34,120 @@ localStorage['GF_PO'] = true;
 localStorage['GA_PO'] = true;
 localStorage['Goal_Diff_PO'] = true;
 
-
 let currentPage = 1;
 let recordsPerPage = 27;
-
 
 let date = new Date();
 localStorage['year'] = date.getFullYear();
 localStorage['month'] = date.getMonth();
+
+async function upload(){
+
+	const input = await document.getElementById('CSVfile');
+	const input1 = await input.files;
+	for (let x = 0; x < input1.length; x++){
+		const reader = await new FileReader();	
+		await reader.readAsText(input1[x]);
+	
+		reader.onload = function(){
+			let input2 = reader.result;
+			fileName = input1[x].name.slice(0, input1[x].name.indexOf('.') - 4);
+			fileDate = input1[x].name.slice(input1[x].name.indexOf('.') - 4, input1[x].name.indexOf('.'));
+			checkAndUpload(input2, fileName, fileDate);
+		}
+	}
+    location.reload();
+}
+
+async function uploadTemplate(){
+
+	let templateLeagues = ['Retro Goon League1980.csv', 'Netherton Hockey League2033.csv'];
+
+	templateLeagues.forEach(async files => {
+		let data = await fetch(`csvtoupload/${files}`);
+		let upload = await data.text()
+		fileName = files.slice(0, files.indexOf('.') - 4);
+		fileDate = files.slice(files.indexOf('.') - 4, files.indexOf('.'));
+		console.log(upload)
+		checkAndUpload(upload, fileName, fileDate);
+	})
+}
+async function checkAndUpload(fileInput, league, date){
+
+    let arrayBreak = [];
+    let continueThrough;
+	console.log(fileInput);
+	console.log(date);
+    JSONparsed = JSON.parse(parseIntoJSON(fileInput, league, date));
+
+	if (localStorage['leagues'] == undefined){
+		localStorage.setItem('leagues', 'ALL');
+	}
+
+	let leagueCheck = localStorage['leagues'].split(',');
+
+	leagueCheck.forEach(value => {
+		if (value === league) {
+			console.log(localStorage[league]);
+			console.log(JSON.stringify(JSONparsed));
+			console.log(localStorage[league] == JSON.stringify(JSONparsed));
+			if (localStorage[league] === JSON.stringify(JSONparsed)){
+				arrayBreak.push(true);
+			}
+			else{
+				arrayBreak.push(false);
+			}
+		}
+		else{
+			arrayBreak.push(false);
+		}
+	});
+    for (let x = 0; x < arrayBreak.length; x++){
+		if (arrayBreak[x] == true){
+			continueThrough = false;
+			break;
+		}
+		else{
+			continueThrough = true;
+		}
+	}
+    if (continueThrough == true){	
+		localStorage.setItem(league, JSON.stringify(JSONparsed));
+		leagueCheck.push(league);
+		localStorage.setItem('leagues', leagueCheck);
+        console.log(localStorage[league]);
+	}
+
+	FileReader.abort
+}
+
+function parseIntoJSON(fileInput, league, date){
+
+    let finalArray = [];
+    let row = fileInput.slice(fileInput.indexOf("\n") + 1).split("\n");
+    row = row.slice(0, -1);
+    let headers1 = fileInput.slice(0, fileInput.indexOf("\n")).split(",");
+    let place = -1;
+    let key;
+ 
+    row.forEach(value2 => {
+        let obj = {};
+        let count = 0;
+        place++;
+        let elementValue = value2.split(',');
+        headers1.forEach(value => {
+            key = value;
+            obj[key] = elementValue[count];
+            count++;
+        });
+		obj['League'] = league;
+		obj['Season'] = date;
+        finalArray.push(obj);
+    });
+
+	console.log(finalArray)
+    return(JSON.stringify(finalArray));
+}
 
 function sorterMain(table, numColumn){
 
@@ -159,7 +265,7 @@ async function teamFilters(){
     })
 
 	console.log(leagueArray);
-    localStorage['NHL'] = leagueArray;
+    localStorage['NHL'] = leagueArray.filter(team => (team !== 'ARI'));
 
 	outputHTML += `<option value = 'ALL' selected>ALL</option>`;
 
@@ -391,6 +497,7 @@ async function teamScheduleOverview(team){
 
 async function teamTablesOverview(team){
     let teamArray = [];
+	console.log(localStorage['NHL']);
     teamArray = await getTeam()
 		.then(value1 => {
 			console.log(value1);
@@ -1173,7 +1280,28 @@ async function playersStatsNHL(team, gameType, position){
 
 async function teamStatsTables(team, gameType){
     let teamArray = [];
+	console.log(localStorage['Netherton Hockey League']);
+	if(team !== 'ALL'){
+		newData = JSON.parse(localStorage['Netherton Hockey League']).find(value => (value.Name + " " + value.Nickname) === team)
 
+		console.log(newData);
+
+		newerData = {
+			Abbr: newData.Abbr,
+			Team: newData.Name + " " + newData.Nickname,
+			GP_RS: newData.GP_RS,
+			Wins: newData.Wins,
+			Losses: newData.Losses,
+			OTL: newData.OTL,
+			Points: newData.Points,
+			PCT: newData.PCT,
+			GF: newData.G_RS,
+			GA: newData.GA_RS,
+			Goal_Diff: Number(newData.G_RS) - Number(newData.GA_RS)
+		};
+
+		console.log(newerData);
+	}
 	const valuesReturned = sorterTeams('teamTablesOverview', gameType);
 	let columns = valuesReturned[0];
 	let outputHTML = valuesReturned[1];
@@ -1197,15 +1325,53 @@ async function teamStatsTables(team, gameType){
 						if (value.teamName === team){
 							outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${value.teamName}</td>`;
 							columns.forEach(info => {
-								outputHTML += `<td>${value[info]}</td>`;
+								if(value[info] > newerData[info]){
+									outputHTML += `<td><div class = "fs">${value[info]}</div><div class = "relationalRed">(${newerData[info]})</div></td>`;
+								}
+								else{
+									outputHTML += `<td>${value[info]} <p class = "relationalGreen">(${newerData[info]})</p></td>`;
+								}
 							})
 							outputHTML += `</tr>`
 						}
 					}
 					else{
+						console.log(value.Abbr);
+						console.log(newData2 = JSON.parse(localStorage['Netherton Hockey League']));
+						if(value.Abbr === 'WSH'){
+							newData2 = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => 'WAS' === value2.Abbr)
+						}
+						else if (value.Abbr === 'ARI'){
+							newData2 = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => 'ARZ' === value2.Abbr)
+						}
+						else{
+							newData2 = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => value.Abbr === value2.Abbr)
+						}
+						console.log(newData2);
+					
+						newerData2 = {
+								Abbr: newData2.Abbr,
+								Team: newData2.Name + " " + newData2.Nickname,
+								GP_RS: newData2.GP_RS,
+								Wins: newData2.Wins,
+								Losses: newData2.Losses,
+								OTL: newData2.OTL,
+								Points: newData2.Points,
+								PCT: newData2.PCT,
+								GF: newData2.G_RS,
+								GA: newData2.GA_RS,
+								Goal_Diff: Number(newData2.G_RS) - Number(newData2.GA_RS)
+							};
+					
+						console.log(newerData2);
 						outputHTML += `<tr><td id = ${value.Abbr} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value.Abbr}").id); window.location.href = "NHLstatsteam.html";'>${value.teamName}</td>`;
 						columns.forEach(info => {
-							outputHTML += `<td>${value[info]}</td>`;
+							if(value[info] > newerData2[info]){
+								outputHTML += `<td>${value[info]} <div class = "relationalRed">(${newerData2[info]})</div></td>`;
+							}
+							else{
+								outputHTML += `<td>${value[info]} <div class = "relationalGreen">(${newerData2[info]})</div></td>`;
+							}
 						})
 						outputHTML += `</tr>`
 					}
@@ -1244,7 +1410,7 @@ async function teamStatsTables(team, gameType){
 	}
 
 	async function getTeam(){
-		return await getAPI(`https://api-web.nhle.com/v1/standings/now`)
+		return await getAPI(`https://api-web.nhle.com/v1/standings/2024-03-26`)
 			.then(value => {
 				console.log(value);
 				const newArray = value.standings.map(info => {
@@ -1591,8 +1757,8 @@ function advancedFilterStatsPlayers(position){
 			<input type="checkbox" id="ShotPer" onclick='if (ShotPer.checked == true){localStorage["ShotPer"] = true}else{localStorage["ShotPer"] = false}' checked><label for="ShotPer" class="chkbox">Shot %</label></input>
 			<input type="checkbox" id="FOPer" onclick='if (FOPer.checked == true){localStorage["FOPer"] = true}else{localStorage["FOPer"] = false}' checked><label for="FOPer" class="chkbox">FO %</label></input>
 			<input type="text" id="PlayersStatsSearch" class="searchBar"><label for="PlayersStatsSearch" class="searchLabel"></label></input>
-			<button type="button id="PlayersStatsSearchButton" class="searchButton" onclick='if(document.getElementById("PlayersStatsSearch").value === ""){searchPlayers("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)}else{searchPlayers(document.getElementById("PlayersStatsSearch").value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)}'><label for="PlayersStatsSearchButton" class="searchButtonLabel">Search</label></input>
-			`
+			<button type="button" id="PlayersStatsSearchButton" class="searchButton" onclick='if(document.getElementById("PlayersStatsSearch").value === ""){searchPlayers("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)}else{searchPlayers(document.getElementById("PlayersStatsSearch").value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)}'><label for="PlayersStatsSearchButton" class="searchButtonLabel">Search</label>>
+		`
 	}
 	else{
 		outputHTML = `
@@ -1605,8 +1771,8 @@ function advancedFilterStatsPlayers(position){
 			<input type="checkbox" id="SO" onclick='if (SO.checked == true){$localStorage["SO"] = true}else{localStorage["SO"] = false}' checked><label for="SO" class="chkbox">SO</label></input>
 			<input type="checkbox" id="Points" onclick='if (Points.checked == true){localStorage["Points"] = true}else{localStorage["Points"] = false}' checked><label for="Points" class="chkbox">Points</label></input>
 			<input type="text" id="PlayersStatsSearch" class="searchBar"><label for="PlayersStatsSearch" class="searchLabel"></label></input>
-			<button type="button id="PlayersStatsSearchButton" class="searchButton" onclick='if(document.getElementById("PlayersStatsSearch").value === ""){searchPlayers("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)}else{searchPlayers(document.getElementById("PlayersStatsSearch").value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)}'><label for="PlayersStatsSearchButton" class="searchButtonLabel">Search</label></input>
-			`
+			<button type="button" id="PlayersStatsSearchButton" class="searchButton" onclick='if(document.getElementById("PlayersStatsSearch").value === ""){searchPlayers("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)}else{searchPlayers(document.getElementById("PlayersStatsSearch").value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)}'><label for="PlayersStatsSearchButton" class="searchButtonLabel">Search</label>
+		`
 	}
 	document.getElementById('NHLStatsPlayersDropDown').innerHTML = outputHTML;
 }
