@@ -1070,6 +1070,35 @@ async function teamStatsNHL(){
 
 async function playersStatsNHL(team, gameType, position){
 
+	if(team !== 'ALL'){
+		if(team === 'WSH'){
+			newData = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => 'WAS' === value2.Abbr)
+		}
+		else if (team === 'ARI'){
+			newData = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => 'ARZ' === value2.Abbr)
+		}
+		else{
+			newData = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => team === value2.Abbr)
+		}
+		console.log(newData);
+
+		newerData = {
+			Abbr: newData.Abbr,
+			Team: newData.Name + " " + newData.Nickname,
+			GP_RS: newData.GP_RS,
+			Wins: newData.Wins,
+			Losses: newData.Losses,
+			OTL: newData.OTL,
+			Points: newData.Points,
+			PCT: newData.PCT,
+			GF: newData.G_RS,
+			GA: newData.GA_RS,
+			Goal_Diff: Number(newData.G_RS) - Number(newData.GA_RS)
+		};
+
+		console.log(newerData);
+	}
+
 	console.log(localStorage['NHL'].split(','));
 	console.log(currentPage);
 	console.log(localStorage['Goals']);
@@ -1136,9 +1165,32 @@ async function playersStatsNHL(team, gameType, position){
 			if(teamStatsRoster[x].Name != undefined){
 			counter++;
 			if(counter + (currentPage * recordsPerPage) <= (currentPage * recordsPerPage) + recordsPerPage){
+				console.log(newData2 = JSON.parse(localStorage['Netherton Hockey League']));
+				if(teamStatsRoster[x].team === 'WSH'){
+					newData2 = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => 'WAS' === value2.team)
+				}
+				else if (teamStatsRoster[x].team === 'ARI'){
+					newData2 = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => 'ARZ' === value2.team)
+				}
+				else{
+					newData2 = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => teamStatsRoster[x].team === value2.Abbr)
+				}
+				console.log(newData2);
+			
+				newerData2 = {
+						Abbr: newData2.Abbr,
+						Team: newData2.Name + " " + newData2.Nickname,
+						Roster: [newData2["Last Name0"], newData2["Last Name1"], newData2["Last Name2"], newData2["Last Name3"], newData2["Last Name4"], newData2["Last Name5"], newData2["Last Name6"], newData2["Last Name7"], newData2["Last Name8"], newData2["Last Name9"], newData2["Last Name10"], newData2["Last Name11"], newData2["Last Name12"], newData2["Last Name13"], newData2["Last Name14"], newData2["Last Name15"], newData2["Last Name16"], newData2["Last Name17"], newData2["Last Name18"], newData2["Last Name19"], newData2["Last Name20"]],
+						GP: [newData2["GP_RS0"], newData2["GP_RS1"], newData2["GP_RS2"], newData2["GP_RS3"], newData2["GP_RS4"], newData2["GP_RS5"], newData2["GP_RS6"], newData2["GP_RS7"], newData2["GP_RS8"], newData2["GP_RS9"], newData2["GP_RS10"], newData2["GP_RS11"], newData2["GP_RS12"], newData2["GP_RS13"], newData2["GP_RS14"], newData2["GP_RS15"], newData2["GP_RS16"], newData2["GP_RS17"], newData2["GP_RS18"], newData2["GP_RS19"], newData2["GP_RS20"]]
+					};
+			
+				console.log(newerData2);
+				insertData = newerData2["Roster"].find(insert => insert === teamStatsRoster[x].Name);
+				place = newerData2.Roster.indexOf(insertData);
+				console.log(place);
 				outputHTML += `<tr><td id = '${teamStatsRoster[x].team}' onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${teamStatsRoster[x].team}").innerHTML); window.location.href = "NHLstatsteam.html"'>${teamStatsRoster[x].team}</td><td id = "${teamStatsRoster[x].playerId}" onclick = 'localStorage.setItem("currentTeam", document.getElementById("${teamStatsRoster[x].team}").innerHTML); localStorage.setItem("currentPlayer", ${teamStatsRoster[x].playerId}); window.location.href = "NHLstatsplayer.html"'>${teamStatsRoster[x].Name}</td>`
 				columns.forEach(info => {
-					outputHTML += `<td>${teamStatsRoster[x][info]}</td>`;
+					outputHTML += `<td>${teamStatsRoster[x][info]} ${newerData2.GP[place]}</td>`;
 				})
 					outputHTML += `</tr>`
 			}					
@@ -1281,9 +1333,17 @@ async function playersStatsNHL(team, gameType, position){
 async function teamStatsTables(team, gameType){
     let teamArray = [];
 	console.log(localStorage['Netherton Hockey League']);
-	if(team !== 'ALL'){
-		newData = JSON.parse(localStorage['Netherton Hockey League']).find(value => (value.Name + " " + value.Nickname) === team)
 
+	if(team !== 'ALL'){
+		if(team === 'WSH'){
+			newData = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => 'WAS' === value2.Abbr)
+		}
+		else if (team === 'ARI'){
+			newData = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => 'ARZ' === value2.Abbr)
+		}
+		else{
+			newData = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => team === value2.Abbr)
+		}
 		console.log(newData);
 
 		newerData = {
