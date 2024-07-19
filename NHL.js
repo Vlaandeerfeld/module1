@@ -61,7 +61,7 @@ async function upload(){
 
 async function uploadTemplate(){
 
-	let templateLeagues = ['Retro Goon League1980.csv', 'Netherton Hockey League2033.csv'];
+	let templateLeagues = ['National Hockey League2023.csv'];
 
 	templateLeagues.forEach(async files => {
 		let data = await fetch(`csvtoupload/${files}`);
@@ -224,8 +224,8 @@ function sorterTeams(table, typer){
 	let sorter1 = `<tr>`;
 	sorter1 += `<th onclick = 'if(localStorage["${table}${0}"] === "DESC"){sortTable("${table}",${0}); localStorage["${table}${0}"] = "ASC";} else{sortTableASC("${table}",${0}); localStorage["${table}${0}"] = "DESC"}'>Team</th>`;
 
-	for (let x = 1; x <= numColumn; x++){
-		sorter1 += `<th onclick = 'if(localStorage["${table}${x}"] === "DESC"){sortTableNum("${table}",${x}); localStorage["${table}${x}"] = "ASC";} else{sortTableNumASC("${table}",${x}); localStorage["${table}${x}"] = "DESC"}'>${columns[x - 1]}</th>`;
+	for (let x = 0; x < numColumn; x++){
+		sorter1 += `<th onclick = 'if(localStorage["${table}${x}"] === "DESC"){sortTableNum("${table}",${x}); localStorage["${table}${x}"] = "ASC";} else{sortTableNumASC("${table}",${x}); localStorage["${table}${x}"] = "DESC"}'>${columns[x]}</th>`;
 	}
 	sorter1 += `</tr>`;
 
@@ -253,7 +253,7 @@ async function teamFilters(){
 	let outputHTML = '';
 
     let leagueArray = [];
-    const teamArray = await getAPI('https://api-web.nhle.com/v1/standings/now')
+    const teamArray = await getAPI('https://api-web.nhle.com/v1/standings/2024-04-18')
     const sortedTeamArray = teamArray.standings.map(value => {
        	return{
         	    Abbr: value.teamAbbrev.default,
@@ -520,7 +520,7 @@ async function teamTablesOverview(team){
 		})
 
 	async function getTeam(){
-		return await getAPI('https://api-web.nhle.com/v1/standings/now')
+		return await getAPI('https://api-web.nhle.com/v1/standings/2023-04-16')
 			.then(value => {
 				console.log(value);
 				const newArray = value.standings.map(info => {
@@ -618,7 +618,7 @@ document.getElementById('teamStandingsOverview').innerHTML += outputHTMLEast;
 
 
 	async function getStandings(){
-		return await getAPI(`https://api-web.nhle.com/v1/standings/now`);
+		return await getAPI(`https://api-web.nhle.com/v1/standings/2024-04-18`);
 	}
 }
 
@@ -645,7 +645,7 @@ async function playerStatsNHL(){
 	console.log(arrayPlayerStats);
 
 	async function getPlayerStats(){
-		return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/now`)
+		return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/2024-04-18`)
 			.then(value => {
 				console.log(value);
 				const info = value.skaters.find(element => {
@@ -672,7 +672,7 @@ async function playerStatsNHL(){
 	}
 
 	async function getPlayerInfo(){
-		return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/current`)
+		return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/2024-04-18`)
 			.then(value => {
 				console.log(value);
 				const forwardsArray = value.forwards.map(info => {
@@ -758,7 +758,7 @@ async function teamStatsNHL(){
 	console.log(teamStats);
 
 	async function getTeamInfo(){
-		return await getAPI(`https://api-web.nhle.com/v1/standings/now`)
+		return await getAPI(`https://api-web.nhle.com/v1/standings/2024-04-18`)
 			.then(value => {
 				return value.standings.find((info) => {
 						return info.teamAbbrev.default === team	
@@ -766,7 +766,7 @@ async function teamStatsNHL(){
 		})
 	}
 	async function getTeamStats(){
-		return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/now`)
+		return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/2024-04-18`)
 			.then(value => {
 				console.log(value);
 				const skatersArray = value.skaters.map(info => {
@@ -792,7 +792,7 @@ async function teamStatsNHL(){
 	}
 
 	async function getTeamRoster(){
-		return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/current`)
+		return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/2024-04-18`)
 			.then(value => {
 				console.log(value);
 				const forwardsArray = value.forwards.map(info => {
@@ -1072,13 +1072,13 @@ async function playersStatsNHL(team, gameType, position){
 
 	if(team !== 'ALL'){
 		if(team === 'WSH'){
-			newData = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => 'WAS' === value2.Abbr)
+			newData = JSON.parse(localStorage['National Hockey League']).find(value2 => 'WAS' === value2.Abbr)
 		}
 		else if (team === 'ARI'){
-			newData = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => 'ARZ' === value2.Abbr)
+			newData = JSON.parse(localStorage['National Hockey League']).find(value2 => 'ARZ' === value2.Abbr)
 		}
 		else{
-			newData = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => team === value2.Abbr)
+			newData = JSON.parse(localStorage['National Hockey League']).find(value2 => team === value2.Abbr)
 		}
 		console.log(newData);
 
@@ -1165,15 +1165,15 @@ async function playersStatsNHL(team, gameType, position){
 			if(teamStatsRoster[x].Name != undefined){
 			counter++;
 			if(counter + (currentPage * recordsPerPage) <= (currentPage * recordsPerPage) + recordsPerPage){
-				console.log(newData2 = JSON.parse(localStorage['Netherton Hockey League']));
+				console.log(newData2 = JSON.parse(localStorage['National Hockey League']));
 				if(teamStatsRoster[x].team === 'WSH'){
-					newData2 = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => 'WAS' === value2.team)
+					newData2 = JSON.parse(localStorage['National Hockey League']).find(value2 => 'WAS' === value2.team)
 				}
 				else if (teamStatsRoster[x].team === 'ARI'){
-					newData2 = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => 'ARZ' === value2.team)
+					newData2 = JSON.parse(localStorage['National Hockey League']).find(value2 => 'ARZ' === value2.team)
 				}
 				else{
-					newData2 = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => teamStatsRoster[x].team === value2.Abbr)
+					newData2 = JSON.parse(localStorage['National Hockey League']).find(value2 => teamStatsRoster[x].team === value2.Abbr)
 				}
 				console.log(newData2);
 			
@@ -1275,7 +1275,7 @@ async function playersStatsNHL(team, gameType, position){
 		}
 
 		async function getPlayerInfo(){
-			return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/current`)
+			return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/2024-04-18`)
 				.then(value => {
 					console.log(value);
 					const forwardsArray = value.forwards.map(info => {
@@ -1332,36 +1332,9 @@ async function playersStatsNHL(team, gameType, position){
 
 async function teamStatsTables(team, gameType){
     let teamArray = [];
-	console.log(localStorage['Netherton Hockey League']);
+	console.log(localStorage['National Hockey League']);
+	console.log(team);
 
-	if(team !== 'ALL'){
-		if(team === 'WSH'){
-			newData = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => 'WAS' === value2.Abbr)
-		}
-		else if (team === 'ARI'){
-			newData = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => 'ARZ' === value2.Abbr)
-		}
-		else{
-			newData = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => team === value2.Abbr)
-		}
-		console.log(newData);
-
-		newerData = {
-			Abbr: newData.Abbr,
-			Team: newData.Name + " " + newData.Nickname,
-			GP_RS: newData.GP_RS,
-			Wins: newData.Wins,
-			Losses: newData.Losses,
-			OTL: newData.OTL,
-			Points: newData.Points,
-			PCT: newData.PCT,
-			GF: newData.G_RS,
-			GA: newData.GA_RS,
-			Goal_Diff: Number(newData.G_RS) - Number(newData.GA_RS)
-		};
-
-		console.log(newerData);
-	}
 	const valuesReturned = sorterTeams('teamTablesOverview', gameType);
 	let columns = valuesReturned[0];
 	let outputHTML = valuesReturned[1];
@@ -1382,14 +1355,41 @@ async function teamStatsTables(team, gameType){
 				console.log(value1);
 				value1.forEach(value => {
 					if (team !== 'ALL'){
+						if(team === 'WSH'){
+							newData = JSON.parse(localStorage['National Hockey League']).find(value2 => 'WAS' === value2.Name)
+						}
+						else if (team === 'ARI'){
+							newData = JSON.parse(localStorage['National Hockey League']).find(value2 => 'ARZ' === value2.Name)
+						}
+						else{
+							newData = JSON.parse(localStorage['National Hockey League']).find(value2 => team === value2.Name + " " + value2.Nickname)
+						}
+						console.log(newData);
+				
+						newerData = {
+							Abbr: newData.Abbr,
+							Team: newData.Name + " " + newData.Nickname,
+							GP_RS: newData.GP_RS,
+							Wins: newData.Wins,
+							Losses: newData.Losses,
+							OTL: newData.OTL,
+							Points: newData.Points,
+							PCT: newData.PCT,
+							GF: newData.G_RS,
+							GA: newData.GA_RS,
+							Goal_Diff: Number(newData.G_RS) - Number(newData.GA_RS)
+						};
+				
+						console.log(newerData);
+
 						if (value.teamName === team){
 							outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${value.teamName}</td>`;
 							columns.forEach(info => {
 								if(value[info] > newerData[info]){
-									outputHTML += `<td><div class = "fs">${value[info]}</div><div class = "relationalRed">(${newerData[info]})</div></td>`;
+									outputHTML += `<td><p><span class = NHL>${value[info]}</span><span class = "relationalRed"> (${newerData[info]})</span></p></td>`;
 								}
 								else{
-									outputHTML += `<td>${value[info]} <p class = "relationalGreen">(${newerData[info]})</p></td>`;
+									outputHTML += `<td><p><span class = NHL>${value[info]}</span><span class = "relationalGreen"> (${newerData[info]})</span></p></td>`;
 								}
 							})
 							outputHTML += `</tr>`
@@ -1397,15 +1397,15 @@ async function teamStatsTables(team, gameType){
 					}
 					else{
 						console.log(value.Abbr);
-						console.log(newData2 = JSON.parse(localStorage['Netherton Hockey League']));
+						console.log(newData2 = JSON.parse(localStorage['National Hockey League']));
 						if(value.Abbr === 'WSH'){
-							newData2 = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => 'WAS' === value2.Abbr)
+							newData2 = JSON.parse(localStorage['National Hockey League']).find(value2 => 'WAS' === value2.Abbr)
 						}
 						else if (value.Abbr === 'ARI'){
-							newData2 = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => 'ARZ' === value2.Abbr)
+							newData2 = JSON.parse(localStorage['National Hockey League']).find(value2 => 'ARZ' === value2.Abbr)
 						}
 						else{
-							newData2 = JSON.parse(localStorage['Netherton Hockey League']).find(value2 => value.Abbr === value2.Abbr)
+							newData2 = JSON.parse(localStorage['National Hockey League']).find(value2 => value.Abbr === value2.Abbr)
 						}
 						console.log(newData2);
 					
@@ -1427,10 +1427,10 @@ async function teamStatsTables(team, gameType){
 						outputHTML += `<tr><td id = ${value.Abbr} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value.Abbr}").id); window.location.href = "NHLstatsteam.html";'>${value.teamName}</td>`;
 						columns.forEach(info => {
 							if(value[info] > newerData2[info]){
-								outputHTML += `<td>${value[info]} <div class = "relationalRed">(${newerData2[info]})</div></td>`;
+								outputHTML += `<td><p><span class = "NHL">${value[info]}</span><span class = "relationalRed">(${newerData2[info]})</span></p></td>`;
 							}
 							else{
-								outputHTML += `<td>${value[info]} <div class = "relationalGreen">(${newerData2[info]})</div></td>`;
+								outputHTML += `<td><p><span class = "NHL">${value[info]}</span><span class = "relationalGreen">(${newerData2[info]})</span></p></td>`;
 							}
 						})
 						outputHTML += `</tr>`
@@ -1470,7 +1470,7 @@ async function teamStatsTables(team, gameType){
 	}
 
 	async function getTeam(){
-		return await getAPI(`https://api-web.nhle.com/v1/standings/2024-03-26`)
+		return await getAPI(`https://api-web.nhle.com/v1/standings/2024-04-18`)
 			.then(value => {
 				console.log(value);
 				const newArray = value.standings.map(info => {
@@ -1627,7 +1627,7 @@ async function searchPlayers(lastName, gameType, position){
 		}
 
 		async function getPlayerInfo(){
-			return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/current`)
+			return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/2024-04-18`)
 				.then(value => {
 					console.log(value);
 					const forwardsArray = value.forwards.map(info => {
@@ -1754,7 +1754,7 @@ async function searchTeam(team, gameType){
 			})
 	}
 	async function getTeam(){
-		return await getAPI(`https://api-web.nhle.com/v1/standings/now`)
+		return await getAPI(`https://api-web.nhle.com/v1/standings/2024-04-18`)
 			.then(value => {
 				console.log(value);
 				const newArray = value.standings.map(info => {
@@ -1914,8 +1914,8 @@ function sortTableNum(tableToSort, column){
 	  rows = table.rows;
 	  for (i = 1; i < (rows.length - 1); i++) {
 		shouldSwitch = false;
-		x = rows[i].getElementsByTagName('td')[column];
-		y = rows[i + 1].getElementsByTagName('td')[column];
+		x = rows[i].getElementsByClassName('NHL')[column];
+		y = rows[i + 1].getElementsByClassName('NHL')[column];
 		if (x.innerHTML - y.innerHTML < 0) {
 		  shouldSwitch = true;
 		  break;
@@ -1939,8 +1939,8 @@ function sortTableNumASC(tableToSort, column){
 	  rows = table.rows;
 	  for (i = 1; i < (rows.length - 1); i++) {
 		shouldSwitch = false;
-		x = rows[i].getElementsByTagName('td')[column];
-		y = rows[i + 1].getElementsByTagName('td')[column];
+		x = rows[i].getElementsByClassName('NHL')[column];
+		y = rows[i + 1].getElementsByClassName('NHL')[column];
 		if (x.innerHTML - y.innerHTML > 0) {
 		  shouldSwitch = true;
 		  break;
