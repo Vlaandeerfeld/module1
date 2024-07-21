@@ -645,7 +645,7 @@ async function playerStatsNHL(){
 	console.log(arrayPlayerStats);
 
 	async function getPlayerStats(){
-		return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/2024-04-18`)
+		return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/20232024`)
 			.then(value => {
 				console.log(value);
 				const info = value.skaters.find(element => {
@@ -766,7 +766,7 @@ async function teamStatsNHL(){
 		})
 	}
 	async function getTeamStats(){
-		return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/2024-04-18`)
+		return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/2023/2024`)
 			.then(value => {
 				console.log(value);
 				const skatersArray = value.skaters.map(info => {
@@ -792,7 +792,7 @@ async function teamStatsNHL(){
 	}
 
 	async function getTeamRoster(){
-		return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/2024-04-18`)
+		return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/20232024`)
 			.then(value => {
 				console.log(value);
 				const forwardsArray = value.forwards.map(info => {
@@ -1070,34 +1070,9 @@ async function teamStatsNHL(){
 
 async function playersStatsNHL(team, gameType, position){
 
-	if(team !== 'ALL'){
-		if(team === 'WSH'){
-			newData = JSON.parse(localStorage['National Hockey League']).find(value2 => 'WAS' === value2.Abbr)
-		}
-		else if (team === 'ARI'){
-			newData = JSON.parse(localStorage['National Hockey League']).find(value2 => 'ARZ' === value2.Abbr)
-		}
-		else{
-			newData = JSON.parse(localStorage['National Hockey League']).find(value2 => team === value2.Abbr)
-		}
-		console.log(newData);
-
-		newerData = {
-			Abbr: newData.Abbr,
-			Team: newData.Name + " " + newData.Nickname,
-			GP_RS: newData.GP_RS,
-			Wins: newData.Wins,
-			Losses: newData.Losses,
-			OTL: newData.OTL,
-			Points: newData.Points,
-			PCT: newData.PCT,
-			GF: newData.G_RS,
-			GA: newData.GA_RS,
-			Goal_Diff: Number(newData.G_RS) - Number(newData.GA_RS)
-		};
-
-		console.log(newerData);
-	}
+	let j;
+	let k;
+	let newestData = [];
 
 	console.log(localStorage['NHL'].split(','));
 	console.log(currentPage);
@@ -1122,16 +1097,47 @@ async function playersStatsNHL(team, gameType, position){
 	let counter;
 
 	if(team !== 'ALL'){
+
+		let newData = JSON.parse(localStorage['National Hockey League'])
+		console.log(newData);
+
+
+
 		counter = 1;
 		await getPlayerStatsArray(team, typer, position)
 			.then(value => {
 				for(let x = (currentPage - 1) * recordsPerPage; x < value.length; x++){
 					if(value[x].Name != undefined){
+						
+						for(let n = 0; n < newData.length; n++){
+							let newerData = {
+								Abbr: newData[n].Abbr,
+								Team: newData[n].Name + " " + newData[n].Nickname,
+								Players: [newData[n]["First Name0"] + " " + newData[n]["Last Name0"], newData[n]["First Name1"] + " " + newData[n]["Last Name1"], newData[n]["First Name2"] + " " + newData[n]["Last Name2"], newData[n]["First Name3"] + " " + newData[n]["Last Name3"], newData[n]["First Name4"] + " " + newData[n]["Last Name4"], newData[n]["First Name5"] + " " + newData[n]["Last Name5"], newData[n]["First Name6"] + " " + newData[n]["Last Name6"], newData[n]["First Name7"] + " " + newData[n]["Last Name7"], newData[n]["First Name8"] + " " + newData[n]["Last Name8"], newData[n]["First Name9"] + " " + newData[n]["Last Name9"], newData[n]["First Name10"] + " " + newData[n]["Last Name10"], newData[n]["First Name11"] + " " + newData[n]["Last Name11"], newData[n]["First Name12"] + " " + newData[n]["Last Name12"], newData[n]["First Name13"] + " " + newData[n]["Last Name13"], newData[n]["First Name14"] + " " + newData[n]["Last Name14"], newData[n]["First Name15"] + " " + newData[n]["Last Name15"], newData[n]["First Name16"] + " " + newData[n]["Last Name16"], newData[n]["First Name17"] + " " + newData[n]["Last Name17"], newData[n]["First Name18"] + " " + newData[n]["Last Name18"], newData[n]["First Name19"] + " " + newData[n]["Last Name19"], newData[n]["First Name20"] + " " + newData[n]["Last Name20"], newData[n]["First Name21"] + " " + newData[n]["Last Name21"], newData[n]["First Name22"] + " " + newData[n]["Last Name22"], newData[n]["First Name23"] + " " + newData[n]["Last Name23"]],
+								GP: [newData[n]["GP_RS0"], newData[n]["GP_RS1"], newData[n]["GP_RS2"], newData[n]["GP_RS3"], newData[n]["GP_RS4"], newData[n]["GP_RS5"], newData[n]["GP_RS6"], newData[n]["GP_RS7"], newData[n]["GP_RS8"], newData[n]["GP_RS9"], newData[n]["GP_RS10"], newData[n]["GP_RS11"], newData[n]["GP_RS12"], newData[n]["GP_RS13"], newData[n]["GP_RS14"], newData[n]["GP_RS15"], newData[n]["GP_RS16"], newData[n]["GP_RS17"], newData[n]["GP_RS18"], newData[n]["GP_RS19"], newData[n]["GP_RS20"], newData[n]["GP_RS21"], newData[n]["GP_RS22"], newData[n]["GP_RS23"]],
+							};
+					
+							console.log(newerData);
+								console.log(value[x].Name)
+								j = newerData["Players"].find(playerValue => (playerValue) === value[x].Name);
+								j = newerData["Players"].indexOf(j);
+								if(j != -1){
+									console.log(newData[n]["Name"][j]);
+									newestData["GP"] = newerData["GP"][j]
+									break;
+								}
+						}
+
 					counter++;
 					if(counter + (currentPage * recordsPerPage) <= (currentPage * recordsPerPage) + recordsPerPage){
 					outputHTML += `<tr><td id = ${value.Abbr} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value.Abbr}").innerHTML); window.location.href = "NHLstatsteam.html";'>${team}</td><td id = "${value[x].playerId}" onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; localStorage.setItem("currentPlayer", document.getElementById("${value[x].playerId}").id); window.location.href = "NHLstatsplayer.html"'>${value[x].Name}</td>`
 					columns.forEach(info => {
-						outputHTML += `<td>${value[x][info]}</td>`;
+						console.log(j);
+						outputHTML += `<td>${value[x][info]}`
+						if(j != -1){
+							outputHTML += ` (${newestData["GP"]})`;
+						}
+						outputHTML += `</td>`
 					})
 					outputHTML += `</tr>`
 				}
@@ -1275,7 +1281,7 @@ async function playersStatsNHL(team, gameType, position){
 		}
 
 		async function getPlayerInfo(){
-			return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/2024-04-18`)
+			return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/20232024`)
 				.then(value => {
 					console.log(value);
 					const forwardsArray = value.forwards.map(info => {
@@ -1627,7 +1633,7 @@ async function searchPlayers(lastName, gameType, position){
 		}
 
 		async function getPlayerInfo(){
-			return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/2024-04-18`)
+			return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/20232024`)
 				.then(value => {
 					console.log(value);
 					const forwardsArray = value.forwards.map(info => {
