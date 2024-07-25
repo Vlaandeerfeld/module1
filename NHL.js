@@ -234,10 +234,17 @@ function sorterTeams(table, typer){
 
 async function getAPI(url){
 
-	const url2 = 'https://corsproxy.io/?' + encodeURIComponent(url);
-	const response = await fetch(url);
-	const result = await response.json()
-	return result;
+	if(localStorage[url] != undefined){
+		console.log("loaded from localStorage");
+		return JSON.parse(localStorage[url]);
+	}
+	else{
+		const url2 = 'https://corsproxy.io/?' + encodeURIComponent(url);
+		const response = await fetch(url2);
+		const result = await response.json();
+		localStorage[url] = JSON.stringify(result);
+		return result;
+	}
 }
 
 function leagueFilters(){
@@ -645,7 +652,7 @@ async function playerStatsNHL(){
 	console.log(arrayPlayerStats);
 
 	async function getPlayerStats(){
-		return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/20232024`)
+		return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/20232024/2`)
 			.then(value => {
 				console.log(value);
 				const info = value.skaters.find(element => {
@@ -672,7 +679,7 @@ async function playerStatsNHL(){
 	}
 
 	async function getPlayerInfo(){
-		return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/2024-04-18`)
+		return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/20232024`)
 			.then(value => {
 				console.log(value);
 				const forwardsArray = value.forwards.map(info => {
@@ -766,7 +773,7 @@ async function teamStatsNHL(){
 		})
 	}
 	async function getTeamStats(){
-		return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/2023/2024`)
+		return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/20232024/2`)
 			.then(value => {
 				console.log(value);
 				const skatersArray = value.skaters.map(info => {
@@ -1124,12 +1131,9 @@ async function playersStatsNHL(team, gameType, position){
 								FOPer: [Number(newData[n]["FOW_RS0"]) / Number(newData[n]["FO_RS0"]), Number(newData[n]["FOW_RS1"]) / Number(newData[n]["FO_RS1"]), Number(newData[n]["FOW_RS2"]) / Number(newData[n]["FO_RS2"]), Number(newData[n]["FOW_RS3"]) / Number(newData[n]["FO_RS3"]), Number(newData[n]["FOW_RS4"]) / Number(newData[n]["FO_RS4"]), Number(newData[n]["FOW_RS5"]) / Number(newData[n]["FO_RS5"]), Number(newData[n]["FOW_RS6"]) / Number(newData[n]["FO_RS6"]), Number(newData[n]["FOW_RS7"]) / Number(newData[n]["FO_RS7"]), Number(newData[n]["FOW_RS8"]) / Number(newData[n]["FO_RS8"]), Number(newData[n]["FOW_RS9"]) / Number(newData[n]["FO_RS9"]), Number(newData[n]["FOW_RS10"]) / Number(newData[n]["FO_RS10"]), Number(newData[n]["FOW_RS11"]) / Number(newData[n]["FO_RS11"]), Number(newData[n]["FOW_RS12"]) / Number(newData[n]["FO_RS12"]), Number(newData[n]["FOW_RS13"]) / Number(newData[n]["FO_RS13"]), Number(newData[n]["FOW_RS14"]) / Number(newData[n]["FO_RS14"]), Number(newData[n]["FOW_RS15"]) / Number(newData[n]["FO_RS15"]), Number(newData[n]["FOW_RS16"]) / Number(newData[n]["FO_RS16"]), Number(newData[n]["FOW_RS17"]) / Number(newData[n]["FO_RS17"]), Number(newData[n]["FOW_RS18"]) / Number(newData[n]["FO_RS18"]), Number(newData[n]["FOW_RS19"]) / Number(newData[n]["FO_RS19"]), Number(newData[n]["FOW_RS20"]) / Number(newData[n]["FO_RS20"]), Number(newData[n]["FOW_RS21"]) / Number(newData[n]["FO_RS21"]), Number(newData[n]["FOW_RS22"]) / Number(newData[n]["FO_RS22"]), Number(newData[n]["FOW_RS23"]) / Number(newData[n]["FO_RS23"])]
 							};
 					
-							console.log(newerData);
-								console.log(value[x].Name)
 								j = newerData["Players"].find(playerValue => (playerValue) === value[x].Name);
 								j = newerData["Players"].indexOf(j);
 								if(j != -1){
-									console.log(newData[n]["Name"][j]);
 									newestData = {
 										Abbr: newerData["Abbr"],
 										GP: newerData["GP"][j],
@@ -1151,9 +1155,8 @@ async function playersStatsNHL(team, gameType, position){
 
 					counter++;
 					if(counter + (currentPage * recordsPerPage) <= (currentPage * recordsPerPage) + recordsPerPage){
-					outputHTML += `<tr><td id = ${value.Abbr} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value.Abbr}").innerHTML); window.location.href = "NHLstatsteam.html";'>${team} (${newestData["Abbr"]})</td><td id = "${value[x].playerId}" onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; localStorage.setItem("currentPlayer", document.getElementById("${value[x].playerId}").id); window.location.href = "NHLstatsplayer.html"'>${value[x].Name}</td>`
+					outputHTML += `<tr><td id = ${value.Abbr} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value.Abbr}").getElementByClass("NHL").innerHTML); window.location.href = "NHLstatsteam.html";'>${team} (${newestData["Abbr"]})</td><td id = "${value[x].playerId}" onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; localStorage.setItem("currentPlayer", document.getElementById("${value[x].playerId}").id); window.location.href = "NHLstatsplayer.html"'>${value[x].Name}</td>`
 					columns.forEach(info => {
-						console.log(j);
 						if(info === "ShotPer" || info === "FOPer"){
 							outputHTML += `<td><p><span class = "NHL">${Math.round(Number(value[x][info]) * 1000) / 10}</span>`;
 						}
@@ -1223,11 +1226,9 @@ async function playersStatsNHL(team, gameType, position){
 						FOPer: [Number(newData[n]["FOW_RS0"]) / Number(newData[n]["FO_RS0"]), Number(newData[n]["FOW_RS1"]) / Number(newData[n]["FO_RS1"]), Number(newData[n]["FOW_RS2"]) / Number(newData[n]["FO_RS2"]), Number(newData[n]["FOW_RS3"]) / Number(newData[n]["FO_RS3"]), Number(newData[n]["FOW_RS4"]) / Number(newData[n]["FO_RS4"]), Number(newData[n]["FOW_RS5"]) / Number(newData[n]["FO_RS5"]), Number(newData[n]["FOW_RS6"]) / Number(newData[n]["FO_RS6"]), Number(newData[n]["FOW_RS7"]) / Number(newData[n]["FO_RS7"]), Number(newData[n]["FOW_RS8"]) / Number(newData[n]["FO_RS8"]), Number(newData[n]["FOW_RS9"]) / Number(newData[n]["FO_RS9"]), Number(newData[n]["FOW_RS10"]) / Number(newData[n]["FO_RS10"]), Number(newData[n]["FOW_RS11"]) / Number(newData[n]["FO_RS11"]), Number(newData[n]["FOW_RS12"]) / Number(newData[n]["FO_RS12"]), Number(newData[n]["FOW_RS13"]) / Number(newData[n]["FO_RS13"]), Number(newData[n]["FOW_RS14"]) / Number(newData[n]["FO_RS14"]), Number(newData[n]["FOW_RS15"]) / Number(newData[n]["FO_RS15"]), Number(newData[n]["FOW_RS16"]) / Number(newData[n]["FO_RS16"]), Number(newData[n]["FOW_RS17"]) / Number(newData[n]["FO_RS17"]), Number(newData[n]["FOW_RS18"]) / Number(newData[n]["FO_RS18"]), Number(newData[n]["FOW_RS19"]) / Number(newData[n]["FO_RS19"]), Number(newData[n]["FOW_RS20"]) / Number(newData[n]["FO_RS20"]), Number(newData[n]["FOW_RS21"]) / Number(newData[n]["FO_RS21"]), Number(newData[n]["FOW_RS22"]) / Number(newData[n]["FO_RS22"]), Number(newData[n]["FOW_RS23"]) / Number(newData[n]["FO_RS23"])]
 					};
 			
-					console.log(newerData);
 						j = newerData["Players"].find(playerValue => (playerValue) === teamStatsRoster[x].Name);
 						j = newerData["Players"].indexOf(j);
 						if(j != -1){
-							console.log(newData[n]["Name"][j]);
 							newestData = {
 								Abbr: newerData["Abbr"],
 								GP: newerData["GP"][j],
@@ -1659,7 +1660,7 @@ async function searchPlayers(lastName, gameType, position){
 
 		async function getPlayerStats(team, typer, position){
 			console.log(position);
-			return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/20232024/${typer}`)
+			return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/04-18-2024/${typer}`)
 				.then(value => {
 					if(position === "SKATERS"){
 					return value.skaters.map(info => {
@@ -1702,7 +1703,7 @@ async function searchPlayers(lastName, gameType, position){
 		}
 
 		async function getPlayerInfo(){
-			return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/20232024`)
+			return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/20232024/2`)
 				.then(value => {
 					console.log(value);
 					const forwardsArray = value.forwards.map(info => {
