@@ -34,12 +34,22 @@ localStorage['GF_PO'] = true;
 localStorage['GA_PO'] = true;
 localStorage['Goal_Diff_PO'] = true;
 
+let templateLeagues = ['Netherton Hockey League2033.csv', 'National Hockey League2023.csv'];
+
 let currentPage = 1;
 let recordsPerPage = 27;
 
 let date = new Date();
 localStorage['year'] = date.getFullYear();
+
 localStorage['month'] = date.getMonth();
+
+
+async function preload(){
+	localStorage['NHL'].split(',').forEach(value => {
+		getAPI(`https://api-web.nhle.com/v1/club-stats/${value}/20232024/2`)
+	})
+};
 
 async function upload(){
 
@@ -60,8 +70,6 @@ async function upload(){
 }
 
 async function uploadTemplate(){
-
-	let templateLeagues = ['National Hockey League2023.csv'];
 
 	templateLeagues.forEach(async files => {
 		let data = await fetch(`csvtoupload/${files}`);
@@ -294,6 +302,20 @@ function seasonFilters(){
 				`;
 
 	document.getElementById('NHLseasonstats').innerHTML = outputHTML;
+}
+
+function compareFilters(){
+	let outputHTML = '';
+	console.log(localStorage.leagues);
+	localStorage.leagues.split(',').forEach(value3 => {
+		console.log(value3);
+		if(value3 !== 'ALL'){
+    		outputHTML += `
+				<option value = ` + value3 + `>` + value3 + `</option>
+			`;
+		}
+	});
+	document.getElementById('NHLcomparestats').innerHTML = outputHTML;
 }
 
 async function teamScheduleOverview(team){
@@ -1075,7 +1097,7 @@ async function teamStatsNHL(){
 		document.getElementById('NHLstatsteamLinesStats').innerHTML = outputHTMLLinesStats;
 }
 
-async function playersStatsNHL(team, gameType, position){
+async function playersStatsNHL(team, gameType, position, compare){
 
 	let j;
 	let k;
@@ -1105,7 +1127,7 @@ async function playersStatsNHL(team, gameType, position){
 
 	if(team !== 'ALL'){
 
-		let newData = JSON.parse(localStorage['National Hockey League'])
+		let newData = JSON.parse(localStorage[compare])
 		console.log(newData);
 
 		counter = 1;
@@ -1191,9 +1213,9 @@ async function playersStatsNHL(team, gameType, position){
 	}
 
 	else{
-		let newData = JSON.parse(localStorage['National Hockey League'])
+		let newData = JSON.parse(localStorage[compare])
 		const promise1 = localStorage['NHL'].split(',').map(async info => {
-			promise2 = await getPlayerStatsArray(info, typer);
+			promise2 = await getPlayerStatsArray(info, typer, position);
 			return Promise.resolve(promise2);
 		});
 		counter = 1;
@@ -1406,9 +1428,9 @@ async function playersStatsNHL(team, gameType, position){
 	}
 }
 
-async function teamStatsTables(team, gameType){
+async function teamStatsTables(team, gameType, compare){
     let teamArray = [];
-	console.log(localStorage['National Hockey League']);
+	console.log(compare);
 	console.log(team);
 
 	const valuesReturned = sorterTeams('teamTablesOverview', gameType);
@@ -1430,15 +1452,17 @@ async function teamStatsTables(team, gameType){
 			.then(value1 => {
 				console.log(value1);
 				value1.forEach(value => {
+					console.log(value);
+					console.log(JSON.parse(localStorage[compare]));
 					if (team !== 'ALL'){
 						if(team === 'WSH'){
-							newData = JSON.parse(localStorage['National Hockey League']).find(value2 => 'WAS' === value2.Name)
+							newData = JSON.parse(localStorage[compare]).find(value2 => 'WAS' === value2.Abbr)
 						}
 						else if (team === 'ARI'){
-							newData = JSON.parse(localStorage['National Hockey League']).find(value2 => 'ARZ' === value2.Name)
+							newData = JSON.parse(localStorage[compare]).find(value2 => 'ARZ' === value2.Abbr)
 						}
 						else{
-							newData = JSON.parse(localStorage['National Hockey League']).find(value2 => team === value2.Name + " " + value2.Nickname)
+							newData = JSON.parse(localStorage[compare]).find(value2 => team === (value2.Name + " " + value2.Nickname))
 						}
 						console.log(newData);
 				
@@ -1473,15 +1497,15 @@ async function teamStatsTables(team, gameType){
 					}
 					else{
 						console.log(value.Abbr);
-						console.log(newData2 = JSON.parse(localStorage['National Hockey League']));
+						console.log(newData2 = JSON.parse(localStorage[compare]));
 						if(value.Abbr === 'WSH'){
-							newData2 = JSON.parse(localStorage['National Hockey League']).find(value2 => 'WAS' === value2.Abbr)
+							newData2 = JSON.parse(localStorage[compare]).find(value2 => 'WAS' === value2.Abbr)
 						}
 						else if (value.Abbr === 'ARI'){
-							newData2 = JSON.parse(localStorage['National Hockey League']).find(value2 => 'ARZ' === value2.Abbr)
+							newData2 = JSON.parse(localStorage[compare]).find(value2 => 'ARZ' === value2.Abbr)
 						}
 						else{
-							newData2 = JSON.parse(localStorage['National Hockey League']).find(value2 => value.Abbr === value2.Abbr)
+							newData2 = JSON.parse(localStorage[compare]).find(value2 => value.Abbr === value2.Abbr)
 						}
 						console.log(newData2);
 					
@@ -1591,7 +1615,10 @@ async function teamStatsTables(team, gameType){
 	}
 }
 
-async function searchPlayers(lastName, gameType, position){
+async function searchPlayers(lastName, gameType, position, compare){
+	let j;
+	let k;
+	let newestData = [];
 	let promise2;
 	console.log(lastName);
 
@@ -1605,7 +1632,8 @@ async function searchPlayers(lastName, gameType, position){
 	else{
 		typer = 2;
 	}
-	
+	let newData = JSON.parse(localStorage[compare])
+
 	const promise1 = localStorage['NHL'].split(',').map(async info => {
 		promise2 = await getPlayerStatsArray(info, typer, position);
 		return Promise.resolve(promise2);
@@ -1616,38 +1644,86 @@ async function searchPlayers(lastName, gameType, position){
 
 	if(lastName === 'ALL'){
 		currentPage = 1;
-		playersStatsNHL('ALL', gameType, position);
+		playersStatsNHL('ALL', gameType, position, compare);
 	}
 	else{
-		teamStatsRoster.map(value2 => {
-				value2.map(value1 => {
-					console.log(value1);
-					if(value1.Name == undefined){
-						console.log('Error');
-					}
-					else{
-					let nameArray = value1.Name.split(' ');
-					console.log(nameArray[1]);
-					console.log(lastName);
-					if(lastName === nameArray[1]){
-						outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = "${value1.team}"; window.location.href = "NHLstatsteam.html"'>${value1.team}</td><td onclick = 'localStorage["currentPlayer"] = "${value1.playerId}"; localStorage["currentTeam"] = "${value1.team}"; window.location.href = "NHLstatsplayer.html"'>${value1.Name}</td>`
+		console.log(teamStatsRoster);
+		for(let x = 0; x < teamStatsRoster.length; x++){
+			for(let y = 0; y < teamStatsRoster[x].length; y++){
+							for(let n = 0; n < newData.length; n++){
+								let newerData = {
+									Abbr: newData[n].Abbr,
+									Team: newData[n].Name + " " + newData[n].Nickname,
+									Players: [newData[n]["Last Name0"], newData[n]["Last Name1"], newData[n]["Last Name2"], newData[n]["Last Name3"], newData[n]["Last Name4"], newData[n]["Last Name5"], newData[n]["Last Name6"], newData[n]["Last Name7"], newData[n]["Last Name8"], newData[n]["Last Name9"], newData[n]["Last Name10"], newData[n]["Last Name11"], newData[n]["Last Name12"], newData[n]["Last Name13"], newData[n]["Last Name14"], newData[n]["Last Name15"], newData[n]["Last Name16"], newData[n]["Last Name17"], newData[n]["Last Name18"], newData[n]["Last Name19"], newData[n]["Last Name20"], newData[n]["Last Name21"], newData[n]["Last Name22"], newData[n]["Last Name23"]],
+									GP: [newData[n]["GP_RS0"], newData[n]["GP_RS1"], newData[n]["GP_RS2"], newData[n]["GP_RS3"], newData[n]["GP_RS4"], newData[n]["GP_RS5"], newData[n]["GP_RS6"], newData[n]["GP_RS7"], newData[n]["GP_RS8"], newData[n]["GP_RS9"], newData[n]["GP_RS10"], newData[n]["GP_RS11"], newData[n]["GP_RS12"], newData[n]["GP_RS13"], newData[n]["GP_RS14"], newData[n]["GP_RS15"], newData[n]["GP_RS16"], newData[n]["GP_RS17"], newData[n]["GP_RS18"], newData[n]["GP_RS19"], newData[n]["GP_RS20"], newData[n]["GP_RS21"], newData[n]["GP_RS22"], newData[n]["GP_RS23"]],
+									Goals: [newData[n]["G_RS0"], newData[n]["G_RS1"], newData[n]["G_RS2"], newData[n]["G_RS3"], newData[n]["G_RS4"], newData[n]["G_RS5"], newData[n]["G_RS6"], newData[n]["G_RS7"], newData[n]["G_RS8"], newData[n]["G_RS9"], newData[n]["G_RS10"], newData[n]["G_RS11"], newData[n]["G_RS12"], newData[n]["G_RS13"], newData[n]["G_RS14"], newData[n]["G_RS15"], newData[n]["G_RS16"], newData[n]["G_RS17"], newData[n]["G_RS18"], newData[n]["G_RS19"], newData[n]["G_RS20"], newData[n]["G_RS21"], newData[n]["G_RS22"], newData[n]["G_RS23"]],
+									Assists: [newData[n]["A_RS0"], newData[n]["A_RS1"], newData[n]["A_RS2"], newData[n]["A_RS3"], newData[n]["A_RS4"], newData[n]["A_RS5"], newData[n]["A_RS6"], newData[n]["A_RS7"], newData[n]["A_RS8"], newData[n]["A_RS9"], newData[n]["A_RS10"], newData[n]["A_RS11"], newData[n]["A_RS12"], newData[n]["A_RS13"], newData[n]["A_RS14"], newData[n]["A_RS15"], newData[n]["A_RS16"], newData[n]["A_RS17"], newData[n]["A_RS18"], newData[n]["A_RS19"], newData[n]["A_RS20"], newData[n]["A_RS21"], newData[n]["A_RS22"], newData[n]["A_RS23"]],
+									PlusMinus: [newData[n]["+/-_RS0"], newData[n]["+/-_RS1"], newData[n]["+/-_RS2"], newData[n]["+/-_RS3"], newData[n]["+/-_RS4"], newData[n]["+/-_RS5"], newData[n]["+/-_RS6"], newData[n]["+/-_RS7"], newData[n]["+/-_RS8"], newData[n]["+/-_RS9"], newData[n]["+/-_RS10"], newData[n]["+/-_RS11"], newData[n]["+/-_RS12"], newData[n]["+/-_RS13"], newData[n]["+/-_RS14"], newData[n]["+/-_RS15"], newData[n]["+/-_RS16"], newData[n]["+/-_RS17"], newData[n]["+/-_RS18"], newData[n]["+/-_RS19"], newData[n]["+/-_RS20"], newData[n]["+/-_RS21"], newData[n]["+/-_RS22"], newData[n]["+/-_RS23"]],
+									PIM: [newData[n]["PIM_RS0"], newData[n]["PIM_RS1"], newData[n]["PIM_RS2"], newData[n]["PIM_RS3"], newData[n]["PIM_RS4"], newData[n]["PIM_RS5"], newData[n]["PIM_RS6"], newData[n]["PIM_RS7"], newData[n]["PIM_RS8"], newData[n]["PIM_RS9"], newData[n]["PIM_RS10"], newData[n]["PIM_RS11"], newData[n]["PIM_RS12"], newData[n]["PIM_RS13"], newData[n]["PIM_RS14"], newData[n]["PIM_RS15"], newData[n]["PIM_RS16"], newData[n]["PIM_RS17"], newData[n]["PIM_RS18"], newData[n]["PIM_RS19"], newData[n]["PIM_RS20"], newData[n]["PIM_RS21"], newData[n]["PIM_RS22"], newData[n]["PIM_RS23"]],
+									PPG: [newData[n]["PP G_RS0"], newData[n]["PP G_RS1"], newData[n]["PP G_RS2"], newData[n]["PP G_RS3"], newData[n]["PP G_RS4"], newData[n]["PP G_RS5"], newData[n]["PP G_RS6"], newData[n]["PP G_RS7"], newData[n]["PP G_RS8"], newData[n]["PP G_RS9"], newData[n]["PP G_RS10"], newData[n]["PP G_RS11"], newData[n]["PP G_RS12"], newData[n]["PP G_RS13"], newData[n]["PP G_RS14"], newData[n]["PP G_RS15"], newData[n]["PP G_RS16"], newData[n]["PP G_RS17"], newData[n]["PP G_RS18"], newData[n]["PP G_RS19"], newData[n]["PP G_RS20"], newData[n]["PP G_RS21"], newData[n]["PP G_RS22"], newData[n]["PP G_RS23"]],
+									SHG: [newData[n]["SH G_RS0"], newData[n]["SH G_RS1"], newData[n]["SH G_RS2"], newData[n]["SH G_RS3"], newData[n]["SH G_RS4"], newData[n]["SH G_RS5"], newData[n]["SH G_RS6"], newData[n]["SH G_RS7"], newData[n]["SH G_RS8"], newData[n]["SH G_RS9"], newData[n]["SH G_RS10"], newData[n]["SH G_RS11"], newData[n]["SH G_RS12"], newData[n]["SH G_RS13"], newData[n]["SH G_RS14"], newData[n]["SH G_RS15"], newData[n]["SH G_RS16"], newData[n]["SH G_RS17"], newData[n]["SH G_RS18"], newData[n]["SH G_RS19"], newData[n]["SH G_RS20"], newData[n]["SH G_RS21"], newData[n]["SH G_RS22"], newData[n]["SH G_RS23"]],
+									GWG: [newData[n]["GWG_RS0"], newData[n]["GWG_RS1"], newData[n]["GWG_RS2"], newData[n]["GWG_RS3"], newData[n]["GWG_RS4"], newData[n]["GWG_RS5"], newData[n]["GWG_RS6"], newData[n]["GWG_RS7"], newData[n]["GWG_RS8"], newData[n]["GWG_RS9"], newData[n]["GWG_RS10"], newData[n]["GWG_RS11"], newData[n]["GWG_RS12"], newData[n]["GWG_RS13"], newData[n]["GWG_RS14"], newData[n]["GWG_RS15"], newData[n]["GWG_RS16"], newData[n]["GWG_RS17"], newData[n]["GWG_RS18"], newData[n]["GWG_RS19"], newData[n]["GWG_RS20"], newData[n]["GWG_RS21"], newData[n]["GWG_RS22"], newData[n]["GWG_RS23"]],
+									Shots: [newData[n]["SOG_RS0"], newData[n]["SOG_RS1"], newData[n]["SOG_RS2"], newData[n]["SOG_RS3"], newData[n]["SOG_RS4"], newData[n]["SOG_RS5"], newData[n]["SOG_RS6"], newData[n]["SOG_RS7"], newData[n]["SOG_RS8"], newData[n]["SOG_RS9"], newData[n]["SOG_RS10"], newData[n]["SOG_RS11"], newData[n]["SOG_RS12"], newData[n]["SOG_RS13"], newData[n]["SOG_RS14"], newData[n]["SOG_RS15"], newData[n]["SOG_RS16"], newData[n]["SOG_RS17"], newData[n]["SOG_RS18"], newData[n]["SOG_RS19"], newData[n]["SOG_RS20"], newData[n]["SOG_RS21"], newData[n]["SOG_RS22"], newData[n]["SOG_RS23"]],
+									FOPer: [Number(newData[n]["FOW_RS0"]) / Number(newData[n]["FO_RS0"]), Number(newData[n]["FOW_RS1"]) / Number(newData[n]["FO_RS1"]), Number(newData[n]["FOW_RS2"]) / Number(newData[n]["FO_RS2"]), Number(newData[n]["FOW_RS3"]) / Number(newData[n]["FO_RS3"]), Number(newData[n]["FOW_RS4"]) / Number(newData[n]["FO_RS4"]), Number(newData[n]["FOW_RS5"]) / Number(newData[n]["FO_RS5"]), Number(newData[n]["FOW_RS6"]) / Number(newData[n]["FO_RS6"]), Number(newData[n]["FOW_RS7"]) / Number(newData[n]["FO_RS7"]), Number(newData[n]["FOW_RS8"]) / Number(newData[n]["FO_RS8"]), Number(newData[n]["FOW_RS9"]) / Number(newData[n]["FO_RS9"]), Number(newData[n]["FOW_RS10"]) / Number(newData[n]["FO_RS10"]), Number(newData[n]["FOW_RS11"]) / Number(newData[n]["FO_RS11"]), Number(newData[n]["FOW_RS12"]) / Number(newData[n]["FO_RS12"]), Number(newData[n]["FOW_RS13"]) / Number(newData[n]["FO_RS13"]), Number(newData[n]["FOW_RS14"]) / Number(newData[n]["FO_RS14"]), Number(newData[n]["FOW_RS15"]) / Number(newData[n]["FO_RS15"]), Number(newData[n]["FOW_RS16"]) / Number(newData[n]["FO_RS16"]), Number(newData[n]["FOW_RS17"]) / Number(newData[n]["FO_RS17"]), Number(newData[n]["FOW_RS18"]) / Number(newData[n]["FO_RS18"]), Number(newData[n]["FOW_RS19"]) / Number(newData[n]["FO_RS19"]), Number(newData[n]["FOW_RS20"]) / Number(newData[n]["FO_RS20"]), Number(newData[n]["FOW_RS21"]) / Number(newData[n]["FO_RS21"]), Number(newData[n]["FOW_RS22"]) / Number(newData[n]["FO_RS22"]), Number(newData[n]["FOW_RS23"]) / Number(newData[n]["FO_RS23"])]
+								};
+						
+								console.log(lastName);
+									j = newerData["Players"].find(playerValue => (playerValue) === lastName);
+									j = newerData["Players"].indexOf(j);
+									console.log(j);
+									if(j != -1 && newerData["Players"].find(playerValue => (playerValue) === lastName) != undefined){
+										newestData = {
+											Abbr: newerData["Abbr"],
+											Team: newerData["Team"],
+											GP: newerData["GP"][j],
+											Goals: newerData["Goals"][j],
+											Assists: newerData["Assists"][j],
+											Points: Number(newerData["Goals"][j]) + Number(newerData["Assists"][j]),
+											PlusMinus: newerData["PlusMinus"][j],
+											PIM: newerData["PIM"][j],
+											PPG: newerData["PPG"][j],
+											SHG: newerData["SHG"][j],
+											GWG: newerData["GWG"][j],
+											Shots: newerData["Shots"][j],
+											ShotPer: Math.round((Number(newerData["Goals"][j]) / Number(newerData["Shots"][j])) * 1000) / 10,
+											FOPer: Math.round(Number(newerData["FOPer"][j] * 1000)) / 10
+										};
+									}
+								}
+								console.log(newestData.Name);
+								console.log(lastName);
+						if(newestData.Name === lastName){
+						outputHTML += `<tr><td id = ${teamStatsRoster[x].team} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${teamStatsRoster[x].team}").getElementByClass("NHL").innerHTML); window.location.href = "NHLstatsteam.html";'>${teamStatsRoster[x].team} (${newestData["Abbr"]})</td><td id = "${teamStatsRoster[x].playerId}" onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; localStorage.setItem("currentPlayer", document.getElementById("${teamStatsRoster[x].playerId}").id); window.location.href = "NHLstatsplayer.html"'>${teamStatsRoster[x].Name}</td>`
 						columns.forEach(info => {
-							outputHTML += `<td>${value1[info]}</td>`;
+							if(info === "ShotPer" || info === "FOPer"){
+								outputHTML += `<td><p><span class = "NHL">${Math.round(Number(teamStatsRoster[x][info]) * 1000) / 10}</span>`;
+							}
+							else{
+								outputHTML += `<td><p><span class = "NHL">${teamStatsRoster[x][info]}</span>`;
+							}
+							if(j != -1 && newestData[info] != undefined && isNaN(newestData[info]) === false){
+								if((newestData[info] > teamStatsRoster[x][info]) && info !== "PIM" || (info === "PIM" && newestData[info] < teamStatsRoster[x][info])){
+									outputHTML += `<span class = relationalGreen> (${newestData[info]})</span></p>`;
+								}
+								else if((newestData[info] < teamStatsRoster[x][info]) || (info === "PIM" && newestData[info] > value[x][info])){
+									outputHTML += `<span class = relationalRed> (${newestData[info]})</span></p>`;
+								}
+								else{
+									outputHTML += `<span> (${newestData[info]})</span></p>`;
+								}
+							}
+							outputHTML += `</td>`
 						})
-						outputHTML += `</tr>`;				
-					};
+						outputHTML += `</tr>`
+					}
 				};
-				});		
-			});
-			
-		console.log(outputHTML);
-		outputHTML += `</tbody>`;
+				outputHTML += `</tbody>`;
 		document.getElementById('playersTablesOverview').innerHTML = outputHTML;
-	};
-
+			}
+	}
 	async function getPlayerStatsArray(team, typer, position){
 		let playerStats = await getPlayerStats(team, typer, position);
-		let playerInfo = await getPlayerInfo();
+		let playerInfo = await getPlayerInfo(team);
 	
 		return playerStats.map(info => {
 			return{
@@ -1657,15 +1733,17 @@ async function searchPlayers(lastName, gameType, position){
 				}),
 			}
 		});
+	}
 
 		async function getPlayerStats(team, typer, position){
 			console.log(position);
-			return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/04-18-2024/${typer}`)
+			return await getAPI(`https://api-web.nhle.com/v1/club-stats/${team}/20232024/${typer}`)
 				.then(value => {
 					if(position === "SKATERS"){
 					return value.skaters.map(info => {
 						return {
 							team: team,
+							Name: info.lastName.default,
 							playerId: info.playerId,
 							GP: info.gamesPlayed,
 							Goals: info.goals,
@@ -1702,15 +1780,15 @@ async function searchPlayers(lastName, gameType, position){
 				})
 		}
 
-		async function getPlayerInfo(){
-			return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/20232024/2`)
+		async function getPlayerInfo(team){
+			return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/20232024`)
 				.then(value => {
 					console.log(value);
 					const forwardsArray = value.forwards.map(info => {
 						return {
 							playerId: info.id,
 							headshot: info.headshot,
-							Name: `${info.firstName.default} ${info.lastName.default}`,
+							Name: info.lastName.default,
 							sweaterNumber: info.sweaterNumber,
 							position: info.positionCode,
 							shoots: info.shootsCatches,
@@ -1756,7 +1834,6 @@ async function searchPlayers(lastName, gameType, position){
 			})
 		}
 	}
-}
 
 async function searchTeam(team, gameType){
     let teamArray = [];
@@ -1893,7 +1970,7 @@ function advancedFilterStatsPlayers(position){
 			<input type="checkbox" id="ShotPer" onclick='if (ShotPer.checked == true){localStorage["ShotPer"] = true}else{localStorage["ShotPer"] = false}' checked><label for="ShotPer" class="chkbox">Shot %</label></input>
 			<input type="checkbox" id="FOPer" onclick='if (FOPer.checked == true){localStorage["FOPer"] = true}else{localStorage["FOPer"] = false}' checked><label for="FOPer" class="chkbox">FO %</label></input>
 			<input type="text" id="PlayersStatsSearch" class="searchBar"><label for="PlayersStatsSearch" class="searchLabel"></label></input>
-			<button type="button" id="PlayersStatsSearchButton" class="searchButton" onclick='if(document.getElementById("PlayersStatsSearch").value === ""){searchPlayers("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)}else{searchPlayers(document.getElementById("PlayersStatsSearch").value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)}'><label for="PlayersStatsSearchButton" class="searchButtonLabel">Search</label>>
+			<button type="button" id="PlayersStatsSearchButton" class="searchButton" onclick='if(document.getElementById("PlayersStatsSearch").value === ""){searchPlayers("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text, document.getElementById("NHLcomparestats").options[document.getElementById("NHLcomparestats").options.selectedIndex].text)}else{searchPlayers(document.getElementById("PlayersStatsSearch").value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text, document.getElementById("NHLcomparestats").options[document.getElementById("NHLcomparestats").options.selectedIndex].text)}'><label for="PlayersStatsSearchButton" class="searchButtonLabel">Search</label>
 		`
 	}
 	else{
@@ -1907,7 +1984,7 @@ function advancedFilterStatsPlayers(position){
 			<input type="checkbox" id="SO" onclick='if (SO.checked == true){$localStorage["SO"] = true}else{localStorage["SO"] = false}' checked><label for="SO" class="chkbox">SO</label></input>
 			<input type="checkbox" id="Points" onclick='if (Points.checked == true){localStorage["Points"] = true}else{localStorage["Points"] = false}' checked><label for="Points" class="chkbox">Points</label></input>
 			<input type="text" id="PlayersStatsSearch" class="searchBar"><label for="PlayersStatsSearch" class="searchLabel"></label></input>
-			<button type="button" id="PlayersStatsSearchButton" class="searchButton" onclick='if(document.getElementById("PlayersStatsSearch").value === ""){searchPlayers("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)}else{searchPlayers(document.getElementById("PlayersStatsSearch").value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text)}'><label for="PlayersStatsSearchButton" class="searchButtonLabel">Search</label>
+			<button type="button" id="PlayersStatsSearchButton" class="searchButton" onclick='if(document.getElementById("PlayersStatsSearch").value === ""){searchPlayers("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text, document.getElementById("NHLcomparestats").options[document.getElementById("NHLcomparestats").options.selectedIndex].text)}else{searchPlayers(document.getElementById("PlayersStatsSearch").value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text, document.getElementById("NHLcomparestats").options[document.getElementById("NHLcomparestats").options.selectedIndex].text)}'><label for="PlayersStatsSearchButton" class="searchButtonLabel">Search</label>
 		`
 	}
 	document.getElementById('NHLStatsPlayersDropDown').innerHTML = outputHTML;
