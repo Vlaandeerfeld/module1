@@ -148,6 +148,38 @@ async function checkAndUpload(fileInput, league, date) {
 	FileReader.abort
 }
 
+async function loadFromIndexedDb(league, team) {
+	let db;
+	let obj = {};
+	const openDB = window.indexedDB.open(league, 1);
+
+	openDB.onsuccess = (e) => {
+		db = openDB.result;
+		const transaction = db.transaction([team]);
+		transaction.oncomplete = (event) => {
+		}
+		const objectStore = transaction.objectStore(team);
+		request = objectStore.openCursor();
+
+		request.onerror = function (event) {
+			console.err("error fetching data");
+		};
+		request.onsuccess = function (event) {
+			let cursor = event.target.result;
+			if (cursor) {
+				let key = cursor.primaryKey;
+				let value = cursor.value;
+				obj[key] = value;
+				cursor.continue();
+			}
+			else {
+				console.log(JSON.stringify(obj));
+			}
+		};
+		return obj;
+	};
+}
+
 function sorterMain(table, numColumn) {
 
 	let sorter1 = `<tr>`;
@@ -265,8 +297,7 @@ async function teamFilters() {
 		leagueArray.push(value.Abbr);
 	})
 
-	console.log(leagueArray);
-	localStorage['NHL'] = leagueArray.filter(team => (team !== 'ARI'));
+	localStorage['NHL'] = leagueArray;
 
 	outputHTML += `<option value = 'ALL' selected>ALL</option>`;
 
@@ -274,8 +305,6 @@ async function teamFilters() {
 	sortedTeamArray.sort(function (a, b) { return a.Abbr.localeCompare(b.Abbr) }).forEach(value => {
 		outputHTML += `<option value = '${value.fullTeamName}'>${value.Abbr}</option>`;
 	})
-
-	console.log(outputHTML);
 
 	document.getElementById('NHLteamsstats').innerHTML = outputHTML;
 }
@@ -292,7 +321,6 @@ function seasonFilters() {
 
 function compareFilters() {
 	let outputHTML = '';
-	console.log(localStorage.leagues);
 	localStorage.leagues.split(',').forEach(value3 => {
 		console.log(value3);
 		if (value3 !== 'ALL') {
@@ -304,7 +332,7 @@ function compareFilters() {
 	document.getElementById('NHLcomparestats').innerHTML = outputHTML;
 }
 
-async function teamScheduleOverview(team) {
+async function teamScheduleOverview() {
 
 	let year = Number(localStorage['year']);
 	let month = Number(localStorage['month']);
@@ -341,11 +369,8 @@ async function teamScheduleOverview(team) {
 	let lastdate = new Date(year, month + 1, 0).getDate();
 	let lastdatePrev = new Date(year, month, 0).getDate();
 	let dayend = new Date(year, month - 1, lastdatePrev).getDay();
-	let dayendNext = new Date(year, month + 1, lastdate).getDay();
 	let monthlastdate = new Date(year, month, 0).getDate();
 
-	console.log(lastdate);
-	console.log(dayend);
 	let counter = 0;
 	let reverseCounter = 0 - dayend;
 	let dayOfWeekCounter = dayone;
@@ -355,12 +380,10 @@ async function teamScheduleOverview(team) {
 		if (x === 0) {
 			outputHTML += `<tr>`;
 			for (let y = (0 - dayone); y <= 0; y++) {
-				console.log(y);
 				if (y === 0) {
 					counter++;
 					const game = await getSchedule(1);
 					game.forEach(info => {
-						console.log(info);
 						if (info !== 'No Games') {
 							if (counter <= 7 - dayone) {
 								outputHTML += `<td><div class = content>${counter}<p class = dayNumber>`
@@ -398,16 +421,12 @@ async function teamScheduleOverview(team) {
 			for (let y = 0; y < 5; y++) {
 				outputHTML += `<tr>`;
 				if (counter < lastdate) {
-					console.log(counter);
 					if (counter === (Number(check)) || Number(check) === 0) {
 						schedule = await getSchedule(dateofday);
-						console.log("here")
 						check = (counter + 7);
 					}
 					const game = schedule;
-					console.log(game);
 					game.forEach(info => {
-						console.log(info);
 						if (info !== 'No Games') {
 							if (dateofday <= lastdate) {
 								outputHTML += `<td><div class = content><p class = dayNumber>${dateofday}</p>`
@@ -436,8 +455,6 @@ async function teamScheduleOverview(team) {
 	}
 	outputHTML += `</table></tbody>`;
 
-	console.log(outputHTML);
-
 	document.getElementById('teamScheduleOverview').innerHTML = outputHTML;
 
 	async function getSchedule(day) {
@@ -448,14 +465,12 @@ async function teamScheduleOverview(team) {
 				.then(info => {
 					for (data in info.gameWeek) {
 						if (info.gameWeek[data].numberOfGames !== 0) {
-							console.log(info.gameWeek[data]);
 							returnthat.push(info.gameWeek[data]);
 						}
 						else {
 							returnthat.push('No Games');
 						}
 					}
-					console.log(returnthat);
 					return returnthat;
 				})
 		}
@@ -464,14 +479,12 @@ async function teamScheduleOverview(team) {
 				.then(info => {
 					for (data in info.gameWeek) {
 						if (info.gameWeek[data].numberOfGames !== 0) {
-							console.log(info.gameWeek[data]);
 							returnthat.push(info.gameWeek[data]);
 						}
 						else {
 							returnthat.push('No Games');
 						}
 					}
-					console.log(returnthat);
 					return returnthat;
 				})
 		}
@@ -480,14 +493,12 @@ async function teamScheduleOverview(team) {
 				.then(info => {
 					for (data in info.gameWeek) {
 						if (info.gameWeek[data].numberOfGames !== 0) {
-							console.log(info.gameWeek[data]);
 							returnthat.push(info.gameWeek[data]);
 						}
 						else {
 							returnthat.push('No Games');
 						}
 					}
-					console.log(returnthat);
 					return returnthat;
 				})
 		}
@@ -496,65 +507,42 @@ async function teamScheduleOverview(team) {
 				.then(info => {
 					for (data in info.gameWeek) {
 						if (info.gameWeek[data].numberOfGames !== 0) {
-							console.log(info.gameWeek[data]);
 							returnthat.push(info.gameWeek[data]);
 						}
 						else {
 							returnthat.push('No Games');
 						}
 					}
-					console.log(returnthat);
 					return returnthat;
 				})
 		}
 	}
 }
 
-async function teamTablesOverview(team) {
-	let teamArray = [];
-	console.log(localStorage['NHL']);
-	teamArray = await getTeam()
-		.then(value1 => {
-			console.log(value1);
-			let outputHTML = ``;
-			outputHTML += '<tbody>';
-			outputHTML += sorterMain('teamTablesOverview', 8);
-			value1.forEach(value => {
-				if (team != 'ALL') {
-					if (value.Abbr == team) {
-						outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${value.Abbr}</td><td>${value.GP_RS}</td><td>${value.Wins}</td><td>${value.Losses}</td><td>${value.Ties}</td><td>${value.OTL}</td><td>${value.Points}</td><td>${value.PCT}</td><td>${value.l10}</td></tr>`;
-					}
+async function getTeam() {
+	return await getAPI(`https://api-web.nhle.com/v1/standings/2024-04-18`)
+		.then(value => {
+			console.log(value);
+			const newArray = value.standings.map(info => {
+				return {
+					Abbr: info.teamAbbrev.default,
+					teamName: info.teamName.default,
+					GP_RS: info.gamesPlayed,
+					Wins: info.wins,
+					Losses: info.losses,
+					Ties: info.ties,
+					OTL: info.otLosses,
+					Points: info.points,
+					PCT: info.pointPctg,
+					l10: info.l10Wins,
+					GF: info.goalFor,
+					GA: info.goalAgainst,
+					Goal_Diff: info.goalDifferential,
+					team: info.teamCommonName.default
 				}
-				else {
-					outputHTML += `<tr><td id = ${value.Abbr} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value.Abbr}").innerHTML); window.location.href = "NHLstatsteam.html";'>${value.Abbr}</td><td>${value.GP_RS}</td><td>${value.Wins}</td><td>${value.Losses}</td><td>${value.Ties}</td><td>${value.OTL}</td><td>${value.Points}</td><td>${value.PCT}</td><td>${value.l10}</td></tr>`;
-				}
-			});
-			outputHTML += `</tbody>`;
-
-			document.getElementById('teamTablesOverview').innerHTML = outputHTML;
-		})
-
-	async function getTeam() {
-		return await getAPI('https://api-web.nhle.com/v1/standings/2023-04-16')
-			.then(value => {
-				console.log(value);
-				const newArray = value.standings.map(info => {
-					return {
-						Abbr: info.teamAbbrev.default,
-						GP_RS: info.gamesPlayed,
-						Wins: info.wins,
-						Losses: info.losses,
-						Ties: info.ties,
-						OTL: info.otLosses,
-						Points: info.points,
-						PCT: info.pointPctg,
-						l10: info.l10Wins,
-					}
-				})
-				console.log(newArray);
-				return newArray;
 			})
-	}
+			return newArray;
+		})
 }
 
 async function standingsNHL() {
@@ -1455,10 +1443,7 @@ async function playersStatsNHL(team, gameType, position, compare) {
 }
 
 async function teamStatsTables(team, gameType, compare) {
-	let teamArray = [];
-	console.log(compare);
-	console.log(team);
-
+	let teamArray;
 	const valuesReturned = sorterTeams('teamTablesOverview', gameType);
 	let columns = valuesReturned[0];
 	let outputHTML = valuesReturned[1];
@@ -1474,98 +1459,87 @@ async function teamStatsTables(team, gameType, compare) {
 	}
 
 	if (typer === 2) {
+		let newData2 = {};
+		let newData;
 		teamArray = await getTeam()
-			.then(value1 => {
-				console.log(value1);
-				value1.forEach(value => {
-					console.log(value);
-					console.log(JSON.parse(localStorage[compare]));
-					if (team !== 'ALL') {
-						if (team === 'WSH') {
-							newData = JSON.parse(localStorage[compare]).find(value2 => 'WAS' === value2.Abbr)
-						}
-						else if (team === 'ARI') {
-							newData = JSON.parse(localStorage[compare]).find(value2 => 'ARZ' === value2.Abbr)
-						}
-						else {
-							newData = JSON.parse(localStorage[compare]).find(value2 => team === (value2.Name + " " + value2.Nickname))
-						}
-						console.log(newData);
+		console.log(team);
+		console.log(teamArray);
+		let value3 = await teamArray.find(value => value.teamName === team);
+		console.log(compare);
+		if (team !== 'ALL') {
+			if (team === 'WSH') {
+				newData = loadFromIndexedDb[compare, 'WAS']
+			}
+			else if (team === 'ARI') {
+				newData = loadFromIndexedDb[compare, 'ARZ']
+			}
+			else {
+				console.log(value3.team);
+				newData = await loadFromIndexedDb(compare, value3.team);
+				newData2 = await JSON.parse(JSON.stringify(newData));
+				console.log(newData);
+			}
 
-						newerData = {
-							Abbr: newData.Abbr,
-							Team: newData.Name + " " + newData.Nickname,
-							GP_RS: newData.GP_RS,
-							Wins: newData.Wins,
-							Losses: newData.Losses,
-							OTL: newData.OTL,
-							Points: newData.Points,
-							PCT: newData.PCT,
-							GF: newData.G_RS,
-							GA: newData.GA_RS,
-							Goal_Diff: Number(newData.G_RS) - Number(newData.GA_RS)
-						};
+			console.log(JSON.parse(newData));
 
-						console.log(newerData);
+			let newerData = {
+				Abbr: newData2['Abbr'],
+				Team: newData2.Name + " " + newData2.Nickname,
+				GP_RS: newData2.GP_RS,
+				Wins: newData2.Wins,
+				Losses: newData2.Losses,
+				OTL: newData2.OTL,
+				Points: newData2.Points,
+				PCT: newData2.PCT,
+				GF: newData2.G_RS,
+				GA: newData2.GA_RS,
+				Goal_Diff: Number(newData2.G_RS) - Number(newData2.GA_RS)
+			};
 
-						if (value.teamName === team) {
-							outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${value.teamName}</td>`;
-							columns.forEach(info => {
-								if (value[info] > newerData[info]) {
-									outputHTML += `<td><p><span class = NHL>${value[info]}</span><span class = "relationalRed"> (${newerData[info]})</span></p></td>`;
-								}
-								else {
-									outputHTML += `<td><p><span class = NHL>${value[info]}</span><span class = "relationalGreen"> (${newerData[info]})</span></p></td>`;
-								}
-							})
-							outputHTML += `</tr>`
-						}
+			console.log(newerData);
+			outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${value3.teamName}</td>`;
+				columns.forEach(info => {
+					if (value3[info] > newerData[info]) {
+						outputHTML += `<td><p><span class = NHL>${value3[info]}</span><span class = "relationalRed"> (${newerData[info]})</span></p></td>`;
 					}
 					else {
-						console.log(value.Abbr);
-						console.log(newData2 = JSON.parse(localStorage[compare]));
-						if (value.Abbr === 'WSH') {
-							newData2 = JSON.parse(localStorage[compare]).find(value2 => 'WAS' === value2.Abbr)
-						}
-						else if (value.Abbr === 'ARI') {
-							newData2 = JSON.parse(localStorage[compare]).find(value2 => 'ARZ' === value2.Abbr)
-						}
-						else {
-							newData2 = JSON.parse(localStorage[compare]).find(value2 => value.Abbr === value2.Abbr)
-						}
-						console.log(newData2);
-
-						newerData2 = {
-							Abbr: newData2.Abbr,
-							Team: newData2.Name + " " + newData2.Nickname,
-							GP_RS: newData2.GP_RS,
-							Wins: newData2.Wins,
-							Losses: newData2.Losses,
-							OTL: newData2.OTL,
-							Points: newData2.Points,
-							PCT: newData2.PCT,
-							GF: newData2.G_RS,
-							GA: newData2.GA_RS,
-							Goal_Diff: Number(newData2.G_RS) - Number(newData2.GA_RS)
-						};
-
-						console.log(newerData2);
-						outputHTML += `<tr><td id = ${value.Abbr} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value.Abbr}").id); window.location.href = "NHLstatsteam.html";'>${value.teamName}</td>`;
-						columns.forEach(info => {
-							if (value[info] > newerData2[info]) {
-								outputHTML += `<td><p><span class = "NHL">${value[info]}</span><span class = "relationalRed">(${newerData2[info]})</span></p></td>`;
-							}
-							else {
-								outputHTML += `<td><p><span class = "NHL">${value[info]}</span><span class = "relationalGreen">(${newerData2[info]})</span></p></td>`;
-							}
-						})
-						outputHTML += `</tr>`
+						outputHTML += `<td><p><span class = NHL>${value3[info]}</span><span class = "relationalGreen"> (${newerData[info]})</span></p></td>`;
 					}
-				});
-				outputHTML += `</tbody>`;
+				})
+				outputHTML += `</tr>`
+		}
+		else {
+			console.log(value.Abbr);
+			console.log(newData2 = JSON.parse(localStorage[compare]));
+			if (value.Abbr === 'WSH') {
+				newData2 = JSON.parse(localStorage[compare]).find(value2 => 'WAS' === value2.Abbr)
+			}
+			else if (value.Abbr === 'ARI') {
+				newData2 = JSON.parse(localStorage[compare]).find(value2 => 'ARZ' === value2.Abbr)
+			}
+			else {
+				newData2 = JSON.parse(localStorage[compare]).find(value2 => value.Abbr === value2.Abbr)
+			}
+			console.log(newData2);
 
-				document.getElementById('teamTablesOverview').innerHTML = outputHTML;
+
+			console.log(newerData2);
+			outputHTML += `<tr><td id = ${value.Abbr} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value.Abbr}").id); window.location.href = "NHLstatsteam.html";'>${value.teamName}</td>`;
+			columns.forEach(info => {
+				if (value[info] > newerData2[info]) {
+					outputHTML += `<td><p><span class = "NHL">${value[info]}</span><span class = "relationalRed">(${newerData2[info]})</span></p></td>`;
+				}
+				else {
+					outputHTML += `<td><p><span class = "NHL">${value[info]}</span><span class = "relationalGreen">(${newerData2[info]})</span></p></td>`;
+				}
 			})
+			outputHTML += `</tr>`
+		}
+		console.log(newData2);
+		console.log(teamArray);
+		outputHTML += `</tbody>`;
+
+		document.getElementById('teamTablesOverview').innerHTML = outputHTML;
 	}
 	else if (typer === 3) {
 		teamArray = await getTeamPlayoff()
@@ -1595,31 +1569,6 @@ async function teamStatsTables(team, gameType, compare) {
 			})
 	}
 
-	async function getTeam() {
-		return await getAPI(`https://api-web.nhle.com/v1/standings/2024-04-18`)
-			.then(value => {
-				console.log(value);
-				const newArray = value.standings.map(info => {
-					return {
-						Abbr: info.teamAbbrev.default,
-						teamName: info.teamName.default,
-						GP_RS: info.gamesPlayed,
-						Wins: info.wins,
-						Losses: info.losses,
-						Ties: info.ties,
-						OTL: info.otLosses,
-						Points: info.points,
-						PCT: info.pointPctg,
-						l10: info.l10Wins,
-						GF: info.goalFor,
-						GA: info.goalAgainst,
-						Goal_Diff: info.goalDifferential,
-					}
-				})
-				console.log(newArray);
-				return newArray;
-			})
-	}
 	async function getTeamPlayoff() {
 		return await getAPI(`https://api.nhle.com/stats/rest/en/team/summary?cayenneExp=seasonId=20232024+and+gameTypeId=3`)
 			.then(value => {
@@ -1932,31 +1881,7 @@ async function searchTeam(team, gameType) {
 				document.getElementById('teamTablesOverview').innerHTML = outputHTML;
 			})
 	}
-	async function getTeam() {
-		return await getAPI(`https://api-web.nhle.com/v1/standings/2024-04-18`)
-			.then(value => {
-				console.log(value);
-				const newArray = value.standings.map(info => {
-					return {
-						Abbr: info.teamAbbrev.default,
-						teamName: info.teamName.default,
-						GP_RS: info.gamesPlayed,
-						Wins: info.wins,
-						Losses: info.losses,
-						Ties: info.ties,
-						OTL: info.otLosses,
-						Points: info.points,
-						PCT: info.pointPctg,
-						l10: info.l10Wins,
-						GF: info.goalFor,
-						GA: info.goalAgainst,
-						Goal_Diff: info.goalDifferential,
-					}
-				})
-				console.log(newArray);
-				return newArray;
-			})
-	}
+
 	async function getTeamPlayoff() {
 		return await getAPI(`https://api.nhle.com/stats/rest/en/team/summary?cayenneExp=seasonId=20232024+and+gameTypeId=3`)
 			.then(value => {
