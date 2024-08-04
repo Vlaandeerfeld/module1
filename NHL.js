@@ -148,37 +148,38 @@ async function checkAndUpload(fileInput, league, date) {
 	FileReader.abort
 }
 
-async function loadFromIndexedDb(league, team) {
-	let db;
-	let obj = {};
-	const openDB = window.indexedDB.open(league, 1);
+function loadFromIndexedDb(league, team) {
+	return new Promise((resolve, reject) => {
+		let obj = {};
+		let db;
+		const openDB = window.indexedDB.open(league, 1);
 
-	openDB.onsuccess = (e) => {
-		db = openDB.result;
-		const transaction = db.transaction([team]);
-		transaction.oncomplete = (event) => {
-		}
-		const objectStore = transaction.objectStore(team);
-		request = objectStore.openCursor();
+		openDB.onsuccess = (e) => {
+			db = openDB.result;
+			const transaction = db.transaction(team);
+			const objectStore = transaction.objectStore(team);
+			request = objectStore.openCursor();
 
-		request.onerror = function (event) {
-			console.err("error fetching data");
+			request.onerror = function (event) {
+				console.err("error fetching data");
+
+			};
+			request.onsuccess = (event) => {
+
+				let cursor = event.target.result;
+				if (cursor) {
+					let key = cursor.primaryKey;
+					let value = cursor.value;
+					obj[key] = value;
+					cursor.continue();
+				}
+				else {
+					resolve(obj);
+				}
+			};
 		};
-		request.onsuccess = function (event) {
-			let cursor = event.target.result;
-			if (cursor) {
-				let key = cursor.primaryKey;
-				let value = cursor.value;
-				obj[key] = value;
-				cursor.continue();
-			}
-			else {
-				console.log(JSON.stringify(obj));
-			}
-		};
-		return obj;
-	};
-}
+	});
+};
 
 function sorterMain(table, numColumn) {
 
@@ -1092,7 +1093,10 @@ async function playersStatsNHL(team, gameType, position, compare) {
 		typer = 2;
 	}
 
+
 	console.log(typer);
+	let teamArray = await getTeam()
+	let value3 = await teamArray.find(value => value.Abbr === team);
 	const valuesReturned = sorterPlayers('playersTablesOverview', positioner);
 	let columns = valuesReturned[0];
 	let outputHTML = valuesReturned[1];
@@ -1101,52 +1105,18 @@ async function playersStatsNHL(team, gameType, position, compare) {
 
 	if (team !== 'ALL') {
 		let db;
-		let obj = {};
-		const asdasd = window.indexedDB.open('Netherton Hockey League', 1);
+		let obj;
+		console.log(value3);
+		if (team === 'WSH') {
+			obj = await loadFromIndexedDb[compare, 'Capitals']
+		}
+		else if (team === 'ARI') {
+			obj = await loadFromIndexedDb[compare, 'Coyotes']
+		}
+		else {
+			obj = await loadFromIndexedDb(compare, value3.team)
+		}
 
-		asdasd.onsuccess = (e) => {
-			// Create the DB connection
-			db = asdasd.result;
-			const transaction = db.transaction(["Canadiens"]);
-			transaction.oncomplete = (event) => {
-			}
-			const objectStore = transaction.objectStore("Canadiens");
-			console.log(objectStore);
-			request = objectStore.openCursor();
-
-			request.onerror = function (event) {
-				console.err("error fetching data");
-			};
-			request.onsuccess = function (event) {
-				let cursor = event.target.result;
-				if (cursor) {
-					let key = cursor.primaryKey;
-					let value = cursor.value;
-					obj[key] = value;
-					cursor.continue();
-				}
-				else {
-					// no more results
-					let newData = {
-						Abbr: obj.Abbr,
-						Team: obj.Name + " " + obj.Nickname,
-						Players: [obj["First Name0"] + " " + obj["Last Name0"], obj["First Name1"] + " " + obj["Last Name1"], obj["First Name2"] + " " + obj["Last Name2"], obj["First Name3"] + " " + obj["Last Name3"], obj["First Name4"] + " " + obj["Last Name4"], obj["First Name5"] + " " + obj["Last Name5"], obj["First Name6"] + " " + obj["Last Name6"], obj["First Name7"] + " " + obj["Last Name7"], obj["First Name8"] + " " + obj["Last Name8"], obj["First Name9"] + " " + obj["Last Name9"], obj["First Name10"] + " " + obj["Last Name10"], obj["First Name11"] + " " + obj["Last Name11"], obj["First Name12"] + " " + obj["Last Name12"], obj["First Name13"] + " " + obj["Last Name13"], obj["First Name14"] + " " + obj["Last Name14"], obj["First Name15"] + " " + obj["Last Name15"], obj["First Name16"] + " " + obj["Last Name16"], obj["First Name17"] + " " + obj["Last Name17"], obj["First Name18"] + " " + obj["Last Name18"], obj["First Name19"] + " " + obj["Last Name19"], obj["First Name20"] + " " + obj["Last Name20"], obj["First Name21"] + " " + obj["Last Name21"], obj["First Name22"] + " " + obj["Last Name22"], obj["First Name23"] + " " + obj["Last Name23"]],
-						GP: [obj["GP_RS0"], obj["GP_RS1"], obj["GP_RS2"], obj["GP_RS3"], obj["GP_RS4"], obj["GP_RS5"], obj["GP_RS6"], obj["GP_RS7"], obj["GP_RS8"], obj["GP_RS9"], obj["GP_RS10"], obj["GP_RS11"], obj["GP_RS12"], obj["GP_RS13"], obj["GP_RS14"], obj["GP_RS15"], obj["GP_RS16"], obj["GP_RS17"], obj["GP_RS18"], obj["GP_RS19"], obj["GP_RS20"], obj["GP_RS21"], obj["GP_RS22"], obj["GP_RS23"]],
-						Goals: [obj["G_RS0"], obj["G_RS1"], obj["G_RS2"], obj["G_RS3"], obj["G_RS4"], obj["G_RS5"], obj["G_RS6"], obj["G_RS7"], obj["G_RS8"], obj["G_RS9"], obj["G_RS10"], obj["G_RS11"], obj["G_RS12"], obj["G_RS13"], obj["G_RS14"], obj["G_RS15"], obj["G_RS16"], obj["G_RS17"], obj["G_RS18"], obj["G_RS19"], obj["G_RS20"], obj["G_RS21"], obj["G_RS22"], obj["G_RS23"]],
-						Assists: [obj["A_RS0"], obj["A_RS1"], obj["A_RS2"], obj["A_RS3"], obj["A_RS4"], obj["A_RS5"], obj["A_RS6"], obj["A_RS7"], obj["A_RS8"], obj["A_RS9"], obj["A_RS10"], obj["A_RS11"], obj["A_RS12"], obj["A_RS13"], obj["A_RS14"], obj["A_RS15"], obj["A_RS16"], obj["A_RS17"], obj["A_RS18"], obj["A_RS19"], obj["A_RS20"], obj["A_RS21"], obj["A_RS22"], obj["A_RS23"]],
-						PlusMinus: [obj["+/-_RS0"], obj["+/-_RS1"], obj["+/-_RS2"], obj["+/-_RS3"], obj["+/-_RS4"], obj["+/-_RS5"], obj["+/-_RS6"], obj["+/-_RS7"], obj["+/-_RS8"], obj["+/-_RS9"], obj["+/-_RS10"], obj["+/-_RS11"], obj["+/-_RS12"], obj["+/-_RS13"], obj["+/-_RS14"], obj["+/-_RS15"], obj["+/-_RS16"], obj["+/-_RS17"], obj["+/-_RS18"], obj["+/-_RS19"], obj["+/-_RS20"], obj["+/-_RS21"], obj["+/-_RS22"], obj["+/-_RS23"]],
-						PIM: [obj["PIM_RS0"], obj["PIM_RS1"], obj["PIM_RS2"], obj["PIM_RS3"], obj["PIM_RS4"], obj["PIM_RS5"], obj["PIM_RS6"], obj["PIM_RS7"], obj["PIM_RS8"], obj["PIM_RS9"], obj["PIM_RS10"], obj["PIM_RS11"], obj["PIM_RS12"], obj["PIM_RS13"], obj["PIM_RS14"], obj["PIM_RS15"], obj["PIM_RS16"], obj["PIM_RS17"], obj["PIM_RS18"], obj["PIM_RS19"], obj["PIM_RS20"], obj["PIM_RS21"], obj["PIM_RS22"], obj["PIM_RS23"]],
-						PPG: [obj["PP G_RS0"], obj["PP G_RS1"], obj["PP G_RS2"], obj["PP G_RS3"], obj["PP G_RS4"], obj["PP G_RS5"], obj["PP G_RS6"], obj["PP G_RS7"], obj["PP G_RS8"], obj["PP G_RS9"], obj["PP G_RS10"], obj["PP G_RS11"], obj["PP G_RS12"], obj["PP G_RS13"], obj["PP G_RS14"], obj["PP G_RS15"], obj["PP G_RS16"], obj["PP G_RS17"], obj["PP G_RS18"], obj["PP G_RS19"], obj["PP G_RS20"], obj["PP G_RS21"], obj["PP G_RS22"], obj["PP G_RS23"]],
-						SHG: [obj["SH G_RS0"], obj["SH G_RS1"], obj["SH G_RS2"], obj["SH G_RS3"], obj["SH G_RS4"], obj["SH G_RS5"], obj["SH G_RS6"], obj["SH G_RS7"], obj["SH G_RS8"], obj["SH G_RS9"], obj["SH G_RS10"], obj["SH G_RS11"], obj["SH G_RS12"], obj["SH G_RS13"], obj["SH G_RS14"], obj["SH G_RS15"], obj["SH G_RS16"], obj["SH G_RS17"], obj["SH G_RS18"], obj["SH G_RS19"], obj["SH G_RS20"], obj["SH G_RS21"], obj["SH G_RS22"], obj["SH G_RS23"]],
-						GWG: [obj["GWG_RS0"], obj["GWG_RS1"], obj["GWG_RS2"], obj["GWG_RS3"], obj["GWG_RS4"], obj["GWG_RS5"], obj["GWG_RS6"], obj["GWG_RS7"], obj["GWG_RS8"], obj["GWG_RS9"], obj["GWG_RS10"], obj["GWG_RS11"], obj["GWG_RS12"], obj["GWG_RS13"], obj["GWG_RS14"], obj["GWG_RS15"], obj["GWG_RS16"], obj["GWG_RS17"], obj["GWG_RS18"], obj["GWG_RS19"], obj["GWG_RS20"], obj["GWG_RS21"], obj["GWG_RS22"], obj["GWG_RS23"]],
-						Shots: [obj["SOG_RS0"], obj["SOG_RS1"], obj["SOG_RS2"], obj["SOG_RS3"], obj["SOG_RS4"], obj["SOG_RS5"], obj["SOG_RS6"], obj["SOG_RS7"], obj["SOG_RS8"], obj["SOG_RS9"], obj["SOG_RS10"], obj["SOG_RS11"], obj["SOG_RS12"], obj["SOG_RS13"], obj["SOG_RS14"], obj["SOG_RS15"], obj["SOG_RS16"], obj["SOG_RS17"], obj["SOG_RS18"], obj["SOG_RS19"], obj["SOG_RS20"], obj["SOG_RS21"], obj["SOG_RS22"], obj["SOG_RS23"]],
-						FOPer: [Number(obj["FOW_RS0"]) / Number(obj["FO_RS0"]), Number(obj["FOW_RS1"]) / Number(obj["FO_RS1"]), Number(obj["FOW_RS2"]) / Number(obj["FO_RS2"]), Number(obj["FOW_RS3"]) / Number(obj["FO_RS3"]), Number(obj["FOW_RS4"]) / Number(obj["FO_RS4"]), Number(obj["FOW_RS5"]) / Number(obj["FO_RS5"]), Number(obj["FOW_RS6"]) / Number(obj["FO_RS6"]), Number(obj["FOW_RS7"]) / Number(obj["FO_RS7"]), Number(obj["FOW_RS8"]) / Number(obj["FO_RS8"]), Number(obj["FOW_RS9"]) / Number(obj["FO_RS9"]), Number(obj["FOW_RS10"]) / Number(obj["FO_RS10"]), Number(obj["FOW_RS11"]) / Number(obj["FO_RS11"]), Number(obj["FOW_RS12"]) / Number(obj["FO_RS12"]), Number(obj["FOW_RS13"]) / Number(obj["FO_RS13"]), Number(obj["FOW_RS14"]) / Number(obj["FO_RS14"]), Number(obj["FOW_RS15"]) / Number(obj["FO_RS15"]), Number(obj["FOW_RS16"]) / Number(obj["FO_RS16"]), Number(obj["FOW_RS17"]) / Number(obj["FO_RS17"]), Number(obj["FOW_RS18"]) / Number(obj["FO_RS18"]), Number(obj["FOW_RS19"]) / Number(obj["FO_RS19"]), Number(obj["FOW_RS20"]) / Number(obj["FO_RS20"]), Number(obj["FOW_RS21"]) / Number(obj["FO_RS21"]), Number(obj["FOW_RS22"]) / Number(obj["FO_RS22"]), Number(obj["FOW_RS23"]) / Number(obj["FO_RS23"])]
-					}
-					console.log(newData);
-
-				}
-			};
-		};
 		let newData = {
 			Abbr: obj.Abbr,
 			Team: obj.Name + " " + obj.Nickname,
@@ -1162,6 +1132,7 @@ async function playersStatsNHL(team, gameType, position, compare) {
 			Shots: [obj["SOG_RS0"], obj["SOG_RS1"], obj["SOG_RS2"], obj["SOG_RS3"], obj["SOG_RS4"], obj["SOG_RS5"], obj["SOG_RS6"], obj["SOG_RS7"], obj["SOG_RS8"], obj["SOG_RS9"], obj["SOG_RS10"], obj["SOG_RS11"], obj["SOG_RS12"], obj["SOG_RS13"], obj["SOG_RS14"], obj["SOG_RS15"], obj["SOG_RS16"], obj["SOG_RS17"], obj["SOG_RS18"], obj["SOG_RS19"], obj["SOG_RS20"], obj["SOG_RS21"], obj["SOG_RS22"], obj["SOG_RS23"]],
 			FOPer: [Number(obj["FOW_RS0"]) / Number(obj["FO_RS0"]), Number(obj["FOW_RS1"]) / Number(obj["FO_RS1"]), Number(obj["FOW_RS2"]) / Number(obj["FO_RS2"]), Number(obj["FOW_RS3"]) / Number(obj["FO_RS3"]), Number(obj["FOW_RS4"]) / Number(obj["FO_RS4"]), Number(obj["FOW_RS5"]) / Number(obj["FO_RS5"]), Number(obj["FOW_RS6"]) / Number(obj["FO_RS6"]), Number(obj["FOW_RS7"]) / Number(obj["FO_RS7"]), Number(obj["FOW_RS8"]) / Number(obj["FO_RS8"]), Number(obj["FOW_RS9"]) / Number(obj["FO_RS9"]), Number(obj["FOW_RS10"]) / Number(obj["FO_RS10"]), Number(obj["FOW_RS11"]) / Number(obj["FO_RS11"]), Number(obj["FOW_RS12"]) / Number(obj["FO_RS12"]), Number(obj["FOW_RS13"]) / Number(obj["FO_RS13"]), Number(obj["FOW_RS14"]) / Number(obj["FO_RS14"]), Number(obj["FOW_RS15"]) / Number(obj["FO_RS15"]), Number(obj["FOW_RS16"]) / Number(obj["FO_RS16"]), Number(obj["FOW_RS17"]) / Number(obj["FO_RS17"]), Number(obj["FOW_RS18"]) / Number(obj["FO_RS18"]), Number(obj["FOW_RS19"]) / Number(obj["FO_RS19"]), Number(obj["FOW_RS20"]) / Number(obj["FO_RS20"]), Number(obj["FOW_RS21"]) / Number(obj["FO_RS21"]), Number(obj["FOW_RS22"]) / Number(obj["FO_RS22"]), Number(obj["FOW_RS23"]) / Number(obj["FO_RS23"])]
 		}
+		console.log(newData);
 
 
 		console.log(db);
@@ -1232,8 +1203,10 @@ async function playersStatsNHL(team, gameType, position, compare) {
 	}
 
 	else {
-		let newData = JSON.parse(localStorage[compare])
+		let teamCityName = {};
+		let teamArray = await getTeam()
 		const promise1 = localStorage['NHL'].split(',').map(async info => {
+			teamCityName[info] = teamArray.find(q => q.Abbr === info).team;
 			promise2 = await getPlayerStatsArray(info, typer, position);
 			return Promise.resolve(promise2);
 		});
@@ -1243,27 +1216,45 @@ async function playersStatsNHL(team, gameType, position, compare) {
 		teamStatsRoster.sort(function (a, b) {
 			return b.Points - a.Points;
 		});
+		console.log(teamStatsRoster);
+
 
 		for (let x = (currentPage - 1) * recordsPerPage; x < teamStatsRoster.length; x++) {
+			console.log(teamStatsRoster[x].team);
+			console.log(teamCityName[teamStatsRoster[x].team]);
+
+			if (teamStatsRoster[x].team === 'WSH') {
+				obj = await loadFromIndexedDb[compare, 'Capitals']
+			}
+			else if (teamStatsRoster[x].team === 'ARI') {
+				obj = await loadFromIndexedDb[compare, 'Coyotes']
+			}
+			else {
+				obj = await loadFromIndexedDb(compare, teamCityName[teamStatsRoster[x].team])
+			}
+			console.log(teamStatsRoster[x].Name);
 			if (teamStatsRoster[x].Name != undefined) {
 				counter++;
+
+
 				if (counter + (currentPage * recordsPerPage) <= (currentPage * recordsPerPage) + recordsPerPage) {
-					for (let n = 0; n < newData.length; n++) {
+					for (let n = 0; n <= 23; n++) {
+
 						let newerData = {
-							Abbr: newData[n].Abbr,
-							Team: newData[n].Name + " " + newData[n].Nickname,
-							Players: [newData[n]["First Name0"] + " " + newData[n]["Last Name0"], newData[n]["First Name1"] + " " + newData[n]["Last Name1"], newData[n]["First Name2"] + " " + newData[n]["Last Name2"], newData[n]["First Name3"] + " " + newData[n]["Last Name3"], newData[n]["First Name4"] + " " + newData[n]["Last Name4"], newData[n]["First Name5"] + " " + newData[n]["Last Name5"], newData[n]["First Name6"] + " " + newData[n]["Last Name6"], newData[n]["First Name7"] + " " + newData[n]["Last Name7"], newData[n]["First Name8"] + " " + newData[n]["Last Name8"], newData[n]["First Name9"] + " " + newData[n]["Last Name9"], newData[n]["First Name10"] + " " + newData[n]["Last Name10"], newData[n]["First Name11"] + " " + newData[n]["Last Name11"], newData[n]["First Name12"] + " " + newData[n]["Last Name12"], newData[n]["First Name13"] + " " + newData[n]["Last Name13"], newData[n]["First Name14"] + " " + newData[n]["Last Name14"], newData[n]["First Name15"] + " " + newData[n]["Last Name15"], newData[n]["First Name16"] + " " + newData[n]["Last Name16"], newData[n]["First Name17"] + " " + newData[n]["Last Name17"], newData[n]["First Name18"] + " " + newData[n]["Last Name18"], newData[n]["First Name19"] + " " + newData[n]["Last Name19"], newData[n]["First Name20"] + " " + newData[n]["Last Name20"], newData[n]["First Name21"] + " " + newData[n]["Last Name21"], newData[n]["First Name22"] + " " + newData[n]["Last Name22"], newData[n]["First Name23"] + " " + newData[n]["Last Name23"]],
-							GP: [newData[n]["GP_RS0"], newData[n]["GP_RS1"], newData[n]["GP_RS2"], newData[n]["GP_RS3"], newData[n]["GP_RS4"], newData[n]["GP_RS5"], newData[n]["GP_RS6"], newData[n]["GP_RS7"], newData[n]["GP_RS8"], newData[n]["GP_RS9"], newData[n]["GP_RS10"], newData[n]["GP_RS11"], newData[n]["GP_RS12"], newData[n]["GP_RS13"], newData[n]["GP_RS14"], newData[n]["GP_RS15"], newData[n]["GP_RS16"], newData[n]["GP_RS17"], newData[n]["GP_RS18"], newData[n]["GP_RS19"], newData[n]["GP_RS20"], newData[n]["GP_RS21"], newData[n]["GP_RS22"], newData[n]["GP_RS23"]],
-							Goals: [newData[n]["G_RS0"], newData[n]["G_RS1"], newData[n]["G_RS2"], newData[n]["G_RS3"], newData[n]["G_RS4"], newData[n]["G_RS5"], newData[n]["G_RS6"], newData[n]["G_RS7"], newData[n]["G_RS8"], newData[n]["G_RS9"], newData[n]["G_RS10"], newData[n]["G_RS11"], newData[n]["G_RS12"], newData[n]["G_RS13"], newData[n]["G_RS14"], newData[n]["G_RS15"], newData[n]["G_RS16"], newData[n]["G_RS17"], newData[n]["G_RS18"], newData[n]["G_RS19"], newData[n]["G_RS20"], newData[n]["G_RS21"], newData[n]["G_RS22"], newData[n]["G_RS23"]],
-							Assists: [newData[n]["A_RS0"], newData[n]["A_RS1"], newData[n]["A_RS2"], newData[n]["A_RS3"], newData[n]["A_RS4"], newData[n]["A_RS5"], newData[n]["A_RS6"], newData[n]["A_RS7"], newData[n]["A_RS8"], newData[n]["A_RS9"], newData[n]["A_RS10"], newData[n]["A_RS11"], newData[n]["A_RS12"], newData[n]["A_RS13"], newData[n]["A_RS14"], newData[n]["A_RS15"], newData[n]["A_RS16"], newData[n]["A_RS17"], newData[n]["A_RS18"], newData[n]["A_RS19"], newData[n]["A_RS20"], newData[n]["A_RS21"], newData[n]["A_RS22"], newData[n]["A_RS23"]],
-							PlusMinus: [newData[n]["+/-_RS0"], newData[n]["+/-_RS1"], newData[n]["+/-_RS2"], newData[n]["+/-_RS3"], newData[n]["+/-_RS4"], newData[n]["+/-_RS5"], newData[n]["+/-_RS6"], newData[n]["+/-_RS7"], newData[n]["+/-_RS8"], newData[n]["+/-_RS9"], newData[n]["+/-_RS10"], newData[n]["+/-_RS11"], newData[n]["+/-_RS12"], newData[n]["+/-_RS13"], newData[n]["+/-_RS14"], newData[n]["+/-_RS15"], newData[n]["+/-_RS16"], newData[n]["+/-_RS17"], newData[n]["+/-_RS18"], newData[n]["+/-_RS19"], newData[n]["+/-_RS20"], newData[n]["+/-_RS21"], newData[n]["+/-_RS22"], newData[n]["+/-_RS23"]],
-							PIM: [newData[n]["PIM_RS0"], newData[n]["PIM_RS1"], newData[n]["PIM_RS2"], newData[n]["PIM_RS3"], newData[n]["PIM_RS4"], newData[n]["PIM_RS5"], newData[n]["PIM_RS6"], newData[n]["PIM_RS7"], newData[n]["PIM_RS8"], newData[n]["PIM_RS9"], newData[n]["PIM_RS10"], newData[n]["PIM_RS11"], newData[n]["PIM_RS12"], newData[n]["PIM_RS13"], newData[n]["PIM_RS14"], newData[n]["PIM_RS15"], newData[n]["PIM_RS16"], newData[n]["PIM_RS17"], newData[n]["PIM_RS18"], newData[n]["PIM_RS19"], newData[n]["PIM_RS20"], newData[n]["PIM_RS21"], newData[n]["PIM_RS22"], newData[n]["PIM_RS23"]],
-							PPG: [newData[n]["PP G_RS0"], newData[n]["PP G_RS1"], newData[n]["PP G_RS2"], newData[n]["PP G_RS3"], newData[n]["PP G_RS4"], newData[n]["PP G_RS5"], newData[n]["PP G_RS6"], newData[n]["PP G_RS7"], newData[n]["PP G_RS8"], newData[n]["PP G_RS9"], newData[n]["PP G_RS10"], newData[n]["PP G_RS11"], newData[n]["PP G_RS12"], newData[n]["PP G_RS13"], newData[n]["PP G_RS14"], newData[n]["PP G_RS15"], newData[n]["PP G_RS16"], newData[n]["PP G_RS17"], newData[n]["PP G_RS18"], newData[n]["PP G_RS19"], newData[n]["PP G_RS20"], newData[n]["PP G_RS21"], newData[n]["PP G_RS22"], newData[n]["PP G_RS23"]],
-							SHG: [newData[n]["SH G_RS0"], newData[n]["SH G_RS1"], newData[n]["SH G_RS2"], newData[n]["SH G_RS3"], newData[n]["SH G_RS4"], newData[n]["SH G_RS5"], newData[n]["SH G_RS6"], newData[n]["SH G_RS7"], newData[n]["SH G_RS8"], newData[n]["SH G_RS9"], newData[n]["SH G_RS10"], newData[n]["SH G_RS11"], newData[n]["SH G_RS12"], newData[n]["SH G_RS13"], newData[n]["SH G_RS14"], newData[n]["SH G_RS15"], newData[n]["SH G_RS16"], newData[n]["SH G_RS17"], newData[n]["SH G_RS18"], newData[n]["SH G_RS19"], newData[n]["SH G_RS20"], newData[n]["SH G_RS21"], newData[n]["SH G_RS22"], newData[n]["SH G_RS23"]],
-							GWG: [newData[n]["GWG_RS0"], newData[n]["GWG_RS1"], newData[n]["GWG_RS2"], newData[n]["GWG_RS3"], newData[n]["GWG_RS4"], newData[n]["GWG_RS5"], newData[n]["GWG_RS6"], newData[n]["GWG_RS7"], newData[n]["GWG_RS8"], newData[n]["GWG_RS9"], newData[n]["GWG_RS10"], newData[n]["GWG_RS11"], newData[n]["GWG_RS12"], newData[n]["GWG_RS13"], newData[n]["GWG_RS14"], newData[n]["GWG_RS15"], newData[n]["GWG_RS16"], newData[n]["GWG_RS17"], newData[n]["GWG_RS18"], newData[n]["GWG_RS19"], newData[n]["GWG_RS20"], newData[n]["GWG_RS21"], newData[n]["GWG_RS22"], newData[n]["GWG_RS23"]],
-							Shots: [newData[n]["SOG_RS0"], newData[n]["SOG_RS1"], newData[n]["SOG_RS2"], newData[n]["SOG_RS3"], newData[n]["SOG_RS4"], newData[n]["SOG_RS5"], newData[n]["SOG_RS6"], newData[n]["SOG_RS7"], newData[n]["SOG_RS8"], newData[n]["SOG_RS9"], newData[n]["SOG_RS10"], newData[n]["SOG_RS11"], newData[n]["SOG_RS12"], newData[n]["SOG_RS13"], newData[n]["SOG_RS14"], newData[n]["SOG_RS15"], newData[n]["SOG_RS16"], newData[n]["SOG_RS17"], newData[n]["SOG_RS18"], newData[n]["SOG_RS19"], newData[n]["SOG_RS20"], newData[n]["SOG_RS21"], newData[n]["SOG_RS22"], newData[n]["SOG_RS23"]],
-							FOPer: [Number(newData[n]["FOW_RS0"]) / Number(newData[n]["FO_RS0"]), Number(newData[n]["FOW_RS1"]) / Number(newData[n]["FO_RS1"]), Number(newData[n]["FOW_RS2"]) / Number(newData[n]["FO_RS2"]), Number(newData[n]["FOW_RS3"]) / Number(newData[n]["FO_RS3"]), Number(newData[n]["FOW_RS4"]) / Number(newData[n]["FO_RS4"]), Number(newData[n]["FOW_RS5"]) / Number(newData[n]["FO_RS5"]), Number(newData[n]["FOW_RS6"]) / Number(newData[n]["FO_RS6"]), Number(newData[n]["FOW_RS7"]) / Number(newData[n]["FO_RS7"]), Number(newData[n]["FOW_RS8"]) / Number(newData[n]["FO_RS8"]), Number(newData[n]["FOW_RS9"]) / Number(newData[n]["FO_RS9"]), Number(newData[n]["FOW_RS10"]) / Number(newData[n]["FO_RS10"]), Number(newData[n]["FOW_RS11"]) / Number(newData[n]["FO_RS11"]), Number(newData[n]["FOW_RS12"]) / Number(newData[n]["FO_RS12"]), Number(newData[n]["FOW_RS13"]) / Number(newData[n]["FO_RS13"]), Number(newData[n]["FOW_RS14"]) / Number(newData[n]["FO_RS14"]), Number(newData[n]["FOW_RS15"]) / Number(newData[n]["FO_RS15"]), Number(newData[n]["FOW_RS16"]) / Number(newData[n]["FO_RS16"]), Number(newData[n]["FOW_RS17"]) / Number(newData[n]["FO_RS17"]), Number(newData[n]["FOW_RS18"]) / Number(newData[n]["FO_RS18"]), Number(newData[n]["FOW_RS19"]) / Number(newData[n]["FO_RS19"]), Number(newData[n]["FOW_RS20"]) / Number(newData[n]["FO_RS20"]), Number(newData[n]["FOW_RS21"]) / Number(newData[n]["FO_RS21"]), Number(newData[n]["FOW_RS22"]) / Number(newData[n]["FO_RS22"]), Number(newData[n]["FOW_RS23"]) / Number(newData[n]["FO_RS23"])]
-						};
+							Abbr: obj.Abbr,
+							Team: obj.Name + " " + obj.Nickname,
+							Players: [obj["First Name0"] + " " + obj["Last Name0"], obj["First Name1"] + " " + obj["Last Name1"], obj["First Name2"] + " " + obj["Last Name2"], obj["First Name3"] + " " + obj["Last Name3"], obj["First Name4"] + " " + obj["Last Name4"], obj["First Name5"] + " " + obj["Last Name5"], obj["First Name6"] + " " + obj["Last Name6"], obj["First Name7"] + " " + obj["Last Name7"], obj["First Name8"] + " " + obj["Last Name8"], obj["First Name9"] + " " + obj["Last Name9"], obj["First Name10"] + " " + obj["Last Name10"], obj["First Name11"] + " " + obj["Last Name11"], obj["First Name12"] + " " + obj["Last Name12"], obj["First Name13"] + " " + obj["Last Name13"], obj["First Name14"] + " " + obj["Last Name14"], obj["First Name15"] + " " + obj["Last Name15"], obj["First Name16"] + " " + obj["Last Name16"], obj["First Name17"] + " " + obj["Last Name17"], obj["First Name18"] + " " + obj["Last Name18"], obj["First Name19"] + " " + obj["Last Name19"], obj["First Name20"] + " " + obj["Last Name20"], obj["First Name21"] + " " + obj["Last Name21"], obj["First Name22"] + " " + obj["Last Name22"], obj["First Name23"] + " " + obj["Last Name23"]],
+							GP: [obj["GP_RS0"], obj["GP_RS1"], obj["GP_RS2"], obj["GP_RS3"], obj["GP_RS4"], obj["GP_RS5"], obj["GP_RS6"], obj["GP_RS7"], obj["GP_RS8"], obj["GP_RS9"], obj["GP_RS10"], obj["GP_RS11"], obj["GP_RS12"], obj["GP_RS13"], obj["GP_RS14"], obj["GP_RS15"], obj["GP_RS16"], obj["GP_RS17"], obj["GP_RS18"], obj["GP_RS19"], obj["GP_RS20"], obj["GP_RS21"], obj["GP_RS22"], obj["GP_RS23"]],
+							Goals: [obj["G_RS0"], obj["G_RS1"], obj["G_RS2"], obj["G_RS3"], obj["G_RS4"], obj["G_RS5"], obj["G_RS6"], obj["G_RS7"], obj["G_RS8"], obj["G_RS9"], obj["G_RS10"], obj["G_RS11"], obj["G_RS12"], obj["G_RS13"], obj["G_RS14"], obj["G_RS15"], obj["G_RS16"], obj["G_RS17"], obj["G_RS18"], obj["G_RS19"], obj["G_RS20"], obj["G_RS21"], obj["G_RS22"], obj["G_RS23"]],
+							Assists: [obj["A_RS0"], obj["A_RS1"], obj["A_RS2"], obj["A_RS3"], obj["A_RS4"], obj["A_RS5"], obj["A_RS6"], obj["A_RS7"], obj["A_RS8"], obj["A_RS9"], obj["A_RS10"], obj["A_RS11"], obj["A_RS12"], obj["A_RS13"], obj["A_RS14"], obj["A_RS15"], obj["A_RS16"], obj["A_RS17"], obj["A_RS18"], obj["A_RS19"], obj["A_RS20"], obj["A_RS21"], obj["A_RS22"], obj["A_RS23"]],
+							PlusMinus: [obj["+/-_RS0"], obj["+/-_RS1"], obj["+/-_RS2"], obj["+/-_RS3"], obj["+/-_RS4"], obj["+/-_RS5"], obj["+/-_RS6"], obj["+/-_RS7"], obj["+/-_RS8"], obj["+/-_RS9"], obj["+/-_RS10"], obj["+/-_RS11"], obj["+/-_RS12"], obj["+/-_RS13"], obj["+/-_RS14"], obj["+/-_RS15"], obj["+/-_RS16"], obj["+/-_RS17"], obj["+/-_RS18"], obj["+/-_RS19"], obj["+/-_RS20"], obj["+/-_RS21"], obj["+/-_RS22"], obj["+/-_RS23"]],
+							PIM: [obj["PIM_RS0"], obj["PIM_RS1"], obj["PIM_RS2"], obj["PIM_RS3"], obj["PIM_RS4"], obj["PIM_RS5"], obj["PIM_RS6"], obj["PIM_RS7"], obj["PIM_RS8"], obj["PIM_RS9"], obj["PIM_RS10"], obj["PIM_RS11"], obj["PIM_RS12"], obj["PIM_RS13"], obj["PIM_RS14"], obj["PIM_RS15"], obj["PIM_RS16"], obj["PIM_RS17"], obj["PIM_RS18"], obj["PIM_RS19"], obj["PIM_RS20"], obj["PIM_RS21"], obj["PIM_RS22"], obj["PIM_RS23"]],
+							PPG: [obj["PP G_RS0"], obj["PP G_RS1"], obj["PP G_RS2"], obj["PP G_RS3"], obj["PP G_RS4"], obj["PP G_RS5"], obj["PP G_RS6"], obj["PP G_RS7"], obj["PP G_RS8"], obj["PP G_RS9"], obj["PP G_RS10"], obj["PP G_RS11"], obj["PP G_RS12"], obj["PP G_RS13"], obj["PP G_RS14"], obj["PP G_RS15"], obj["PP G_RS16"], obj["PP G_RS17"], obj["PP G_RS18"], obj["PP G_RS19"], obj["PP G_RS20"], obj["PP G_RS21"], obj["PP G_RS22"], obj["PP G_RS23"]],
+							SHG: [obj["SH G_RS0"], obj["SH G_RS1"], obj["SH G_RS2"], obj["SH G_RS3"], obj["SH G_RS4"], obj["SH G_RS5"], obj["SH G_RS6"], obj["SH G_RS7"], obj["SH G_RS8"], obj["SH G_RS9"], obj["SH G_RS10"], obj["SH G_RS11"], obj["SH G_RS12"], obj["SH G_RS13"], obj["SH G_RS14"], obj["SH G_RS15"], obj["SH G_RS16"], obj["SH G_RS17"], obj["SH G_RS18"], obj["SH G_RS19"], obj["SH G_RS20"], obj["SH G_RS21"], obj["SH G_RS22"], obj["SH G_RS23"]],
+							GWG: [obj["GWG_RS0"], obj["GWG_RS1"], obj["GWG_RS2"], obj["GWG_RS3"], obj["GWG_RS4"], obj["GWG_RS5"], obj["GWG_RS6"], obj["GWG_RS7"], obj["GWG_RS8"], obj["GWG_RS9"], obj["GWG_RS10"], obj["GWG_RS11"], obj["GWG_RS12"], obj["GWG_RS13"], obj["GWG_RS14"], obj["GWG_RS15"], obj["GWG_RS16"], obj["GWG_RS17"], obj["GWG_RS18"], obj["GWG_RS19"], obj["GWG_RS20"], obj["GWG_RS21"], obj["GWG_RS22"], obj["GWG_RS23"]],
+							Shots: [obj["SOG_RS0"], obj["SOG_RS1"], obj["SOG_RS2"], obj["SOG_RS3"], obj["SOG_RS4"], obj["SOG_RS5"], obj["SOG_RS6"], obj["SOG_RS7"], obj["SOG_RS8"], obj["SOG_RS9"], obj["SOG_RS10"], obj["SOG_RS11"], obj["SOG_RS12"], obj["SOG_RS13"], obj["SOG_RS14"], obj["SOG_RS15"], obj["SOG_RS16"], obj["SOG_RS17"], obj["SOG_RS18"], obj["SOG_RS19"], obj["SOG_RS20"], obj["SOG_RS21"], obj["SOG_RS22"], obj["SOG_RS23"]],
+							FOPer: [Number(obj["FOW_RS0"]) / Number(obj["FO_RS0"]), Number(obj["FOW_RS1"]) / Number(obj["FO_RS1"]), Number(obj["FOW_RS2"]) / Number(obj["FO_RS2"]), Number(obj["FOW_RS3"]) / Number(obj["FO_RS3"]), Number(obj["FOW_RS4"]) / Number(obj["FO_RS4"]), Number(obj["FOW_RS5"]) / Number(obj["FO_RS5"]), Number(obj["FOW_RS6"]) / Number(obj["FO_RS6"]), Number(obj["FOW_RS7"]) / Number(obj["FO_RS7"]), Number(obj["FOW_RS8"]) / Number(obj["FO_RS8"]), Number(obj["FOW_RS9"]) / Number(obj["FO_RS9"]), Number(obj["FOW_RS10"]) / Number(obj["FO_RS10"]), Number(obj["FOW_RS11"]) / Number(obj["FO_RS11"]), Number(obj["FOW_RS12"]) / Number(obj["FO_RS12"]), Number(obj["FOW_RS13"]) / Number(obj["FO_RS13"]), Number(obj["FOW_RS14"]) / Number(obj["FO_RS14"]), Number(obj["FOW_RS15"]) / Number(obj["FO_RS15"]), Number(obj["FOW_RS16"]) / Number(obj["FO_RS16"]), Number(obj["FOW_RS17"]) / Number(obj["FO_RS17"]), Number(obj["FOW_RS18"]) / Number(obj["FO_RS18"]), Number(obj["FOW_RS19"]) / Number(obj["FO_RS19"]), Number(obj["FOW_RS20"]) / Number(obj["FO_RS20"]), Number(obj["FOW_RS21"]) / Number(obj["FO_RS21"]), Number(obj["FOW_RS22"]) / Number(obj["FO_RS22"]), Number(obj["FOW_RS23"]) / Number(obj["FO_RS23"])]
+						}
 
 						j = newerData["Players"].find(playerValue => (playerValue) === teamStatsRoster[x].Name);
 						j = newerData["Players"].indexOf(j);
@@ -1314,6 +1305,7 @@ async function playersStatsNHL(team, gameType, position, compare) {
 					break;
 				}
 			}
+
 		}
 
 		outputHTML += `</tbody>`;
@@ -1443,14 +1435,14 @@ async function playersStatsNHL(team, gameType, position, compare) {
 }
 
 async function teamStatsTables(team, gameType, compare) {
-	let teamArray;
+	let teamArray = await getTeam()
+	let newData2;
 	const valuesReturned = sorterTeams('teamTablesOverview', gameType);
 	let columns = valuesReturned[0];
 	let outputHTML = valuesReturned[1];
 
 	let typer;
 
-	console.log(gameType);
 	if (gameType === "POST-SEASON") {
 		typer = 3;
 	}
@@ -1461,26 +1453,17 @@ async function teamStatsTables(team, gameType, compare) {
 	if (typer === 2) {
 		let newData2 = {};
 		let newData;
-		teamArray = await getTeam()
-		console.log(team);
-		console.log(teamArray);
 		let value3 = await teamArray.find(value => value.teamName === team);
-		console.log(compare);
 		if (team !== 'ALL') {
 			if (team === 'WSH') {
-				newData = loadFromIndexedDb[compare, 'WAS']
+				newData = await loadFromIndexedDb[compare, 'Capitals']
 			}
 			else if (team === 'ARI') {
-				newData = loadFromIndexedDb[compare, 'ARZ']
+				newData = await loadFromIndexedDb[compare, 'Coyotes']
 			}
 			else {
-				console.log(value3.team);
-				newData = await loadFromIndexedDb(compare, value3.team);
-				newData2 = await JSON.parse(JSON.stringify(newData));
-				console.log(newData);
+				newData2 = await loadFromIndexedDb(compare, value3.team)
 			}
-
-			console.log(JSON.parse(newData));
 
 			let newerData = {
 				Abbr: newData2['Abbr'],
@@ -1496,47 +1479,49 @@ async function teamStatsTables(team, gameType, compare) {
 				Goal_Diff: Number(newData2.G_RS) - Number(newData2.GA_RS)
 			};
 
-			console.log(newerData);
 			outputHTML += `<tr><td onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; window.location.href = "NHLstatsteam.html"'>${value3.teamName}</td>`;
-				columns.forEach(info => {
-					if (value3[info] > newerData[info]) {
-						outputHTML += `<td><p><span class = NHL>${value3[info]}</span><span class = "relationalRed"> (${newerData[info]})</span></p></td>`;
-					}
-					else {
-						outputHTML += `<td><p><span class = NHL>${value3[info]}</span><span class = "relationalGreen"> (${newerData[info]})</span></p></td>`;
-					}
-				})
-				outputHTML += `</tr>`
-		}
-		else {
-			console.log(value.Abbr);
-			console.log(newData2 = JSON.parse(localStorage[compare]));
-			if (value.Abbr === 'WSH') {
-				newData2 = JSON.parse(localStorage[compare]).find(value2 => 'WAS' === value2.Abbr)
-			}
-			else if (value.Abbr === 'ARI') {
-				newData2 = JSON.parse(localStorage[compare]).find(value2 => 'ARZ' === value2.Abbr)
-			}
-			else {
-				newData2 = JSON.parse(localStorage[compare]).find(value2 => value.Abbr === value2.Abbr)
-			}
-			console.log(newData2);
-
-
-			console.log(newerData2);
-			outputHTML += `<tr><td id = ${value.Abbr} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value.Abbr}").id); window.location.href = "NHLstatsteam.html";'>${value.teamName}</td>`;
 			columns.forEach(info => {
-				if (value[info] > newerData2[info]) {
-					outputHTML += `<td><p><span class = "NHL">${value[info]}</span><span class = "relationalRed">(${newerData2[info]})</span></p></td>`;
+				if (value3[info] > newerData[info]) {
+					outputHTML += `<td><p><span class = NHL>${value3[info]}</span><span class = "relationalRed"> (${newerData[info]})</span></p></td>`;
 				}
 				else {
-					outputHTML += `<td><p><span class = "NHL">${value[info]}</span><span class = "relationalGreen">(${newerData2[info]})</span></p></td>`;
+					outputHTML += `<td><p><span class = NHL>${value3[info]}</span><span class = "relationalGreen"> (${newerData[info]})</span></p></td>`;
 				}
 			})
 			outputHTML += `</tr>`
 		}
-		console.log(newData2);
-		console.log(teamArray);
+		else {
+
+			for (let q in localStorage['NHL'].split(',')) {
+				let value = await teamArray.find(value4 => value4.Abbr === localStorage['NHL'].split(',')[q]);
+
+				newData2 = await loadFromIndexedDb(compare, value.team)
+				console.log(newData2);
+				let newerData2 = {
+					Abbr: newData2['Abbr'],
+					Team: newData2.Name + " " + newData2.Nickname,
+					GP_RS: newData2.GP_RS,
+					Wins: newData2.Wins,
+					Losses: newData2.Losses,
+					OTL: newData2.OTL,
+					Points: newData2.Points,
+					PCT: newData2.PCT,
+					GF: newData2.G_RS,
+					GA: newData2.GA_RS,
+					Goal_Diff: Number(newData2.G_RS) - Number(newData2.GA_RS)
+				};
+				outputHTML += `<tr><td id = ${value.Abbr} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${value.Abbr}").id); window.location.href = "NHLstatsteam.html";'>${value.teamName}</td>`;
+				await columns.forEach(info => {
+					if (value[info] > newerData2[info]) {
+						outputHTML += `<td><p><span class = "NHL">${value[info]}</span><span class = "relationalRed">(${newerData2[info]})</span></p></td>`;
+					}
+					else {
+						outputHTML += `<td><p><span class = "NHL">${value[info]}</span><span class = "relationalGreen">(${newerData2[info]})</span></p></td>`;
+					}
+				});
+				outputHTML += `</tr>`
+			};
+		}
 		outputHTML += `</tbody>`;
 
 		document.getElementById('teamTablesOverview').innerHTML = outputHTML;
@@ -1593,9 +1578,12 @@ async function teamStatsTables(team, gameType, compare) {
 async function searchPlayers(lastName, gameType, position, compare) {
 	let j;
 	let k;
+	let newData;
 	let newestData = [];
 	let promise2;
 	console.log(lastName);
+	let teamArray = await getTeam()
+
 
 	const valuesReturned = sorterPlayers('playersTablesOverview', position);
 	let columns = valuesReturned[0];
@@ -1607,8 +1595,6 @@ async function searchPlayers(lastName, gameType, position, compare) {
 	else {
 		typer = 2;
 	}
-	let newData = JSON.parse(localStorage[compare])
-
 	const promise1 = localStorage['NHL'].split(',').map(async info => {
 		promise2 = await getPlayerStatsArray(info, typer, position);
 		return Promise.resolve(promise2);
@@ -1622,7 +1608,18 @@ async function searchPlayers(lastName, gameType, position, compare) {
 		playersStatsNHL('ALL', gameType, position, compare);
 	}
 	else {
-		console.log(teamStatsRoster);
+		for (let q in localStorage['NHL'].split(',')) {
+			let value = await teamArray.find(value4 => value4.Abbr === localStorage['NHL'].split(',')[q]);
+
+			newData = await loadFromIndexedDb(compare, value.team)
+			console.log(newData);
+			for (let x = 0; x <= 23; x++) {
+				if (newData["lastName" + [x]] === lastName) {
+					console.log("Yewa");
+					break;
+				}
+			}
+		}
 		for (let x = 0; x < teamStatsRoster.length; x++) {
 			for (let y = 0; y < teamStatsRoster[x].length; y++) {
 				for (let n = 0; n < newData.length; n++) {
@@ -1650,6 +1647,7 @@ async function searchPlayers(lastName, gameType, position, compare) {
 						newestData = {
 							Abbr: newerData["Abbr"],
 							Team: newerData["Team"],
+							Name: newerData["Players"][j],
 							GP: newerData["GP"][j],
 							Goals: newerData["Goals"][j],
 							Assists: newerData["Assists"][j],
@@ -1921,7 +1919,7 @@ function advancedFilterStatsPlayers(position) {
 			<input type="checkbox" id="ShotPer" onclick='if (ShotPer.checked == true){localStorage["ShotPer"] = true}else{localStorage["ShotPer"] = false}' checked><label for="ShotPer" class="chkbox">Shot %</label></input>
 			<input type="checkbox" id="FOPer" onclick='if (FOPer.checked == true){localStorage["FOPer"] = true}else{localStorage["FOPer"] = false}' checked><label for="FOPer" class="chkbox">FO %</label></input>
 			<input type="text" id="PlayersStatsSearch" class="searchBar"><label for="PlayersStatsSearch" class="searchLabel"></label></input>
-			<button type="button" id="PlayersStatsSearchButton" class="searchButton" onclick='if(document.getElementById("PlayersStatsSearch").value === ""){searchPlayers("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text, document.getElementById("NHLcomparestats").options[document.getElementById("NHLcomparestats").options.selectedIndex].text)}else{searchPlayers(document.getElementById("PlayersStatsSearch").value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text, document.getElementById("NHLcomparestats").options[document.getElementById("NHLcomparestats").options.selectedIndex].text)}'><label for="PlayersStatsSearchButton" class="searchButtonLabel">Search</label>
+			<button type="button" id="PlayersStatsSearchButton" class="searchButton" onclick='if(document.getElementById("PlayersStatsSearch").value === ""){searchPlayers("ALL", "REGULAR SEASON", document.getElementById("NHLpositionsstats").options[document.getElementById("NHLpositionsstats").options.selectedIndex].text, document.getElementById("NHLcomparestats").options[document.getElementById("NHLcomparestats").options.selectedIndex].text)}else{searchPlayers(document.getElementById("PlayersStatsSearch").value, "REGULAR SEASON", document.getElementById("NHLpositionsstats").options[document.getElementById("NHLpositionsstats").options.selectedIndex].text, document.getElementById("NHLcomparestats").options[document.getElementById("NHLcomparestats").options.selectedIndex].text)}'><label for="PlayersStatsSearchButton" class="searchButtonLabel">Search</label>
 		`
 	}
 	else {
@@ -1935,7 +1933,7 @@ function advancedFilterStatsPlayers(position) {
 			<input type="checkbox" id="SO" onclick='if (SO.checked == true){$localStorage["SO"] = true}else{localStorage["SO"] = false}' checked><label for="SO" class="chkbox">SO</label></input>
 			<input type="checkbox" id="Points" onclick='if (Points.checked == true){localStorage["Points"] = true}else{localStorage["Points"] = false}' checked><label for="Points" class="chkbox">Points</label></input>
 			<input type="text" id="PlayersStatsSearch" class="searchBar"><label for="PlayersStatsSearch" class="searchLabel"></label></input>
-			<button type="button" id="PlayersStatsSearchButton" class="searchButton" onclick='if(document.getElementById("PlayersStatsSearch").value === ""){searchPlayers("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text, document.getElementById("NHLcomparestats").options[document.getElementById("NHLcomparestats").options.selectedIndex].text)}else{searchPlayers(document.getElementById("PlayersStatsSearch").value, document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text, document.getElementById("NHLcomparestats").options[document.getElementById("NHLcomparestats").options.selectedIndex].text)}'><label for="PlayersStatsSearchButton" class="searchButtonLabel">Search</label>
+			<button type="button" id="PlayersStatsSearchButton" class="searchButton" onclick='if(document.getElementById("PlayersStatsSearch").value === ""){searchPlayers("ALL", "REGULAR SEASON", document.getElementById("NHLpositionsstats").options[document.getElementById("NHLpositionsstats").options.selectedIndex].text, document.getElementById("NHLcomparestats").options[document.getElementById("NHLcomparestats").options.selectedIndex].text)}else{searchPlayers(document.getElementById("PlayersStatsSearch").value, "REGULAR SEASON", document.getElementById("NHLpositionsstats").options[document.getElementById("NHLpositionsstats").options.selectedIndex].text, document.getElementById("NHLcomparestats").options[document.getElementById("NHLcomparestats").options.selectedIndex].text)}'><label for="PlayersStatsSearchButton" class="searchButtonLabel">Search</label>
 		`
 	}
 	document.getElementById('NHLStatsPlayersDropDown').innerHTML = outputHTML;
@@ -2111,14 +2109,14 @@ function prevPage() {
 	if (currentPage > 1) {
 		currentPage--;
 		document.getElementById("page").innerHTML = currentPage;
-		playersStatsNHL("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text);
+		playersStatsNHL("ALL", "REGULAR SEASON", document.getElementById("NHLpositionsstats").options[document.getElementById("NHLpositionsstats").options.selectedIndex].text, document.getElementById("NHLcomparestats").options[document.getElementById("NHLcomparestats").options.selectedIndex].text);
 	}
 }
 
 function nextPage() {
 	currentPage++;
 	document.getElementById("page").innerHTML = currentPage;
-	playersStatsNHL("ALL", document.getElementById("NHLseasonstats").options[document.getElementById("NHLseasonstats").options.selectedIndex].text, document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text);
+	playersStatsNHL("ALL", "REGULAR SEASON", document.getElementById("NHLpositionsstats").options[document.getElementById("NHLpositionsstats").options.selectedIndex].text, document.getElementById("NHLcomparestats").options[document.getElementById("NHLcomparestats").options.selectedIndex].text);
 }
 
 function getCurrentPage() {
