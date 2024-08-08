@@ -1108,10 +1108,10 @@ async function playersStatsNHL(team, gameType, position, compare) {
 		let obj;
 		console.log(value3);
 		if (team === 'WSH') {
-			obj = await loadFromIndexedDb[compare, 'Capitals']
+			obj = await loadFromIndexedDb(compare, 'Capitals')
 		}
 		else if (team === 'ARI') {
-			obj = await loadFromIndexedDb[compare, 'Coyotes']
+			obj = await loadFromIndexedDb(compare, 'Coyotes')
 		}
 		else {
 			obj = await loadFromIndexedDb(compare, value3.team)
@@ -1203,10 +1203,12 @@ async function playersStatsNHL(team, gameType, position, compare) {
 	}
 
 	else {
+		let obj;
 		let teamCityName = {};
 		let teamArray = await getTeam()
 		const promise1 = localStorage['NHL'].split(',').map(async info => {
 			teamCityName[info] = teamArray.find(q => q.Abbr === info).team;
+			console.log(teamCityName[info]);
 			promise2 = await getPlayerStatsArray(info, typer, position);
 			return Promise.resolve(promise2);
 		});
@@ -1224,15 +1226,15 @@ async function playersStatsNHL(team, gameType, position, compare) {
 			console.log(teamCityName[teamStatsRoster[x].team]);
 
 			if (teamStatsRoster[x].team === 'WSH') {
-				obj = await loadFromIndexedDb[compare, 'Capitals']
+				obj = await loadFromIndexedDb(compare, 'Capitals')
 			}
 			else if (teamStatsRoster[x].team === 'ARI') {
-				obj = await loadFromIndexedDb[compare, 'Coyotes']
+				obj = await loadFromIndexedDb(compare, 'Coyotes')
 			}
 			else {
 				obj = await loadFromIndexedDb(compare, teamCityName[teamStatsRoster[x].team])
 			}
-			console.log(teamStatsRoster[x].Name);
+			console.log(teamStatsRoster[x].team);
 			if (teamStatsRoster[x].Name != undefined) {
 				counter++;
 
@@ -1588,6 +1590,7 @@ async function searchPlayers(lastName, gameType, position, compare) {
 	const valuesReturned = sorterPlayers('playersTablesOverview', position);
 	let columns = valuesReturned[0];
 	let outputHTML = valuesReturned[1];
+	console.log(outputHTML);
 
 	if (gameType === "POST-SEASON") {
 		typer = 3;
@@ -1596,8 +1599,7 @@ async function searchPlayers(lastName, gameType, position, compare) {
 		typer = 2;
 	}
 	const promise1 = localStorage['NHL'].split(',').map(async info => {
-		promise2 = await getPlayerStatsArray(info, typer, position);
-		return Promise.resolve(promise2);
+		return getPlayerStatsArray(info, typer, position);
 	});
 
 	console.log(await Promise.all(promise1));
@@ -1608,17 +1610,23 @@ async function searchPlayers(lastName, gameType, position, compare) {
 		playersStatsNHL('ALL', gameType, position, compare);
 	}
 	else {
+		let continue2 = false;
+		let continue3 = false;
 		for (let q in localStorage['NHL'].split(',')) {
 			let value = await teamArray.find(value4 => value4.Abbr === localStorage['NHL'].split(',')[q]);
 
 			newData = await loadFromIndexedDb(compare, value.team)
-			console.log(newData);
 			for (let x = 0; x <= 23; x++) {
-				if (newData["lastName" + [x]] === lastName) {
+				if (newData["lastName" + x] === lastName) {
 					console.log("Yewa");
+					continue2 = true;
 					break;
 				}
 			}
+			if (continue2 === true) {
+				break;
+			}
+
 		}
 		for (let x = 0; x < teamStatsRoster.length; x++) {
 			for (let y = 0; y < teamStatsRoster[x].length; y++) {
@@ -1663,36 +1671,46 @@ async function searchPlayers(lastName, gameType, position, compare) {
 						};
 					}
 				}
-				console.log(newestData.Name);
-				console.log(lastName);
-				if (newestData.Name === lastName) {
-					outputHTML += `<tr><td id = ${teamStatsRoster[x].team} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${teamStatsRoster[x].team}").getElementByClass("NHL").innerHTML); window.location.href = "NHLstatsteam.html";'>${teamStatsRoster[x].team} (${newestData["Abbr"]})</td><td id = "${teamStatsRoster[x].playerId}" onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; localStorage.setItem("currentPlayer", document.getElementById("${teamStatsRoster[x].playerId}").id); window.location.href = "NHLstatsplayer.html"'>${teamStatsRoster[x].Name}</td>`
+				if (teamStatsRoster[x][y].Name === lastName) {
+
+					outputHTML += `<tr><td id = ${teamStatsRoster[x][y].team} onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage.setItem("currentTeam", document.getElementById("${teamStatsRoster[x][y].team}").getElementByClass("NHL").innerHTML); window.location.href = "NHLstatsteam.html";'>${teamStatsRoster[x][y].team} (${newestData["Abbr"]})</td><td id = "${teamStatsRoster[x][y].playerId}" onclick = 'localStorage["currentLeague"] = document.getElementById("NHLleaguesstats").options[document.getElementById("NHLleaguesstats").options.selectedIndex].text; localStorage["currentTeam"] = document.getElementById("NHLteamsstats").options[document.getElementById("NHLteamsstats").options.selectedIndex].text; localStorage.setItem("currentPlayer", document.getElementById("${teamStatsRoster[x][y].playerId}").id); window.location.href = "NHLstatsplayer.html"'>${teamStatsRoster[x][y].Name}</td>`
 					columns.forEach(info => {
 						if (info === "ShotPer" || info === "FOPer") {
-							outputHTML += `<td><p><span class = "NHL">${Math.round(Number(teamStatsRoster[x][info]) * 1000) / 10}</span>`;
+							outputHTML += `<td><p><span class = "NHL">${Math.round(Number(teamStatsRoster[x][y][info]) * 1000) / 10}</span>`;
 						}
 						else {
-							outputHTML += `<td><p><span class = "NHL">${teamStatsRoster[x][info]}</span>`;
+							outputHTML += `<td><p><span class = "NHL">${teamStatsRoster[x][y][info]}</span>`;
 						}
 						if (j != -1 && newestData[info] != undefined && isNaN(newestData[info]) === false) {
-							if ((newestData[info] > teamStatsRoster[x][info]) && info !== "PIM" || (info === "PIM" && newestData[info] < teamStatsRoster[x][info])) {
+							if ((newestData[info] > teamStatsRoster[x][y][info]) && info !== "PIM" || (info === "PIM" && newestData[info] < teamStatsRoster[x][y][info])) {
 								outputHTML += `<span class = relationalGreen> (${newestData[info]})</span></p>`;
 							}
-							else if ((newestData[info] < teamStatsRoster[x][info]) || (info === "PIM" && newestData[info] > value[x][info])) {
+							else if ((newestData[info] < teamStatsRoster[x][y][info]) || (info === "PIM" && newestData[info] > teamStatsRoster[x][y][info])) {
 								outputHTML += `<span class = relationalRed> (${newestData[info]})</span></p>`;
 							}
 							else {
 								outputHTML += `<span> (${newestData[info]})</span></p>`;
 							}
 						}
+						else {
+							outputHTML += `</p>`
+						}
 						outputHTML += `</td>`
 					})
 					outputHTML += `</tr>`
+					break;
+					continue3 = true;
 				}
+
 			};
-			outputHTML += `</tbody>`;
-			document.getElementById('playersTablesOverview').innerHTML = outputHTML;
+			if (continue3 === true) {
+				break;
+			}
+
 		}
+		outputHTML += `</tbody>`;
+		console.log(outputHTML);
+		document.getElementById('playersTablesOverview').innerHTML = outputHTML;
 	}
 	async function getPlayerStatsArray(team, typer, position) {
 		let playerStats = await getPlayerStats(team, typer, position);
@@ -1756,7 +1774,6 @@ async function searchPlayers(lastName, gameType, position, compare) {
 	async function getPlayerInfo(team) {
 		return await getAPI(`https://api-web.nhle.com/v1/roster/${team}/20232024`)
 			.then(value => {
-				console.log(value);
 				const forwardsArray = value.forwards.map(info => {
 					return {
 						playerId: info.id,
